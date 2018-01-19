@@ -263,6 +263,13 @@ public class OverlayOp
     resultGeom = computeGeometry(resultPointList, resultLineList, resultPolyList, opCode);
   }
 
+  /**
+   * Test rings for self-touching at vertices.
+   * This test is needed because it is not checked by the EdgeNodingValidator.
+   * This can occur in certain cases (see GEOS-838)
+   * 
+   * @param polyList list of constructed polygons
+   */
   private void checkRingsSelfTouch(List polyList) {
     RingSelfTouchChecker touchChecker = new RingSelfTouchChecker(polyList);
     if (touchChecker.hasSelfTouch()) {
