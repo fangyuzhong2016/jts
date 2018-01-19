@@ -20,8 +20,10 @@ import java.util.List;
 import org.locationtech.jts.algorithm.PointLocator;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryComponentFilter;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Location;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.TopologyException;
 import org.locationtech.jts.geomgraph.Depth;
 import org.locationtech.jts.geomgraph.DirectedEdge;
@@ -249,6 +251,7 @@ public class OverlayOp
     PolygonBuilder polyBuilder = new PolygonBuilder(geomFact);
     polyBuilder.add(graph);
     resultPolyList = polyBuilder.getPolygons();
+    checkRingsSelfTouch(resultPolyList);
 
     LineBuilder lineBuilder = new LineBuilder(this, geomFact, ptLocator);
     resultLineList = lineBuilder.build(opCode);
@@ -258,6 +261,13 @@ public class OverlayOp
 
     // gather the results from all calculations into a single Geometry for the result set
     resultGeom = computeGeometry(resultPointList, resultLineList, resultPolyList, opCode);
+  }
+
+  private void checkRingsSelfTouch(List polyList) {
+    RingSelfTouchChecker touchChecker = new RingSelfTouchChecker(polyList);
+    if (touchChecker.hasSelfTouch()) {
+      throw new TopologyException("Ring self-intersection", touchChecker.getIntersection() );
+    }
   }
 
   private void insertUniqueEdges(List edges)
