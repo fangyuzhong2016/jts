@@ -33,7 +33,11 @@ import org.locationtech.jts.util.NumberUtil;
  * (which is also the value of <code>NULL_ORDINATE</code>).  
  * The standard comparison functions ignore the Z-ordinate.
  * Apart from the basic accessor functions, JTS supports
- * only specific operations involving the Z-ordinate. 
+ * only specific operations involving the Z-ordinate.
+ *
+ * <p><p/>
+ * JTS  坐标类，存储坐标信息，不同于Point对象，Point对象是几何对象，带有维度和坐标参考信息
+ * Coordinate 类仅提供坐标信息的存储
  *
  *@version 1.7
  */
