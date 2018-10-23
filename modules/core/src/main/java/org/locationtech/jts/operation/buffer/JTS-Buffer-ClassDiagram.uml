@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="0.0">org.locationtech.jts.operation.buffer.OffsetSegmentString</node>
+    <node x="574.9957142857143" y="0.0">org.locationtech.jts.operation.buffer.BufferParameters</node>
+    <node x="0.0" y="605.0">org.locationtech.jts.operation.buffer.validate.BufferCurveMaximumDistanceFinder</node>
+    <node x="505.5" y="605.0">org.locationtech.jts.operation.buffer.validate.BufferResultValidator</node>
+    <node x="624.962380952381" y="450.0">org.locationtech.jts.operation.buffer.BufferOp</node>
+    <node x="277.0" y="605.0">org.locationtech.jts.operation.buffer.validate.DistanceToPointFinder</node>
+    <node x="178.5" y="180.0">org.locationtech.jts.operation.buffer.OffsetCurveBuilder</node>
+    <node x="97.33333333333334" y="525.0">org.locationtech.jts.operation.buffer.validate.PointPairDistance</node>
+    <node x="161.15119047619044" y="260.0">org.locationtech.jts.operation.buffer.OffsetCurveSetBuilder</node>
+    <node x="499.0" y="525.0">org.locationtech.jts.operation.buffer.validate.BufferDistanceValidator</node>
+    <node x="54.0" y="100.0">org.locationtech.jts.operation.buffer.OffsetSegmentGenerator</node>
+    <node x="445.50000000000006" y="370.0">org.locationtech.jts.operation.buffer.BufferBuilder</node>
+    <node x="267.0" y="100.0">org.locationtech.jts.operation.buffer.BufferInputLineSimplifier</node>
+    <node x="502.41238095238094" y="180.0">org.locationtech.jts.operation.buffer.BufferSubgraph</node>
+    <node x="397.41238095238094" y="260.0">org.locationtech.jts.operation.buffer.SubgraphDepthLocater</node>
+    <node x="480.402380952381" y="100.0">org.locationtech.jts.operation.buffer.RightmostEdgeFinder</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.locationtech.jts.operation.buffer.BufferOp" target="org.locationtech.jts.operation.buffer.BufferParameters">
+      <point x="40.0" y="-15.0" />
+      <point x="714.962380952381" y="430.0" />
+      <point x="708.702380952381" y="430.0" />
+      <point x="708.702380952381" y="80.0" />
+      <point x="713.8290476190476" y="80.0" />
+      <point x="65.33333333333337" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.validate.BufferCurveMaximumDistanceFinder" target="org.locationtech.jts.operation.buffer.validate.PointPairDistance">
+      <point x="85.66666666666669" y="-15.0" />
+      <point x="214.16666666666669" y="580.0" />
+      <point x="189.83333333333334" y="580.0" />
+      <point x="18.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.OffsetCurveBuilder" target="org.locationtech.jts.operation.buffer.OffsetSegmentGenerator">
+      <point x="-62.39999999999998" y="-15.0" />
+      <point x="194.10000000000002" y="160.0" />
+      <point x="102.0" y="160.0" />
+      <point x="-48.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferSubgraph" target="org.locationtech.jts.operation.buffer.RightmostEdgeFinder">
+      <point x="34.5" y="-15.0" />
+      <point x="605.912380952381" y="160.0" />
+      <point x="608.652380952381" y="160.0" />
+      <point x="42.75" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.OffsetSegmentGenerator" target="org.locationtech.jts.operation.buffer.BufferParameters">
+      <point x="72.0" y="-15.0" />
+      <point x="222.0" y="60.0" />
+      <point x="599.4957142857143" y="60.0" />
+      <point x="-49.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.OffsetSegmentGenerator" target="org.locationtech.jts.operation.buffer.OffsetSegmentString">
+      <point x="-72.0" y="-15.0" />
+      <point x="78.0" y="80.0" />
+      <point x="42.0" y="80.0" />
+      <point x="-42.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.validate.DistanceToPointFinder" target="org.locationtech.jts.operation.buffer.validate.PointPairDistance">
+      <point x="0.0" y="-15.0" />
+      <point x="365.5" y="580.0" />
+      <point x="226.83333333333334" y="580.0" />
+      <point x="55.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.OffsetCurveSetBuilder" target="org.locationtech.jts.operation.buffer.OffsetCurveBuilder">
+      <point x="43.75" y="-15.0" />
+      <point x="292.40119047619044" y="235.0" />
+      <point x="276.0" y="235.0" />
+      <point x="19.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferBuilder" target="org.locationtech.jts.operation.buffer.OffsetCurveBuilder">
+      <point x="-54.900000000000034" y="-15.0" />
+      <point x="451.6" y="350.0" />
+      <point x="150.65119047619044" y="350.0" />
+      <point x="150.65119047619044" y="235.0" />
+      <point x="198.0" y="235.0" />
+      <point x="-58.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.SubgraphDepthLocater" target="org.locationtech.jts.operation.buffer.BufferSubgraph">
+      <point x="0.0" y="-15.0" />
+      <point x="487.91238095238094" y="235.0" />
+      <point x="525.412380952381" y="235.0" />
+      <point x="-46.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferOp" target="org.locationtech.jts.operation.buffer.BufferBuilder">
+      <point x="-40.0" y="-15.0" />
+      <point x="634.962380952381" y="430.0" />
+      <point x="476.00000000000006" y="430.0" />
+      <point x="-30.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferBuilder" target="org.locationtech.jts.operation.buffer.OffsetCurveSetBuilder">
+      <point x="-42.700000000000045" y="-15.0" />
+      <point x="463.8" y="340.0" />
+      <point x="204.90119047619044" y="340.0" />
+      <point x="-43.75" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.validate.BufferResultValidator" target="org.locationtech.jts.operation.buffer.validate.BufferDistanceValidator">
+      <point x="-42.25" y="-15.0" />
+      <point x="547.75" y="580.0" />
+      <point x="544.5" y="580.0" />
+      <point x="-45.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.OffsetCurveBuilder" target="org.locationtech.jts.operation.buffer.BufferParameters">
+      <point x="62.39999999999998" y="-15.0" />
+      <point x="318.9" y="160.0" />
+      <point x="466.5" y="160.0" />
+      <point x="466.5" y="80.0" />
+      <point x="632.1623809523809" y="80.0" />
+      <point x="-16.33333333333337" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferBuilder" target="org.locationtech.jts.operation.buffer.SubgraphDepthLocater">
+      <point x="6.099999999999966" y="-15.0" />
+      <point x="512.6" y="310.0" />
+      <point x="533.162380952381" y="310.0" />
+      <point x="45.25" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferBuilder" target="org.locationtech.jts.operation.buffer.BufferParameters">
+      <point x="42.69999999999999" y="-15.0" />
+      <point x="549.2" y="340.0" />
+      <point x="661.902380952381" y="340.0" />
+      <point x="661.902380952381" y="80.0" />
+      <point x="648.4957142857143" y="80.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.OffsetCurveBuilder" target="org.locationtech.jts.operation.buffer.BufferInputLineSimplifier">
+      <point x="31.19999999999999" y="-15.0" />
+      <point x="287.7" y="150.0" />
+      <point x="361.5" y="150.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.operation.buffer.BufferBuilder" target="org.locationtech.jts.operation.buffer.BufferSubgraph">
+      <point x="30.5" y="-15.0" />
+      <point x="537.0" y="330.0" />
+      <point x="618.5" y="330.0" />
+      <point x="618.5" y="235.0" />
+      <point x="617.412380952381" y="235.0" />
+      <point x="45.99999999999999" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="370.0" y="379.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
