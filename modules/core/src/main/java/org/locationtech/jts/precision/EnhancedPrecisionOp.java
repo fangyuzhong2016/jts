@@ -15,6 +15,7 @@ package org.locationtech.jts.precision;
 import org.locationtech.jts.geom.Geometry;
 
 /**
+ * 提供几何空间函数的版本，这些函数使用增强的精度技术来降低稳健性问题的可能性。
   * Provides versions of Geometry spatial functions which use
   * enhanced precision techniques to reduce the likelihood of robustness problems.
  *

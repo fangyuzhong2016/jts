@@ -31,6 +31,10 @@ import org.locationtech.jts.geom.LineString;
 
 
 /**
+ * 将Geometrys集合中的线性组件溶解为一组最大长度的线串，其中每个唯一的线段仅出现一次
+ * 输出行串在输入的节点顶点之间运行，节点顶点是具有度1或度3或更大的顶点。
+ * 用于分解线性组件的用例包括泛化（尤其是，简化多边形覆盖）和可视化（尤其是，在描绘共享多边形边界时避免符号冲突）。
+ * 此类不对输入行进行节点。如果输入中有线段交叉，它们仍将在输出中交叉。
  * Dissolves the linear components 
  * from a collection of {@link Geometry}s
  * into a set of maximal-length {@link Linestring}s

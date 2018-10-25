@@ -23,6 +23,8 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.geom.util.GeometryTransformer;
 
 /**
+ * 通过在几何中包含的线段插入额外顶点来缩小几何图形。所创建的致密几何体中的所有节段将不大于给定的距离公差。
+ * 致密多边形几何保证拓扑正确。在致密化过程中产生的坐标与输入几何的精确模型有关。
  * Densifies a {@link Geometry} by inserting extra vertices along the line segments
  * contained in the geometry. 
  * All segments in the created densified geometry will be no longer than

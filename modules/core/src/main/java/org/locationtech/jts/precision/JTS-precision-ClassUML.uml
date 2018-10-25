@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.5" y="0.0">org.locationtech.jts.precision.CommonBitsRemover</node>
+    <node x="17.5" y="80.0">org.locationtech.jts.precision.CommonBitsOp</node>
+    <node x="0.0" y="540.0">org.locationtech.jts.precision.MinimumClearance</node>
+    <node x="0.0" y="390.0">org.locationtech.jts.precision.SimpleGeometryPrecisionReducer</node>
+    <node x="284.0" y="465.0">org.locationtech.jts.precision.SimpleMinimumClearance</node>
+    <node x="203.0" y="540.0">org.locationtech.jts.precision.CommonBits</node>
+    <node x="0.0" y="465.0">org.locationtech.jts.precision.CoordinatePrecisionReducerFilter</node>
+    <node x="32.0" y="315.0">org.locationtech.jts.precision.GeometryPrecisionReducer</node>
+    <node x="0.0" y="235.0">org.locationtech.jts.precision.PrecisionReducerCoordinateOperation</node>
+    <node x="0.0" y="160.0">org.locationtech.jts.precision.EnhancedPrecisionOp</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.locationtech.jts.precision.CommonBitsOp" target="org.locationtech.jts.precision.CommonBitsRemover">
+      <point x="34.5" y="-15.0" />
+      <point x="121.0" y="55.0" />
+      <point x="129.5" y="55.0" />
+      <point x="43.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.precision.EnhancedPrecisionOp" target="org.locationtech.jts.precision.CommonBitsOp">
+      <point x="-43.25" y="-15.0" />
+      <point x="43.25" y="135.0" />
+      <point x="52.0" y="135.0" />
+      <point x="-34.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.precision.GeometryPrecisionReducer" target="org.locationtech.jts.precision.PrecisionReducerCoordinateOperation">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="240.5" y="265.5" />
+  <SelectedNodes>
+    <node>org.locationtech.jts.precision.EnhancedPrecisionOp</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

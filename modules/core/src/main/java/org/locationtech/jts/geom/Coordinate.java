@@ -19,6 +19,13 @@ import org.locationtech.jts.util.NumberUtil;
 
 
 /**
+ * 用于在二维笛卡尔平面上存储坐标的轻量级类。
+ * 它与Point不同，Point是Geometry的子类。
+ * 不同于Point类型的对象（包含诸如包络，精度模型和空间参考系统信息等附加信息），
+ * Coordinate仅包含纵坐标值和存取方法。
+ * 坐标是二维点，附加Z坐标。如果未指定或未定义Z坐标值，
+ * 则构造坐标的Z坐标为NaN（也是NULL_ORDINATE的值）。
+ * 标准比较函数忽略Z坐标。除了基本访问器功能外，JTS仅支持涉及Z纵坐标的特定操作。
  * A lightweight class used to store coordinates on the 2-dimensional Cartesian plane.
  * <p>
  * It is distinct from {@link Point}, which is a subclass of {@link Geometry}. 
@@ -439,6 +446,7 @@ public class Coordinate implements Comparable<Coordinate>, Cloneable, Serializab
   }
 
   /**
+   *
    * Computes a hash code for a double value, using the algorithm from
    * Joshua Bloch's book <i>Effective Java"</i>
    * 
@@ -452,6 +460,7 @@ public class Coordinate implements Comparable<Coordinate>, Cloneable, Serializab
 
 
   /**
+   * 比较两个坐标，允许进行二维或三维比较，并正确处理NaN值。
    * Compares two {@link Coordinate}s, allowing for either a 2-dimensional
    * or 3-dimensional comparison, and handling NaN values correctly.
    */
