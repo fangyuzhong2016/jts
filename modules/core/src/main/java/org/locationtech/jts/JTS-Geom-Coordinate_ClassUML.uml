@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="987.2134615384614" y="200.0">org.locationtech.jts.geom.CoordinateXYM</node>
+    <node x="746.1254956501834" y="400.0">org.locationtech.jts.geom.CoordinateSequence</node>
+    <node x="1188.664114010989" y="660.0">org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory</node>
+    <node x="83.68799565018344" y="200.0">org.locationtech.jts.geom.CoordinateFilter</node>
+    <node x="810.2134615384614" y="200.0">org.locationtech.jts.geom.CoordinateXYZM</node>
+    <node x="1332.1544986263734" y="200.0">org.locationtech.jts.geom.CoordinateList</node>
+    <node x="1128.1263885073263" y="0.0">org.locationtech.jts.geom.Coordinate</node>
+    <node x="1249.6504149496336" y="530.0">org.locationtech.jts.geom.impl.CoordinateArraySequence</node>
+    <node x="455.47596153846143" y="660.0">org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory</node>
+    <node x="182.03846153846143" y="660.0">org.locationtech.jts.geom.CoordinateSequences</node>
+    <node x="388.50100789835165" y="530.0">org.locationtech.jts.geom.CoordinateSequenceFactory</node>
+    <node x="982.7644007554945" y="310.0">org.locationtech.jts.geom.Coordinates</node>
+    <node x="104.68799565018344" y="530.0">org.locationtech.jts.geom.CoordinateSequenceFilter</node>
+    <node x="574.8419986263734" y="750.0">org.locationtech.jts.geom.impl.PackedCoordinateSequence</node>
+    <node x="1144.2134615384614" y="200.0">org.locationtech.jts.geom.CoordinateXY</node>
+    <node x="618.5010078983516" y="530.0">org.locationtech.jts.geom.CoordinateSequenceComparator</node>
+    <node x="1298.7230769230769" y="400.0">org.locationtech.jts.geom.CoordinateArrays</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.locationtech.jts.geom.CoordinateXYM" target="org.locationtech.jts.geom.Coordinate">
+      <point x="34.25" y="-15.0" />
+      <point x="1089.9634615384614" y="170.0" />
+      <point x="1181.4917731227108" y="170.0" />
+      <point x="-2.134615384615472" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequences" target="org.locationtech.jts.geom.Coordinate">
+      <point x="-57.66666666666663" y="-15.0" />
+      <point x="210.8717948717948" y="640.0" />
+      <point x="15.269230769230717" y="640.0" />
+      <point x="15.269230769230717" y="70.0" />
+      <point x="1138.7994654304032" y="70.0" />
+      <point x="-44.826923076923094" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequence" target="org.locationtech.jts.geom.Coordinates">
+      <point x="42.0" y="-15.0" />
+      <point x="872.1254956501834" y="380.0" />
+      <point x="1026.6394007554945" y="380.0" />
+      <point x="-14.625" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateArrays" target="org.locationtech.jts.geom.Coordinates">
+      <point x="-61.25" y="-15.0" />
+      <point x="1310.9730769230769" y="380.0" />
+      <point x="1085.1394007554945" y="380.0" />
+      <point x="43.875" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="94.125" y="-15.0" />
+      <point x="675.1009615384614" y="640.0" />
+      <point x="865.0010078983516" y="640.0" />
+      <point x="865.0010078983516" y="510.0" />
+      <point x="821.7254956501835" y="510.0" />
+      <point x="-8.399999999999977" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory" target="org.locationtech.jts.geom.Coordinate">
+      <point x="-94.125" y="-15.0" />
+      <point x="486.85096153846143" y="620.0" />
+      <point x="73.18799565018344" y="620.0" />
+      <point x="73.18799565018344" y="80.0" />
+      <point x="1143.068696199634" y="80.0" />
+      <point x="-40.55769230769238" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequence" target="org.locationtech.jts.geom.CoordinateSequences">
+      <point x="-17.41666666666663" y="-15.0" />
+      <point x="661.9253319597067" y="710.0" />
+      <point x="268.53846153846143" y="710.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequences" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="0.0" y="-15.0" />
+      <point x="268.53846153846143" y="630.0" />
+      <point x="322.18799565018344" y="630.0" />
+      <point x="322.18799565018344" y="490.0" />
+      <point x="771.3254956501835" y="490.0" />
+      <point x="-58.799999999999955" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequenceFilter" target="org.locationtech.jts.geom.CoordinateFilter">
+      <point x="-49.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.Coordinates" target="org.locationtech.jts.geom.CoordinateXYM">
+      <point x="7.3125" y="-15.0" />
+      <point x="1048.5769007554945" y="250.0" />
+      <point x="1021.4634615384614" y="250.0" />
+      <point x="-34.25" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequence" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="-56.57142857142867" y="-15.0" />
+      <point x="1292.0789863782052" y="460.0" />
+      <point x="905.7254956501835" y="460.0" />
+      <point x="75.60000000000002" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequence" target="org.locationtech.jts.geom.Coordinate">
+      <point x="-42.0" y="-15.0" />
+      <point x="788.1254956501834" y="110.0" />
+      <point x="1155.8763885073263" y="110.0" />
+      <point x="-27.75" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateArrays" target="org.locationtech.jts.geom.CoordinateList">
+      <point x="12.25" y="-15.0" />
+      <point x="1384.914114010989" y="290.0" />
+      <point x="1364.6544986263734" y="290.0" />
+      <point x="-32.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequence" target="org.locationtech.jts.geom.Coordinate">
+      <point x="56.57142857142867" y="-15.0" />
+      <point x="1405.2218435210625" y="500.0" />
+      <point x="1487.9237293956044" y="500.0" />
+      <point x="1487.9237293956044" y="90.0" />
+      <point x="1224.1840808150187" y="90.0" />
+      <point x="40.55769230769238" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory" target="org.locationtech.jts.geom.Coordinate">
+      <point x="90.00000000000006" y="-15.0" />
+      <point x="1398.664114010989" y="640.0" />
+      <point x="1503.192960164835" y="640.0" />
+      <point x="1503.192960164835" y="70.0" />
+      <point x="1232.72254235348" y="70.0" />
+      <point x="49.09615384615381" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory" target="org.locationtech.jts.geom.Coordinates">
+      <point x="-31.375" y="-15.0" />
+      <point x="549.6009615384614" y="610.0" />
+      <point x="311.18799565018344" y="610.0" />
+      <point x="311.18799565018344" y="370.0" />
+      <point x="997.3894007554945" y="370.0" />
+      <point x="-43.875" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory" target="org.locationtech.jts.geom.CoordinateSequenceFactory">
+      <point x="-90.0" y="-15.0" />
+      <point x="1218.664114010989" y="590.0" />
+      <point x="563.5010078983516" y="590.0" />
+      <point x="70.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateFilter" target="org.locationtech.jts.geom.Coordinate">
+      <point x="0.0" y="-15.0" />
+      <point x="153.68799565018344" y="90.0" />
+      <point x="1147.3379269688648" y="90.0" />
+      <point x="-36.28846153846143" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateXYZM" target="org.locationtech.jts.geom.Coordinate">
+      <point x="36.25" y="-15.0" />
+      <point x="918.9634615384614" y="130.0" />
+      <point x="1164.4148500457877" y="130.0" />
+      <point x="-19.211538461538566" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequenceFactory" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="52.5" y="-15.0" />
+      <point x="546.0010078983516" y="500.0" />
+      <point x="788.1254956501834" y="500.0" />
+      <point x="-42.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequence" target="org.locationtech.jts.geom.Coordinates">
+      <point x="-28.28571428571422" y="-15.0" />
+      <point x="1320.3647006639194" y="450.0" />
+      <point x="1055.8894007554945" y="450.0" />
+      <point x="14.625" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.Coordinates" target="org.locationtech.jts.geom.CoordinateXYZM">
+      <point x="-51.1875" y="-15.0" />
+      <point x="990.0769007554945" y="290.0" />
+      <point x="846.4634615384614" y="290.0" />
+      <point x="-36.25" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequenceFactory" target="org.locationtech.jts.geom.Coordinate">
+      <point x="-52.5" y="-15.0" />
+      <point x="441.00100789835165" y="470.0" />
+      <point x="423.70403273809535" y="470.0" />
+      <point x="423.70403273809535" y="100.0" />
+      <point x="1151.6071577380956" y="100.0" />
+      <point x="-32.01923076923072" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="-30.0" y="-15.0" />
+      <point x="1278.664114010989" y="580.0" />
+      <point x="1093.4915327380954" y="580.0" />
+      <point x="1093.4915327380954" y="480.0" />
+      <point x="872.1254956501834" y="480.0" />
+      <point x="42.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.Coordinates" target="org.locationtech.jts.geom.CoordinateXY">
+      <point x="36.5625" y="-15.0" />
+      <point x="1077.8269007554945" y="280.0" />
+      <point x="1175.7134615384614" y="280.0" />
+      <point x="-31.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequence" target="org.locationtech.jts.geom.Coordinate">
+      <point x="87.08333333333337" y="-15.0" />
+      <point x="766.4253319597067" y="730.0" />
+      <point x="1515.0637362637362" y="730.0" />
+      <point x="1515.0637362637362" y="60.0" />
+      <point x="1236.9917731227108" y="60.0" />
+      <point x="53.36538461538453" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateList" target="org.locationtech.jts.geom.Coordinate">
+      <point x="0.0" y="-15.0" />
+      <point x="1397.1544986263734" y="130.0" />
+      <point x="1207.1071577380956" y="130.0" />
+      <point x="23.480769230769283" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory" target="org.locationtech.jts.geom.CoordinateSequenceFactory">
+      <point x="31.375" y="-15.0" />
+      <point x="612.3509615384614" y="600.0" />
+      <point x="493.50100789835165" y="600.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequenceFilter" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="49.0" y="-15.0" />
+      <point x="251.68799565018344" y="480.0" />
+      <point x="754.5254956501834" y="480.0" />
+      <point x="-75.60000000000002" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.PackedCoordinateSequence" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="52.25" y="-15.0" />
+      <point x="731.5919986263734" y="720.0" />
+      <point x="1013.2794986263734" y="720.0" />
+      <point x="1013.2794986263734" y="490.0" />
+      <point x="855.3254956501835" y="490.0" />
+      <point x="25.200000000000045" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequenceComparator" target="org.locationtech.jts.geom.CoordinateSequence">
+      <point x="0.0" y="-15.0" />
+      <point x="736.5010078983516" y="510.0" />
+      <point x="804.9254956501834" y="510.0" />
+      <point x="-25.200000000000045" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateXY" target="org.locationtech.jts.geom.Coordinate">
+      <point x="31.5" y="-15.0" />
+      <point x="1238.7134615384614" y="170.0" />
+      <point x="1190.0302346611725" y="170.0" />
+      <point x="6.403846153846189" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequence" target="org.locationtech.jts.geom.CoordinateArrays">
+      <point x="0.0" y="-15.0" />
+      <point x="1348.6504149496336" y="480.0" />
+      <point x="1372.2230769230769" y="480.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateSequences" target="org.locationtech.jts.geom.CoordinateSequenceFactory">
+      <point x="57.666666666666686" y="-15.0" />
+      <point x="326.2051282051281" y="640.0" />
+      <point x="423.50100789835165" y="640.0" />
+      <point x="-70.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory" target="org.locationtech.jts.geom.impl.CoordinateArraySequence">
+      <point x="30.0" y="-15.0" />
+      <point x="1338.664114010989" y="640.0" />
+      <point x="1348.6504149496336" y="640.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.CoordinateArrays" target="org.locationtech.jts.geom.Coordinate">
+      <point x="-12.25" y="-15.0" />
+      <point x="1359.9730769230769" y="360.0" />
+      <point x="1321.6544986263734" y="360.0" />
+      <point x="1321.6544986263734" y="150.0" />
+      <point x="1198.568696199634" y="150.0" />
+      <point x="14.942307692307622" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.geom.Coordinates" target="org.locationtech.jts.geom.Coordinate">
+      <point x="-7.3125" y="-15.0" />
+      <point x="1033.9519007554945" y="260.0" />
+      <point x="976.7134615384614" y="260.0" />
+      <point x="976.7134615384614" y="150.0" />
+      <point x="1172.9533115842494" y="150.0" />
+      <point x="-10.673076923076906" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7227848101265822" x="731.0" y="385.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

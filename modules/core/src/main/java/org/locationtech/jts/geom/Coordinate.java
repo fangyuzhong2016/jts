@@ -26,6 +26,8 @@ import org.locationtech.jts.util.NumberUtil;
  * 坐标是二维点，附加Z坐标。如果未指定或未定义Z坐标值，
  * 则构造坐标的Z坐标为NaN（也是NULL_ORDINATE的值）。
  * 标准比较函数忽略Z坐标。除了基本访问器功能外，JTS仅支持涉及Z纵坐标的特定操作。
+ *
+ * <p><p/>
  * A lightweight class used to store coordinates on the 2-dimensional Cartesian plane.
  * <p>
  * It is distinct from {@link Point}, which is a subclass of {@link Geometry}. 
