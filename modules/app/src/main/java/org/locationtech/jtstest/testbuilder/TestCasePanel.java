@@ -31,11 +31,13 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 
 import org.locationtech.jtstest.testbuilder.event.ValidPanelEvent;
 import org.locationtech.jtstest.testbuilder.event.ValidPanelListener;
 import org.locationtech.jtstest.testbuilder.model.*;
+import org.locationtech.jtstest.testbuilder.ui.SwingUtil;
 
 
 
@@ -60,7 +62,7 @@ public class TestCasePanel extends JPanel {
   JButton btnRunTests = new JButton();
   RelatePanel relatePanel = new RelatePanel();
   BorderLayout borderLayout2 = new BorderLayout();
-  GeometryEditControlPanel editCtlPanel = new GeometryEditControlPanel();
+  //GeometryEditControlPanel editCtlPanel = new GeometryEditControlPanel();
   BorderLayout borderLayout3 = new BorderLayout();
   JPanel jPanel1 = new JPanel();
   JTextField txtDesc = new JTextField();
@@ -81,9 +83,9 @@ public class TestCasePanel extends JPanel {
   JLabel lblPrecisionModel = new JLabel();
   ScalarFunctionPanel scalarFunctionPanel = new ScalarFunctionPanel();
   
-  JPanel jPanelMagnify = new JPanel();
+  JPanel jPanelReveal = new JPanel();
   JSpinner spStretchDist = new JSpinner(new SpinnerNumberModel(5, 0, 99999, 1));
-  JCheckBox cbMagnifyTopo = new JCheckBox();
+  JCheckBox cbRevealTopo = new JCheckBox();
 
   private TestBuilderModel tbModel;
   
@@ -106,7 +108,7 @@ public class TestCasePanel extends JPanel {
   	this.tbModel = tbModel; 
   	editPanel.setModel(tbModel);
     // hook up other beans
-    editCtlPanel.setModel(tbModel);
+    //editCtlPanel.setModel(tbModel);
 
   }
   
@@ -118,10 +120,6 @@ public class TestCasePanel extends JPanel {
   public void setMaxTestCaseIndex(int maxTestCaseIndex) {
     this.maxTestCaseIndex = maxTestCaseIndex;
     updateTestCaseIndexLabel();
-  }
-
-  public GeometryEditControlPanel getGeometryEditControlPanel() {
-    return editCtlPanel;
   }
 
   public GeometryEditPanel getGeometryEditPanel() {
@@ -172,7 +170,6 @@ public class TestCasePanel extends JPanel {
   void jTabbedPane1_stateChanged(ChangeEvent e) 
   {
     boolean isFunction = jTabbedPane1.getSelectedComponent() == spatialFunctionPanel;
-    boolean isEdit = jTabbedPane1.getSelectedComponent() == editCtlPanel;
     
     editPanel.setShowingResult(isFunction);
     editPanel.setShowingGeometryA(! isFunction
@@ -181,14 +178,11 @@ public class TestCasePanel extends JPanel {
          || spatialFunctionPanel.shouldShowGeometryB());
 
     editPanel.setHighlightPoint(null);
-    if (jTabbedPane1.getSelectedComponent() == validPanel
-        || jTabbedPane1.getSelectedComponent() == editCtlPanel) {
+    if (jTabbedPane1.getSelectedComponent() == validPanel) {
       editPanel.setHighlightPoint(validPanel.getMarkPoint());
     }
     if (initialized) {
       //avoid infinite loop
-      if (isEdit)
-        JTSTestBuilderFrame.instance().showGeomsTab();
       if (isFunction)
         JTSTestBuilderFrame.instance().showResultWKTTab();
     }
@@ -249,7 +243,8 @@ public class TestCasePanel extends JPanel {
           jTabbedPane1_stateChanged(e);
         }
       });
-    testCaseIndexLabel.setBorder(BorderFactory.createLoweredBevelBorder());
+    //testCaseIndexLabel.setBorder(BorderFactory.createLoweredBevelBorder());
+    testCaseIndexLabel.setBorder(new EmptyBorder(0,4,0,0));
     testCaseIndexLabel.setToolTipText("");
     testCaseIndexLabel.setText("0 of 0");
     casePrecisionModelPanel.setLayout(gridBagLayout2);
@@ -276,30 +271,55 @@ public class TestCasePanel extends JPanel {
     editGroupPanel.add(editFramePanel, BorderLayout.CENTER);
     editGroupPanel.add(statusBarPanel, BorderLayout.SOUTH);
  
-    //cbMagnifyTopo.setText("Magnify");
-    cbMagnifyTopo.setToolTipText("Magnify Topology - Stretches geometries to reveal topological detail");
+    cbRevealTopo.setToolTipText("Reveal Topology - visualize topological detail by stretching geometries");
     spStretchDist.setToolTipText("Stretch Distance (pixels)");
     spStretchDist.setMaximumSize(new Dimension(20,20));
     ((JSpinner.DefaultEditor) spStretchDist.getEditor()).getTextField().setColumns(2);
-    jPanelMagnify.setLayout(new BoxLayout(jPanelMagnify, BoxLayout.LINE_AXIS));
-    jPanelMagnify.add(Box.createHorizontalGlue());
-    jPanelMagnify.add(cbMagnifyTopo);
-    jPanelMagnify.add(spStretchDist);
-    jPanelMagnify.add(Box.createHorizontalGlue());
-    jPanelMagnify.setBorder(BorderFactory.createLoweredBevelBorder());
+    jPanelReveal.setLayout(new BoxLayout(jPanelReveal, BoxLayout.LINE_AXIS));
+    jPanelReveal.add(Box.createHorizontalGlue());
+    jPanelReveal.add(cbRevealTopo);
+    jPanelReveal.add(spStretchDist);
+    jPanelReveal.add(Box.createHorizontalGlue());
+    jPanelReveal.setBorder(BorderFactory.createLoweredBevelBorder());
 
-    statusBarPanel.setLayout(new GridLayout(1,2));
-    statusBarPanel.add(testCaseIndexLabel);
-    statusBarPanel.add(jPanelMagnify);
+
+    JButton btnSaveImage = SwingUtil.createButton(
+        AppIcons.SAVE_IMAGE, AppStrings.TIP_SAVE_IMAGE,   
+        new java.awt.event.ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            if (SwingUtil.isCtlKeyPressed(e)) {
+              JTSTestBuilder.controller().saveImageAsPNG();
+            } else {
+              JTSTestBuilder.controller().saveImageToClipboard();
+            }
+        }});
+    
+    JPanel panelCase = new JPanel();
+    panelCase.setLayout(new BorderLayout());
+    panelCase.setBorder(BorderFactory.createLoweredBevelBorder());
+    panelCase.add(btnSaveImage, BorderLayout.EAST);
+    panelCase.add(testCaseIndexLabel, BorderLayout.WEST);
+    
+    statusBarPanel.setLayout(new GridLayout(1,4));
+    statusBarPanel.add(panelCase);
+    //statusBarPanel.add(testCaseIndexLabel);
+    statusBarPanel.add(jPanelReveal);
     statusBarPanel.add(lblPrecisionModel);
     statusBarPanel.add(lblMousePos);
     
     add(jTabbedPane1, BorderLayout.WEST);
     //jTabbedPane1.add(editCtlPanel, "Edit");
-    jTabbedPane1.add(spatialFunctionPanel,  "Geometry Functions");
-    jTabbedPane1.add(scalarFunctionPanel,   "Scalar Functions");
-    jTabbedPane1.add(validPanel, "Valid / Mark");
+    
+    JTabbedPane tabFunctions = new JTabbedPane();
+    tabFunctions.setBackground(jTabbedPane1.getBackground());
+    tabFunctions.add(spatialFunctionPanel,  "Geometry Functions");
+    tabFunctions.add(scalarFunctionPanel,   "Scalar Functions");
+    
+    jTabbedPane1.add(tabFunctions, "Functions");
     jTabbedPane1.add(relateTabPanel, "Predicates");
+    jTabbedPane1.add(validPanel, "Valid / Mark");
+
+    
     relateTabPanel.add(relatePanel, BorderLayout.CENTER);
     relateTabPanel.add(btnPanel, BorderLayout.NORTH);
     btnPanel.add(btnRunTests, null);

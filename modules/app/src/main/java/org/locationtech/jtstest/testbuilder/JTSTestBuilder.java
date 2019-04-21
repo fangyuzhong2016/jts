@@ -17,11 +17,15 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.UIManager;
 
-import org.locationtech.jts.geom.*;
-import org.locationtech.jtstest.command.*;
-import org.locationtech.jtstest.function.*;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jtstest.command.CommandLine;
+import org.locationtech.jtstest.command.Option;
+import org.locationtech.jtstest.command.OptionSpec;
+import org.locationtech.jtstest.command.ParseException;
 import org.locationtech.jtstest.geomfunction.GeometryFunctionRegistry;
-import org.locationtech.jtstest.testbuilder.model.*;
+import org.locationtech.jtstest.testbuilder.controller.JTSTestBuilderController;
+import org.locationtech.jtstest.testbuilder.model.TestBuilderModel;
 
 
 /**
@@ -43,10 +47,15 @@ public class JTSTestBuilder
   private static final String PROP_SWING_DEFAULTLAF = "swing.defaultlaf";
 
   private static final String OPT_GEOMFUNC = "geomfunc";
+
+  private static final JTSTestBuilderController CONTROLLER = new JTSTestBuilderController();
   
   public static JTSTestBuilder instance()
   {
   	return app;
+  }
+  public static JTSTestBuilderController controller() {
+    return CONTROLLER;
   }
   
   public static TestBuilderModel model() { return instance().tbModel; }

@@ -174,18 +174,6 @@ public class Polygon
   public boolean isEmpty() {
     return shell.isEmpty();
   }
-
-  /**
-   * Tests if a valid polygon is simple.
-   * This method always returns true, since a valid polygon is always simple
-   *
-   * @return <code>true</code>
-   */
-  /*
-  public boolean isSimple() {
-    return true;
-  }
-*/
   
   public boolean isRectangle()
   {
@@ -220,7 +208,7 @@ public class Polygon
     return true;
   }
 
-  public LineString getExteriorRing() {
+  public LinearRing getExteriorRing() {
     return shell;
   }
 
@@ -228,7 +216,7 @@ public class Polygon
     return holes.length;
   }
 
-  public LineString getInteriorRingN(int n) {
+  public LinearRing getInteriorRingN(int n) {
     return holes[n];
   }
 

@@ -17,9 +17,7 @@ import java.util.Iterator;
 
 import org.locationtech.jts.algorithm.Centroid;
 import org.locationtech.jts.algorithm.ConvexHull;
-import org.locationtech.jts.algorithm.InteriorPointArea;
-import org.locationtech.jts.algorithm.InteriorPointLine;
-import org.locationtech.jts.algorithm.InteriorPointPoint;
+import org.locationtech.jts.algorithm.InteriorPoint;
 import org.locationtech.jts.geom.util.GeometryCollectionMapper;
 import org.locationtech.jts.geom.util.GeometryMapper;
 import org.locationtech.jts.io.WKTWriter;
@@ -458,18 +456,14 @@ public abstract class Geometry
    */
   public boolean isWithinDistance(Geometry geom, double distance)
   {
-    double envDist = getEnvelopeInternal().distance(geom.getEnvelopeInternal());
-    if (envDist > distance)
-      return false;
     return DistanceOp.isWithinDistance(this, geom, distance);
-    /*
-    double geomDist = this.distance(geom);
-    if (geomDist > distance)
-      return false;
-    return true;
-    */
   }
 
+  /**
+   * Tests whether this is a rectangular {@link Polygon}.
+   * 
+   * @return true if the geometry is a rectangle.
+   */
   public boolean isRectangle()
   {
     // Polygon overrides to check for actual rectangle
@@ -534,23 +528,9 @@ public abstract class Geometry
    */
   public Point getInteriorPoint()
   {
-    if (isEmpty()) 
-      return factory.createPoint();
-    Coordinate interiorPt = null;
-    int dim = getDimension();
-    if (dim == 0) {
-      InteriorPointPoint intPt = new InteriorPointPoint(this);
-      interiorPt = intPt.getInteriorPoint();
-    }
-    else if (dim == 1) {
-      InteriorPointLine intPt = new InteriorPointLine(this);
-      interiorPt = intPt.getInteriorPoint();
-    }
-    else {
-      InteriorPointArea intPt = new InteriorPointArea(this);
-      interiorPt = intPt.getInteriorPoint();
-    }
-    return createPointFromInternalCoord(interiorPt, this);
+    if (isEmpty()) return factory.createPoint();
+    Coordinate pt = InteriorPoint.getInteriorPoint(this);
+    return createPointFromInternalCoord(pt, this);
   }
 
   /**
@@ -763,7 +743,6 @@ public abstract class Geometry
       return RectangleIntersects.intersects((Polygon) g, this);
     }
     if (isGeometryCollection() || g.isGeometryCollection()) {
-      boolean r = false;
       for (int i = 0 ; i < getNumGeometries() ; i++) {
         for (int j = 0 ; j < g.getNumGeometries() ; j++) {
           if (getGeometryN(i).intersects(g.getGeometryN(j))) {

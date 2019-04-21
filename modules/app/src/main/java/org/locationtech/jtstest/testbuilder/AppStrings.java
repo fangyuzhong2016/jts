@@ -34,9 +34,9 @@ public class AppStrings {
 
   static final String TIP_EXTRACT_COMPONENTS = "Extract Components to Case";
 
-  static final String TIP_DELETE_VERTEX_COMPONENT = "Delete Vertices or Components";
+  static final String TIP_DELETE_VERTEX_COMPONENT = "<html>Delete Components/Vertices<br><br>Delete Components = Drag<br>Delete Intersecting Components = Ctl-Drag<br>Delete Vertices = Right-Drag</html>";
 
-  static final String TIP_MOVE_VERTEX = "<html>Move/Add/Delete Vertex<br><br>Move = Left-Btn<br>Add = Right-Btn<br>Delete = Ctl-Right-Btn</html>";
+  static final String TIP_MOVE_VERTEX = "<html>Move/Add/Delete Vertex<br><br>Move = Drag<br>Add = Right-Click<br>Delete = Ctl-Right-Click</html>";
 
   static final String TIP_PAN = "Pan";
   static final String TIP_ZOOM_TO_FULL_EXTENT = "Zoom To Full Extent";
@@ -44,7 +44,7 @@ public class AppStrings {
   static final String TIP_ZOOM_TO_B = "Zoom To B";
   static final String TIP_ZOOM_TO_A = "Zoom To A";
   static final String TIP_ZOOM_1_1 = "Zoom 1:1";
-  static final String TIP_ZOOM = "<html>Zoom In/Out<br><br>In = Left-Btn<br>Out = Right-Btn<br>Extent = Shift-Drag<br>Pan = Ctl-Drag</html>";
+  static final String TIP_ZOOM = "<html>Zoom In/Out | Pan<br><br>Zoom In = Left-Btn<br>Zoom Extent = Left-Drag<br>Zoom Out = Right-Btn<br>Pan = Right-Drag | Ctl-Drag</html>";
 
   static final String TIP_INFO = "Show Info on Geometry, Segment, or Point";
 
@@ -66,5 +66,13 @@ public class AppStrings {
   static final String TIP_PASTE_DATA = "Paste from WKT, WKB, or GML";
 
   static final String TIP_COPY_DATA = "Copy as WKT (Ctl-click for formatted)";
+
+  static final String TIP_EXECUTE = "Compute the result of the function";
+
+  public static final String TIP_SAVE_IMAGE = "<html>Save Image to Clipboard<br>Save Image to File = Ctl-Click</html>";
+
+  public static final String TIP_STYLE_VERTEX_ENABLE = "Show Vertices";
+  public static final String TIP_STYLE_LINE_ENABLE = "Show Line";
+  public static final String TIP_STYLE_FILL_ENABLE = "Show Fill";
 
 }

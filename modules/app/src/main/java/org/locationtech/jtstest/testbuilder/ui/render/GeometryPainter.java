@@ -35,8 +35,8 @@ import org.locationtech.jtstest.testbuilder.ui.style.Style;
 
 public class GeometryPainter 
 {
-	private static Stroke GEOMETRY_STROKE = new BasicStroke();
-	private static Stroke POINT_STROKE = new BasicStroke(AppConstants.POINT_SIZE);
+	private static BasicStroke GEOMETRY_STROKE = new BasicStroke();
+	private static BasicStroke POINT_STROKE = new BasicStroke(AppConstants.POINT_SIZE);
 	
   public static void paint(Graphics2D g, Viewport viewport, Geometry geometry, Style style)
   throws Exception
@@ -155,7 +155,8 @@ public class GeometryPainter
     
 		// handle points in a special way for appearance and speed
 		if (geometry instanceof Point) {
-			g.setStroke(POINT_STROKE);
+		  BasicStroke ptStroke = createPointStroke(stroke);
+			g.setStroke(ptStroke);
 		  g.setColor(lineColor);
 	    g.draw(shape);
 			return;
@@ -194,6 +195,14 @@ public class GeometryPainter
 		  }
 		}
 	}
+
+  private static BasicStroke createPointStroke(Stroke stroke) {
+    if (stroke == null) 
+      return POINT_STROKE;
+    BasicStroke bs = (BasicStroke) stroke;
+    BasicStroke ptStroke = new BasicStroke(AppConstants.POINT_SIZE - 1 + bs.getLineWidth());
+    return ptStroke;
+  }
 
 
 

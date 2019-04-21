@@ -15,6 +15,7 @@ package org.locationtech.jtstest.function;
 import java.util.*;
 
 import org.locationtech.jts.geom.*;
+import org.locationtech.jts.operation.distance.IndexedFacetDistance;
 
 
 
@@ -137,6 +138,35 @@ public class SelectionFunctions
     });
   }
   
+  public static Geometry interiorPointWithin(Geometry a, final Geometry mask)
+  {
+    return select(a, new GeometryPredicate() {
+      public boolean isTrue(Geometry g) {
+        return g.getInteriorPoint().within(mask);
+      }
+    });
+  }
+  
+  public static Geometry withinDistance(Geometry a, final Geometry mask, double maximumDistance)
+  {
+    return select(a, new GeometryPredicate() {
+      public boolean isTrue(Geometry g) {
+        return mask.isWithinDistance(g, maximumDistance);
+      }
+    });
+  }
+
+  public static Geometry withinDistanceIndexed(Geometry a, final Geometry mask, double maximumDistance)
+  {
+    IndexedFacetDistance indexedDist = new IndexedFacetDistance(mask);
+    return select(a, new GeometryPredicate() {
+      public boolean isTrue(Geometry g) {
+        boolean isWithinDist = indexedDist.isWithinDistance(g, maximumDistance);
+        return isWithinDist;
+      }
+    });
+  }
+
   private static Geometry select(Geometry geom, GeometryPredicate pred)
   {
     List selected = new ArrayList();

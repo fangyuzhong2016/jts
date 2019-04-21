@@ -156,7 +156,7 @@ public class OffsetCurveSetBuilder {
       offsetSide = Position.RIGHT;
     }
 
-    LinearRing shell = (LinearRing) p.getExteriorRing();
+    LinearRing shell = p.getExteriorRing();
     Coordinate[] shellCoord = CoordinateArrays.removeRepeatedPoints(shell.getCoordinates());
     // optimization - don't bother computing buffer
     // if the polygon would be completely eroded
@@ -175,7 +175,7 @@ public class OffsetCurveSetBuilder {
 
     for (int i = 0; i < p.getNumInteriorRing(); i++) {
 
-      LinearRing hole = (LinearRing) p.getInteriorRingN(i);
+      LinearRing hole = p.getInteriorRingN(i);
       Coordinate[] holeCoord = CoordinateArrays.removeRepeatedPoints(hole.getCoordinates());
 
       // optimization - don't bother computing buffer for this hole
@@ -238,7 +238,6 @@ public class OffsetCurveSetBuilder {
   private boolean isErodedCompletely(LinearRing ring, double bufferDistance)
   {
     Coordinate[] ringCoord = ring.getCoordinates();
-    double minDiam = 0.0;
     // degenerate ring has no area
     if (ringCoord.length < 4)
       return bufferDistance < 0;

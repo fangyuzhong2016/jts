@@ -12,15 +12,17 @@
 
 package org.locationtech.jtstest.testbuilder.ui.style;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
-import org.locationtech.jts.geom.*;
-import org.locationtech.jtstest.*;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jtstest.testbuilder.AppConstants;
+import org.locationtech.jtstest.testbuilder.geom.ConstrainedInteriorPoint;
 import org.locationtech.jtstest.testbuilder.ui.GraphicsUtil;
 import org.locationtech.jtstest.testbuilder.ui.Viewport;
-import org.locationtech.jtstest.testbuilder.ui.render.GeometryPainter;
 
 
 public class DataLabelStyle implements Style
@@ -38,7 +40,14 @@ public class DataLabelStyle implements Style
   {
     if (geom.getUserData() == null) return;
     
-    Coordinate p = geom.getCentroid().getCoordinate();
+    Coordinate p = null;
+    if (geom instanceof Polygon) {
+      p = ConstrainedInteriorPoint.getCoordinate((Polygon) geom, viewport.getModelEnv());
+    }
+    else {
+      p = geom.getInteriorPoint().getCoordinate();
+    }
+    
     Point2D vp = viewport.toView(new Point2D.Double(p.x, p.y));
     
     g2d.setColor(color);

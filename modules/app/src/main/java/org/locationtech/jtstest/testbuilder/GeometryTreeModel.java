@@ -23,7 +23,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-import org.locationtech.jts.algorithm.Area;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
@@ -33,6 +32,7 @@ import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.LinearRing;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jtstest.testbuilder.geom.GeometryUtil;
 
 
 public class GeometryTreeModel implements TreeModel
@@ -148,7 +148,7 @@ abstract class GeometricObjectNode
   public String getText()
   {
     if (index >= 0) {
-      return indexString(index) + " : " + text;
+      return indexString(index) + " " + text;
     }
     return text;
   }
@@ -225,39 +225,15 @@ abstract class GeometryNode extends GeometricObjectNode
         buf.append(" " + sizeString(size));
       }
     }
-    
-    if (hasLength(geom)) {
-    	buf.append("   --     Len: " + geom.getLength());
+    String metrics = GeometryUtil.metricsSummary(geom);
+    if (metrics.length() > 0) {
+      buf.append("  -  ");
     }
-    if (hasArea(geom)) { 
-      buf.append("      Area: " + area(geom));
-    }
+    buf.append( metrics );
     
     return buf.toString();
   }
   
-  private static double area(Geometry geom) {
-    double area = 0;
-    if (geom.getDimension() >= 2) {
-      area = geom.getArea();
-    }
-    else if (geom instanceof LinearRing) {
-      area = Area.ofRing(geom.getCoordinates());
-    }
-    return area;
-  }
-
-  private static boolean hasArea(Geometry geom) {
-	    if (geom.getDimension() >= 2) return true;
-	    if (geom instanceof LinearRing) return true;
-	    return false;
-	  }
-	  
-  private static boolean hasLength(Geometry geom) {
-	    if (geom.getDimension() >= 1) return true;
-	    return false;
-	  }
-	  
   public boolean isLeaf()
   {
     return isLeaf;
@@ -265,7 +241,7 @@ abstract class GeometryNode extends GeometricObjectNode
   
   public ImageIcon getIcon()
   {
-    return context.source == 0 ? AppConstants.ICON_POLYGON : AppConstants.ICON_POLYGON_B;
+    return context.source == 0 ? AppIcons.ICON_POLYGON : AppIcons.ICON_POLYGON_B;
   }
 
   public GeometricObjectNode getChildAt(int index)
@@ -326,7 +302,7 @@ class PolygonNode extends GeometryNode
 
   public ImageIcon getIcon()
   {
-    return context.source == 0 ? AppConstants.ICON_POLYGON : AppConstants.ICON_POLYGON_B;
+    return context.source == 0 ? AppIcons.ICON_POLYGON : AppIcons.ICON_POLYGON_B;
   }
 
   protected void fillChildren()
@@ -359,7 +335,7 @@ class LineStringNode extends GeometryNode
 
   public ImageIcon getIcon()
   {
-    return context.source == 0 ? AppConstants.ICON_LINESTRING : AppConstants.ICON_LINESTRING_B;
+    return context.source == 0 ? AppIcons.ICON_LINESTRING : AppIcons.ICON_LINESTRING_B;
   }
 
   public Geometry getGeometry()
@@ -398,7 +374,7 @@ class LinearRingNode extends LineStringNode
   }
   public ImageIcon getIcon()
   {
-    return context.source == 0 ? AppConstants.ICON_LINEARRING : AppConstants.ICON_LINEARRING_B;
+    return context.source == 0 ? AppIcons.ICON_LINEARRING : AppIcons.ICON_LINEARRING_B;
   }
 }
 
@@ -414,7 +390,7 @@ class PointNode extends GeometryNode
 
   public ImageIcon getIcon()
   {
-    return context.source == 0 ? AppConstants.ICON_POINT : AppConstants.ICON_POINT_B;
+    return context.source == 0 ? AppIcons.ICON_POINT : AppIcons.ICON_POINT_B;
   }
 
   public Geometry getGeometry()
@@ -454,7 +430,7 @@ class GeometryCollectionNode extends GeometryNode
   
   public ImageIcon getIcon()
   {
-    return context.source == 0 ? AppConstants.ICON_COLLECTION : AppConstants.ICON_COLLECTION_B;
+    return context.source == 0 ? AppIcons.ICON_COLLECTION : AppIcons.ICON_COLLECTION_B;
   }
 
 
@@ -506,7 +482,7 @@ class CoordinateNode extends GeometricObjectNode
   }
   public ImageIcon getIcon()
   {
-    return AppConstants.ICON_POINT;
+    return AppIcons.ICON_POINT;
   }
 
   public Geometry getGeometry()
@@ -539,3 +515,4 @@ class CoordinateNode extends GeometricObjectNode
     throw new IllegalStateException("should not be here");
   }
 }
+
