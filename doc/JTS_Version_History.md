@@ -25,16 +25,40 @@ Distributions for older JTS versions can be obtained at the
 
 * Change `Polygon` `getExteriorRing` and `getInteriorRingN` accessors to return `LinearRing`. *This is a binary incompatible change to the method signature.  Recompilation is necessary. No source code changes are required.*
 
-
 ### Functionality Improvements
 
 * Added `IndexedFacetDistance.isWithinDistance`
 * Added `OrdinateFormat` to ensure that ordinate text output is accurate and consistent
+* Improve performance of `UniqueCoordinateFilter` (#422)
+* Improve performance of `Polygonizer` (#431)
+* Added `Triangle.circumcentreDD`
+* Added `DD.determinant` methods
+* Added `Envelope.getDiameter`
 
 ### Bug Fixes
 
 * Fix `PackedCoordinateSequence.Float` construction methods (#379, #381)
 * Fix bug in `Quadtree.ensureExtent` (#416)
+* Fix bugs in `LinearLocation` endpoint handling (#421)
+* Fix bug in `MinimumBoundingCircle` maximum diameter algorithm, and provide method for it
+* Improve robustness of `CascadedPolygonUnion` by adding `OverlapUnion`
+* Fix bug in `HalfEdge.insert` method which caused CCW order not to be preserved in some cases
+* Fix generation of Voronoi diagrams for cases with sites in a square (#447)
+* Fix use of clipping envelope in `VoronoiDiagramBuilder`
+
+## JTS TestBuilder
+
+### Functionality Improvements
+
+* Add a CLI to run operations on file input
+
+## JTS TestRunner
+
+### Functionality Improvements
+
+* Allow test files/dirs to be specified as free args
+* Add cmd options to run operation on file input
+
 
 <!-- ================================================================ -->
 
@@ -1309,5 +1333,3 @@ This version is upwards compatible with Version 1.4
 *Release Date: 30 May 2001*
 
 **Baseline version**
-
-
