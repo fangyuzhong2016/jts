@@ -11,9 +11,9 @@
  */
 package org.locationtech.jtstest.cmd;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -36,7 +36,7 @@ import org.locationtech.jtstest.util.io.IOUtil;
 import org.locationtech.jtstest.util.io.MultiFormatReader;
 
 /**
- * A simple CLI to run TestBuilder operations.
+ * A CLI to run JTS TestBuilder operations.
  * Allows easier execution of JTS functions on test data for debugging purposes.
  * <p>
  * Examples:
@@ -69,12 +69,20 @@ public class JTSOpCmd {
   // TODO: add option -ab to read both geoms from a file
   // TODO: allow -a stdin  to indicate reading from stdin.  
   
+  public static final String ERR_FILE_NOT_FOUND = "File not found";
+  public static final String ERR_FUNCTION_NOT_FOUND = "Function not found";
+  public static final String ERR_REQUIRED_A = "Geometry A may be required";
+  public static final String ERR_REQUIRED_B = "Geometry B is required";
+  public static final String ERR_WRONG_ARG_COUNT = "Arguments and parameters do not match";
+  public static final String ERR_FUNCTION_ERR = "Error executing function";
+
   static final String[] helpDoc = new String[] {
   "",
   "Usage: jtsop - CLI for JTS operations",
   "           [ -a <wkt> | <wkb> | <filename.ext>]",
   "           [ -b <wkt> | <wkb> | <filename.ext>]",
   "           [ -f ( txt | wkt | wkb | geojson | gml | svg ) ]",
+  "           [ -repeat <num>]",
   "           [ -geomfunc <classname>]",
   "           [ -v, -verbose]",
   "           [ -help]",
@@ -85,7 +93,8 @@ public class JTSOpCmd {
   "  -a              A geometry or name of file containing it (extension: WKT, WKB, GeoJSON, GML, SHP)",
   "  -b              B geometry or name of file containing it (extension: WKT, WKB, GeoJSON, GML, SHP)",
   "  -f              output format to use.  If omitted output is silent",
-  "  -geomfunc       (optional) specifies the class providing the geometry operations",
+  "  -repeat         repeats the operation N times",
+  "  -geomfunc       specifies the class providing the geometry operations",
   "  -v, -verbose    display information about execution",
   "  -help           print a list of available operations"
   };
@@ -101,41 +110,38 @@ public class JTSOpCmd {
   {    
     JTSOpCmd cmd = new JTSOpCmd();
     try {
-      CmdArgs cmdArgs = parseArgs(args);
-      
-      if (args.length == 0 || isHelp) {
-        printHelp(isHelp);
-        System.exit(0);
-      }
-
+      CmdArgs cmdArgs = cmd.parseArgs(args);
       cmd.execute(cmdArgs);
-    } catch (Exception e) {
+    } 
+    catch (CommandError e) {
+      // for command errors, just print the message
+      System.err.println(e.getMessage() );
+    }
+    catch (Exception e) {
+      // unexpected errors get a stack track to help debugging
       e.printStackTrace();
     }
   }
 
-  private static void printHelp(boolean showFunctions) {
+  private void printHelp(boolean showFunctions) {
     for (String s : helpDoc) {
-      System.out.println(s);
+      out.println(s);
     }
     if (showFunctions) {
-      System.out.println();
-      System.out.println("Operations:");
+      out.println();
+      out.println("Operations:");
       printFunctions();
    }
   }
   
-  private static void printFunctions() {
+  private void printFunctions() {
     //TODO: include any loaded functions
     DoubleKeyMap funcMap = funcRegistry.getCategorizedGeometryFunctions();
-    Collection categories = funcMap.keySet();
-    for (Iterator i = categories.iterator(); i.hasNext();) {
-      String category = (String) i.next();
-
-      Collection funcs = funcMap.values(category);
-      for (Iterator j = funcs.iterator(); j.hasNext();) {
-        GeometryFunction fun = (GeometryFunction) j.next();
-        System.out.println(category + "." + functionDesc(fun));
+    Collection<String> categories = funcMap.keySet();
+    for (String category : categories) {
+      Collection<GeometryFunction> funcs = funcMap.values(category);
+      for (GeometryFunction fun : funcs) {
+        out.println(category + "." + functionDesc(fun));
       }
     }
   }
@@ -147,29 +153,42 @@ public class JTSOpCmd {
     //return geomFun.getName();
   }
 
-  private static GeometryFactory geomFactory = new GeometryFactory();
+  private GeometryFactory geomFactory = new GeometryFactory();
   
-  private static GeometryFunctionRegistry funcRegistry = GeometryFunctionRegistry.createTestBuilderRegistry();
-  private static CommandLine commandLine = createCmdLine();
+  private GeometryFunctionRegistry funcRegistry = GeometryFunctionRegistry.createTestBuilderRegistry();
+  private CommandLine commandLine = createCmdLine();
 
-  private static boolean isHelp = false;
-  private static boolean isVerbose = false;  
+  private boolean isHelp = false;
+  private boolean isHelpWithFunctions = false;
+  private boolean isVerbose = false;
+
+  private CommandOutput out = new CommandOutput(); 
   
-  private static class CmdArgs {
+  static class CmdArgs {
     String operation;
     String geomA;
     public String geomB;
     public String arg1;
-    
     String format = null;
+    public Integer repeat;
   }
 
-  
   public JTSOpCmd() {
     
   }
   
-  private void execute(CmdArgs cmdArgs) throws IOException, Exception {
+  public void captureOutput() {
+    out = new CommandOutput(true);
+  }
+  
+  public String getOutput() {
+    return out.getOutput();
+  }
+  void execute(CmdArgs cmdArgs) throws IOException, Exception {
+    if (isHelp || isHelpWithFunctions) {
+      printHelp(isHelpWithFunctions);
+      return;
+    }
     
     Geometry geomA = null;
     Geometry geomB = null;
@@ -193,41 +212,62 @@ public class JTSOpCmd {
       // no op specified, so just output A (allows format conversion)
       result = geomA;
     }
-    if (result == null) return;
-    
-    if (cmdArgs.format != null) {
-      printResult(result, cmdArgs.format);
-    }
+    printResult(result, cmdArgs.format);
   }
 
   private Object executeFunction(CmdArgs cmdArgs, Geometry geomA, Geometry geomB) {
     GeometryFunction func = getFunction(cmdArgs.operation);
     if (func == null) {
-      System.err.println("Function not found: " + cmdArgs.operation);
-      return null;
+      throw new CommandError(ERR_FUNCTION_NOT_FOUND, cmdArgs.operation);
     }
+    checkFunctionArgs(func, geomB, cmdArgs.arg1);
     Object funArgs[] = createFunctionArgs(func, geomB, cmdArgs.arg1);
     
     if (isVerbose) {
-      System.out.println(writeOpSummary(cmdArgs));
+      out.println(writeOpSummary(cmdArgs));
     }
+    Object result = null;
+    for (int i = 0; i < cmdArgs.repeat; i++) {
+      if (cmdArgs.repeat > 1) {
+        out.print("Run: " + (i+1) + " of " + cmdArgs.repeat + "   ");
+      }
+      result = executeFunctionOnce(cmdArgs, geomA, func, funArgs);
+    }
+    if (isVerbose && result instanceof Geometry) {
+      printGeometrySummary("Result", (Geometry) result, null);
+    }
+    return result;
+  }
 
+  private Object executeFunctionOnce(CmdArgs cmdArgs, Geometry geomA, GeometryFunction func, Object[] funArgs) {
     Stopwatch timer = new Stopwatch();
     Object result = null;
     try {
       result = func.invoke(geomA, funArgs);
-    } finally {
+    } 
+    catch (NullPointerException ex) {
+      if (geomA == null)
+        throw new CommandError(ERR_REQUIRED_A, cmdArgs.operation); 
+      // if A is present then must be something else
+      throw new CommandError(ERR_FUNCTION_ERR, ex.getMessage());
+    }
+    finally {
       timer.stop();
     }
     if (isVerbose) {
-      System.out.println("Time: " + timer.getTimeString());
+      out.println("Time: " + timer.getTimeString());
     }
     return result;
   }
 
   private Geometry readGeometry(String arg) throws Exception, IOException {
     if (isFilename(arg)) {
-      return IOUtil.readFile(arg ,geomFactory );
+      try {
+        return IOUtil.readFile(arg ,geomFactory );
+      }
+      catch (FileNotFoundException ex) {
+        throw new CommandError(ERR_FILE_NOT_FOUND, arg);
+      }
     }
     MultiFormatReader rdr = new MultiFormatReader(geomFactory);
     return rdr.read(arg);
@@ -264,12 +304,13 @@ public class JTSOpCmd {
 
   private void printResult(Object result, String outputFormat) {
     if (result == null) return;
+    if (outputFormat == null) return;
     
     if (result instanceof Geometry) {
       printGeometry((Geometry) result, outputFormat);
       return;
     }
-    System.out.println(result);
+    out.println(result);
   }
   
   private void printGeometry(Geometry geom, String outputFormat) {
@@ -292,7 +333,7 @@ public class JTSOpCmd {
     }
     
     if (txt == null) return;
-    System.out.println(txt);
+    out.println(txt);
   }
 
   private String writeGeoJSON(Geometry geom) {
@@ -305,7 +346,7 @@ public class JTSOpCmd {
     if (! isVerbose) return;
     String filename = "";
     if (arg != null & isFilename(arg)) filename = " -- " + arg;
-    System.out.println( writeGeometrySummary(label, geom) + filename);
+    out.println( writeGeometrySummary(label, geom) + filename);
   }
   
   private String writeGeometrySummary(String label,
@@ -318,6 +359,30 @@ public class JTSOpCmd {
     buf.append("    " + GeometryUtil.metricsSummary(g));
     return buf.toString();
   }
+
+  private void checkFunctionArgs(GeometryFunction func, Geometry geomB, String arg1) {
+    Class[] paramTypes = func.getParameterTypes();
+    int nParam = paramTypes.length;
+    
+    if (func.isBinary() && geomB == null)
+      throw new CommandError(ERR_REQUIRED_B);
+    /**
+    // MD not sure whether to check this?
+    if (! func.isBinary() && geomB != null)
+      throw new CommandError(ERR_REQUIRED_B);
+      */
+    
+    /*
+     * check count of supplied args.
+     * Assumes B has been checked.
+     */
+    int argCount = 0;
+    if (func.isBinary() && geomB != null) argCount++;
+    if (arg1 != null) argCount++;
+    if (nParam != argCount) {
+      throw new CommandError(ERR_WRONG_ARG_COUNT, func.getName());
+    }
+  }
   
   private Object[] createFunctionArgs(GeometryFunction func, Geometry geomB, String arg1) {
     Class[] paramTypes = func.getParameterTypes();
@@ -328,6 +393,7 @@ public class JTSOpCmd {
       paramVal[0] = geomB;
       iparam++;
     }
+    // just handling one scalar arg for now
     if (iparam < paramVal.length) {
       paramVal[iparam] = SwingUtil.coerce(arg1, paramTypes[iparam]);
     }
@@ -345,20 +411,25 @@ public class JTSOpCmd {
     return funcRegistry.find(category, name);
   }
 
-  private static CmdArgs parseArgs(String[] args) throws ParseException, ClassNotFoundException {
-    commandLine.parse(args);
-
+  CmdArgs parseArgs(String[] args) throws ParseException, ClassNotFoundException {
     CmdArgs cmdArgs = new CmdArgs();
     
+    if (args.length == 0) {
+      isHelp = true;
+      return cmdArgs;
+    }
+    
+    commandLine.parse(args);
+
     if (commandLine.hasOption(CommandOptions.GEOMFUNC)) {
       Option opt = commandLine.getOption(CommandOptions.GEOMFUNC);
       for (int i = 0; i < opt.getNumArgs(); i++) {
         String geomFuncClassname = opt.getArg(i);
         try {
           funcRegistry.add(geomFuncClassname);
-          System.out.println("Added Geometry Functions from: " + geomFuncClassname);
+          out.println("Added Geometry Functions from: " + geomFuncClassname);
         } catch (ClassNotFoundException ex) {
-          System.out.println("Unable to load function class: " + geomFuncClassname);
+          out.println("Unable to load function class: " + geomFuncClassname);
         }
       }
     }
@@ -368,9 +439,14 @@ public class JTSOpCmd {
     cmdArgs.geomB = commandLine.getOptionArg(CommandOptions.GEOMB, 0);
     cmdArgs.arg1 = commandLine.getOptionArg(CommandOptions.ARG1, 0);
     cmdArgs.format = commandLine.getOptionArg(CommandOptions.FORMAT, 0);
+    
+    cmdArgs.repeat = commandLine.hasOption(CommandOptions.REPEAT)
+        ? commandLine.getOptionArgAsInt(CommandOptions.REPEAT, 0)
+            : 1;
+    
     isVerbose = commandLine.hasOption(CommandOptions.VERBOSE)
                   || commandLine.hasOption(CommandOptions.V);
-    isHelp = commandLine.hasOption(CommandOptions.HELP);
+    isHelpWithFunctions = commandLine.hasOption(CommandOptions.HELP);
 
     String[] freeArgs = commandLine.getOptionArgs(OptionSpec.OPTION_FREE_ARGS);
     if (freeArgs != null) {
@@ -385,7 +461,7 @@ public class JTSOpCmd {
     return cmdArgs;
   }
   
-  private static CommandLine createCmdLine() {
+  private CommandLine createCmdLine() {
     commandLine = new CommandLine('-');
     commandLine.addOptionSpec(new OptionSpec(CommandOptions.GEOMFUNC, OptionSpec.NARGS_ONE_OR_MORE))
     .addOptionSpec(new OptionSpec(CommandOptions.VERBOSE, 0))
@@ -396,6 +472,7 @@ public class JTSOpCmd {
     .addOptionSpec(new OptionSpec(CommandOptions.GEOMB, 1))
     .addOptionSpec(new OptionSpec(CommandOptions.ARG1, 1))
     .addOptionSpec(new OptionSpec(CommandOptions.FORMAT, 1))
+    .addOptionSpec(new OptionSpec(CommandOptions.REPEAT, 1))
     .addOptionSpec(new OptionSpec(OptionSpec.OPTION_FREE_ARGS, OptionSpec.NARGS_ONE_OR_MORE));
     return commandLine;
   }
