@@ -48,7 +48,7 @@ extends GeometricShapeBuilder
 		LineSegment baseLine = getSquareBaseLine();
 		Coordinate origin = baseLine.getCoordinate(0);
 		LinearRing[] holes = getHoles(level, origin.x, origin.y, getDiameter());
-		LinearRing shell = (LinearRing) ((Polygon) geomFactory.toGeometry(getSquareExtent())).getExteriorRing();
+		LinearRing shell = ((Polygon) geomFactory.toGeometry(getSquareExtent())).getExteriorRing();
 		return geomFactory.createPolygon(
 				shell, holes);
 	}
@@ -67,8 +67,6 @@ extends GeometricShapeBuilder
 		if (n < 0) return;
 		int n2 = n - 1;
 		double widthThird = width / 3.0;
-		double widthTwoThirds = width * 2.0 / 3.0;
-		double widthNinth = width / 9.0;
 		addHoles(n2, originX, 									originY, widthThird, holeList);
 		addHoles(n2, originX + widthThird, 			originY, widthThird, holeList);
 		addHoles(n2, originX + 2 * widthThird, 	originY, widthThird, holeList);

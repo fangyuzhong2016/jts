@@ -12,17 +12,10 @@
 
 package org.locationtech.jtstest.testbuilder.model;
 
-import java.awt.*;
-
-import org.locationtech.jts.geom.*;
-import org.locationtech.jtstest.*;
-import org.locationtech.jtstest.testbuilder.geom.*;
-import org.locationtech.jtstest.testbuilder.ui.ColorUtil;
-import org.locationtech.jtstest.testbuilder.ui.Viewport;
-import org.locationtech.jtstest.testbuilder.ui.render.*;
-import org.locationtech.jtstest.testbuilder.ui.style.*;
-
-
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jtstest.testbuilder.geom.GeometryUtil;
+import org.locationtech.jtstest.testbuilder.ui.style.BasicStyle;
+import org.locationtech.jtstest.testbuilder.ui.style.LayerStyle;
 
 public class Layer 
 {
@@ -30,38 +23,25 @@ public class Layer
   private GeometryContainer geomCont;
   private boolean isEnabled = true;
   
-  private BasicStyle geomStyle = new BasicStyle();
-  
-  private StyleList.StyleFilter vertexFilter = new StyleList.StyleFilter() {
-  	public boolean isFiltered(Style style) {
-  		return ! DisplayParameters.isShowingVertices();
-  	}
-  };
-  
-  private StyleList.StyleFilter decorationFilter = new StyleList.StyleFilter() {
-    public boolean isFiltered(Style style) {
-      return ! DisplayParameters.isShowingOrientation();
-    }
-  };
-    
-  private StyleList.StyleFilter structureFilter = new StyleList.StyleFilter() {
-    public boolean isFiltered(Style style) {
-      return ! DisplayParameters.isShowingStructure();
-    }
-  };
-    
-  private StyleList.StyleFilter labelFilter = new StyleList.StyleFilter() {
-    public boolean isFiltered(Style style) {
-      return ! DisplayParameters.isShowingLabel();
-    }
-  };
   private LayerStyle layerStyle;
+  private BasicStyle initStyle = null;
     
   public Layer(String name) {
     this.name = name;
   }
 
+  public Layer(Layer layer) {
+    this.name = layer.name + "Copy";
+    this.layerStyle = new LayerStyle(layer.layerStyle);
+    this.isEnabled = layer.isEnabled;
+    this.geomCont = new StaticGeometryContainer(layer.getGeometry());
+  }
+
   public String getName() { return name; }
+  
+  public void setName(String name) { 
+    this.name = name; 
+  }
   
   public String getNameInfo() {
     if (geomCont.getGeometry() == null) return getName();
@@ -95,31 +75,13 @@ public class Layer
   }
   public BasicStyle getGeometryStyle()
   {
-    return geomStyle;
+    return (BasicStyle) layerStyle.getGeomStyle();
   }
+  
   public void setGeometryStyle(BasicStyle style)
   {
-    this.geomStyle = style;
-    VertexStyle vertexStyle = new VertexStyle(style.getLineColor());
-    ArrowLineStyle segArrowStyle = new ArrowLineStyle(ColorUtil.lighter(style.getLineColor(), 0.8));
-    ArrowEndpointStyle lineArrowStyle = new ArrowEndpointStyle(ColorUtil.lighter(style.getLineColor(),0.5), false, true);
-    CircleEndpointStyle lineCircleStyle = new CircleEndpointStyle(style.getLineColor(), 6, true, true);
-    PolygonStructureStyle polyStyle = new PolygonStructureStyle(ColorUtil.opaque(style.getLineColor()));
-    SegmentIndexStyle indexStyle = new SegmentIndexStyle(ColorUtil.opaque(style.getLineColor().darker()));
-    DataLabelStyle dataLabelStyle = new DataLabelStyle(ColorUtil.opaque(style.getLineColor().darker()));
-    
-    // order is important here
-    StyleList styleList = new StyleList();
-    styleList.add(vertexStyle, vertexFilter);
-    styleList.add(segArrowStyle, decorationFilter);
-    styleList.add(lineArrowStyle, decorationFilter);
-    styleList.add(lineCircleStyle, decorationFilter);
-    //styleList.add(style);
-    styleList.add(polyStyle, structureFilter);
-    styleList.add(indexStyle, structureFilter);
-    styleList.add(dataLabelStyle, labelFilter);
-    
-    layerStyle = new LayerStyle(style, styleList);
+    layerStyle = new LayerStyle(style);
+    if (initStyle == null) initStyle = style.copy();;
   }
   
   public Geometry getGeometry()
@@ -128,6 +90,15 @@ public class Layer
     return geomCont.getGeometry();
   }
 
+  public boolean hasGeometry() {
+    if (geomCont == null) return false;
+    return null != geomCont.getGeometry();
+
+  }
+  public void resetStyle() {
+    if (initStyle == null) return;
+    setGeometryStyle(initStyle.copy());
+  }
   
 
 }

@@ -48,7 +48,7 @@ public class EnhancedPrecisionOp
     try {
       CommonBitsOp cbo = new CommonBitsOp(true);
       Geometry resultEP = cbo.intersection(geom0, geom1);
-      // check that result is a valid geometry after the reshift to orginal precision
+      // check that result is a valid geometry after the reshift to original precision
       if (! resultEP.isValid())
         throw originalEx;
       return resultEP;
@@ -83,7 +83,7 @@ public class EnhancedPrecisionOp
     try {
       CommonBitsOp cbo = new CommonBitsOp(true);
       Geometry resultEP = cbo.union(geom0, geom1);
-      // check that result is a valid geometry after the reshift to orginal precision
+      // check that result is a valid geometry after the reshift to original precision
       if (! resultEP.isValid())
         throw originalEx;
       return resultEP;
@@ -118,7 +118,7 @@ public class EnhancedPrecisionOp
     try {
       CommonBitsOp cbo = new CommonBitsOp(true);
       Geometry resultEP = cbo.difference(geom0, geom1);
-      // check that result is a valid geometry after the reshift to orginal precision
+      // check that result is a valid geometry after the reshift to original precision
       if (! resultEP.isValid())
         throw originalEx;
       return resultEP;
@@ -153,7 +153,7 @@ public class EnhancedPrecisionOp
     try {
       CommonBitsOp cbo = new CommonBitsOp(true);
       Geometry resultEP = cbo.symDifference(geom0, geom1);
-      // check that result is a valid geometry after the reshift to orginal precision
+      // check that result is a valid geometry after the reshift to original precision
       if (! resultEP.isValid())
         throw originalEx;
       return resultEP;
@@ -191,7 +191,7 @@ public class EnhancedPrecisionOp
     try {
       CommonBitsOp cbo = new CommonBitsOp(true);
       Geometry resultEP = cbo.buffer(geom, distance);
-      // check that result is a valid geometry after the reshift to orginal precision
+      // check that result is a valid geometry after the reshift to original precision
       if (! resultEP.isValid())
         throw originalEx;
       return resultEP;

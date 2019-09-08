@@ -18,7 +18,9 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.util.Collection;
 import java.awt.datatransfer.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -26,13 +28,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.JTextComponent;
 
 import org.locationtech.jts.geom.*;
-import org.locationtech.jtstest.testbuilder.model.GeometryTransferable;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jtstest.util.ExceptionFormatter;
 import org.locationtech.jtstest.util.StringUtil;
+import org.locationtech.jtstest.util.io.MultiFormatReader;
 
 
 public class SwingUtil {
@@ -126,7 +131,7 @@ public class SwingUtil {
       val = Integer.parseInt(str);
     } catch (NumberFormatException ex) {
     }
-    return new Integer(val);
+    return val;
   }
   
   public static Double convertDouble(String str) {
@@ -135,7 +140,7 @@ public class SwingUtil {
       val = Double.parseDouble(str);
     } catch (NumberFormatException ex) {
     }
-    return new Double(val);
+    return val;
   }
   
   public static Integer getInteger(JTextField txt, Integer defaultVal) {
@@ -148,7 +153,7 @@ public class SwingUtil {
       val = Integer.parseInt(str);
     } catch (NumberFormatException ex) {
     }
-    return new Integer(val);
+    return val;
   }
   
   public static Double getDouble(JTextField txt, Double defaultVal) {
@@ -161,7 +166,7 @@ public class SwingUtil {
       val = Double.parseDouble(str);
     } catch (NumberFormatException ex) {
     }
-    return new Double(val);
+    return val;
   }
   
   public static String value(JTextComponent txt) {
@@ -178,14 +183,17 @@ public class SwingUtil {
   
   public static void copyToClipboard(Object o, boolean isFormatted)
   {
+    if (o == null) return;
+    
   	if (o instanceof Geometry) {
   		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
   				new GeometryTransferable((Geometry) o, isFormatted), null);
   	}
-  	else  
+  	else {
   		// transfer as string
   		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
 				new StringSelection(o.toString()), null);
+  	}
   }
 
   public static Object getFromClipboard() {
@@ -212,7 +220,7 @@ public class SwingUtil {
         return null;
     }
   }
-
+    
   public static void reportException(Component c, Exception e) {
     JOptionPane.showMessageDialog(c, StringUtil.wrap(e.toString(), 80), "Exception",
         JOptionPane.ERROR_MESSAGE);
@@ -225,6 +233,8 @@ public class SwingUtil {
     btn.setIcon(icon);
     btn.setMargin(new Insets(0, 0, 0, 0));
     if (action != null) btn.addActionListener(action);
+    btn.setFocusable(false);
+    btn.setFocusPainted(false);
     return btn;
   }
 
@@ -236,16 +246,33 @@ public class SwingUtil {
     if (action != null) btn.addActionListener(action);
     return btn;
   }
-  
   public static JButton createButton(String title, ImageIcon icon, String tip, ActionListener action ) {
+    return createButton(title, icon, tip, action, false);
+  }
+    
+  public static JButton createButton(String title, ImageIcon icon, String tip, ActionListener action, boolean isFocusable ) {
     JButton btn = new JButton();
     if (title != null) btn.setText(title);
     if (tip != null) btn.setToolTipText(tip);
-    if (icon != null) btn.setIcon(icon);
-    btn.setIconTextGap(2);
+    if (icon != null) {
+      btn.setIcon(icon);
+      btn.setIconTextGap(2);
+    }
     btn.setMargin(new Insets(0, 2, 0, 2));
     if (action != null) btn.addActionListener(action);
+    if (! isFocusable) {
+      btn.setFocusable(false);
+      btn.setFocusPainted(false);
+    }
     return btn;
   }
 
+  public static boolean isCtlKeyPressed(ActionEvent e) {
+    return (e.getModifiers() & InputEvent.CTRL_MASK) == InputEvent.CTRL_MASK;
+  }
+
+  public static void showTab(JTabbedPane tabPane, String tabName)
+  {
+    tabPane.setSelectedIndex(tabPane.indexOfTab(tabName));
+  }
 }

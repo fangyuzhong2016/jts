@@ -25,7 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jtstest.testbuilder.controller.JTSTestBuilderController;
 import org.locationtech.jtstest.testbuilder.ui.SwingUtil;
 
 
@@ -89,7 +88,7 @@ public class InspectorPanel extends TestBuilderPanel  {
     });
     btnNext.setEnabled(true);
     btnNext.setMaximumSize(new Dimension(30, 30));
-    //btnNext.setText("Next");
+    btnNext.setToolTipText("Zoom to Next");
     btnNext.setIcon(downIcon);
     btnNext.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -98,7 +97,7 @@ public class InspectorPanel extends TestBuilderPanel  {
     });
     btnPrev.setEnabled(true);
     btnPrev.setMaximumSize(new Dimension(30, 30));
-    //btnPrev.setText("Prev");
+    btnPrev.setToolTipText("Zoom to Previous");
     btnPrev.setIcon(upIcon);
     btnPrev.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -112,6 +111,8 @@ public class InspectorPanel extends TestBuilderPanel  {
     lblGeom.setHorizontalAlignment(JLabel.CENTER);
 
     JPanel btnPanel = new JPanel();
+    btnPanel.setPreferredSize(new java.awt.Dimension(30, 30));
+
     btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.PAGE_AXIS));
     btnPanel.add(lblGeom);
     btnPanel.add(Box.createRigidArea(new Dimension(0, BOX_SPACER)));
@@ -136,13 +137,14 @@ public class InspectorPanel extends TestBuilderPanel  {
       });
       JPanel btn2Panel = new JPanel();
       btn2Panel.setLayout(new BoxLayout(btn2Panel, BoxLayout.PAGE_AXIS));
+      btn2Panel.setPreferredSize(new java.awt.Dimension(30, 30));
       btn2Panel.add(btnExpand);
       this.add(btn2Panel, BorderLayout.EAST);
     }
 
   }
   private void btnExpand_actionPerformed() {
-    JTSTestBuilderController.inspectGeometryDialog();
+    JTSTestBuilder.controller().inspectGeometryDialog();
   }
   private void btnZoom_actionPerformed(ActionEvent e) {
     JTSTestBuilderFrame.getGeometryEditPanel().zoom(geomTreePanel.getSelectedGeometry());

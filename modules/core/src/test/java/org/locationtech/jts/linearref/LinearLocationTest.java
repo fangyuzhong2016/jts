@@ -55,6 +55,67 @@ public class LinearLocationTest
     assertTrue(loc0.compareTo(new LinearLocation(1, 0.1)) == 0);
   }
   
+  public void testEndLocation() throws Exception
+  {
+    Geometry line = reader.read("LINESTRING (10 0, 20 0)");
+    LinearLocation loc0 = LinearLocation.getEndLocation(line);
+    assertTrue(0 == loc0.getSegmentFraction());
+    assertTrue(1 == loc0.getSegmentIndex());
+    
+    LocationIndexedLine indexedLine = new LocationIndexedLine(line);
+    LinearLocation endLoc = indexedLine.getEndIndex();
+    LinearLocation normLoc = new LinearLocation(
+        endLoc.getComponentIndex(), 
+        endLoc.getSegmentIndex(), 
+        endLoc.getSegmentFraction());
+    assertTrue(normLoc.getComponentIndex() == endLoc.getComponentIndex());
+    assertTrue(normLoc.getSegmentIndex() == endLoc.getSegmentIndex());
+    assertTrue(normLoc.getSegmentFraction() == endLoc.getSegmentFraction());
+  }
+
+  public void testIsEndPoint() throws Exception {
+    Geometry line = reader.read("LINESTRING (10 0, 20 0)");
+    
+    assertTrue( ! (new LinearLocation(0, 0)).isEndpoint(line)); 
+    assertTrue( ! (new LinearLocation(0, 0.5)).isEndpoint(line)); 
+    assertTrue( ! (new LinearLocation(0, 0.9999)).isEndpoint(line));
+    
+    assertTrue( (new LinearLocation(0, 1.0)).isEndpoint(line));
+    
+    assertTrue( (new LinearLocation(1, 0.0)).isEndpoint(line)); 
+    assertTrue( (new LinearLocation(1, 0.5)).isEndpoint(line)); 
+    assertTrue( (new LinearLocation(1, 1.0)).isEndpoint(line)); 
+    assertTrue( (new LinearLocation(1, 1.5)).isEndpoint(line)); 
+    
+    assertTrue( (new LinearLocation(2, 0.5)).isEndpoint(line));
+    
+    LinearLocation loc = new LinearLocation(0, 0.0);
+    loc.setToEnd(line);
+    assertTrue( loc.isEndpoint(line));
+    
+    LinearLocation locLow = loc.toLowest(line);
+    assertTrue( locLow.isEndpoint(line));
+  }
+  
+  public void testEndPointLowest() throws Exception {
+    Geometry line = reader.read("LINESTRING (10 0, 20 0, 30 10)");
+    
+    assertTrue( (new LinearLocation(1, 1.0)).isEndpoint(line));
+    assertTrue( (new LinearLocation(2, 0.0)).isEndpoint(line)); 
+    assertTrue( (new LinearLocation(2, 0.5)).isEndpoint(line));
+    
+    LinearLocation loc = new LinearLocation(0, 0.0);
+    loc.setToEnd(line);
+    assertTrue( loc.isEndpoint(line));
+    assertEquals( 2, loc.getSegmentIndex());
+    assertEquals( 0.0, loc.getSegmentFraction());
+    
+    LinearLocation locLow = loc.toLowest(line);
+    assertTrue( locLow.isEndpoint(line));
+    assertEquals( 1, locLow.getSegmentIndex());
+    assertEquals( 1.0, locLow.getSegmentFraction());
+  }
+  
   public void testSameSegmentLineString() throws Exception
   {
     Geometry line = reader.read("LINESTRING (0 0, 10 0, 20 0, 30 0)");

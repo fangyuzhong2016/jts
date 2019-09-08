@@ -97,3 +97,8 @@ module org.foo.baz {
   requires org.locationtech.jts.io.sde;     // jts-io-sde
 }
 ```
+
+## JTS Tools
+
+JTS includes various application tools, which are documented [here](doc/TOOLS.md).
+

@@ -12,10 +12,12 @@
 
 package org.locationtech.jtstest.testbuilder;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -24,12 +26,15 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-public class JTSTestBuilderToolBar {
+import org.locationtech.jtstest.testbuilder.ui.SwingUtil;
 
+public class JTSTestBuilderToolBar {
 
   JTSTestBuilderFrame tbFrame;
 
-  JToolBar jToolBar1 = new JToolBar();
+  JToolBar toolbar = new JToolBar();
+  ButtonGroup toolButtonGroup = new ButtonGroup();
+  
   JButton previousButton = new JButton();
   JButton nextButton = new JButton();
   JButton newButton = new JButton();
@@ -53,7 +58,6 @@ public class JTSTestBuilderToolBar {
   JToggleButton panButton = new JToggleButton();
   JToggleButton btnEditVertex = new JToggleButton();
   JToggleButton extractComponentButton;
-  ButtonGroup toolButtonGroup = new ButtonGroup();
 
   private final ImageIcon leftIcon = new ImageIcon(this.getClass().getResource("Left.png"));
   private final ImageIcon rightIcon = new ImageIcon(this.getClass().getResource("Right.png"));
@@ -101,7 +105,7 @@ public class JTSTestBuilderToolBar {
   
   public JToolBar getToolBar()
   {
-    jToolBar1.setFloatable(false);
+    toolbar.setFloatable(false);
 
     /**--------------------------------------------------
      * Buttons
@@ -185,7 +189,7 @@ public class JTSTestBuilderToolBar {
       deleteButton.addActionListener(
           new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              tbFrame.btnDeleteCase_actionPerformed(e);
+              tbFrame.actionDeleteCase();
             }
           });
            
@@ -202,7 +206,7 @@ public class JTSTestBuilderToolBar {
       drawRectangleButton.addActionListener(
         new java.awt.event.ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            tbFrame.drawRectangleButton_actionPerformed(e);
+            tbFrame.modeDrawRectangle();
           }
         });
       
@@ -220,7 +224,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.drawPolygonButton_actionPerformed(e);
+            tbFrame.modeDrawPolygon();
           }
         });
       
@@ -237,7 +241,7 @@ public class JTSTestBuilderToolBar {
       drawLineStringButton.addActionListener(
         new java.awt.event.ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            tbFrame.drawLineStringButton_actionPerformed(e);
+            tbFrame.modeDrawLineString();
           }
         });
       drawPointButton.setMargin(new Insets(0, 0, 0, 0));
@@ -253,7 +257,7 @@ public class JTSTestBuilderToolBar {
       drawPointButton.addActionListener(
         new java.awt.event.ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            tbFrame.drawPointButton_actionPerformed(e);
+            tbFrame.modeDrawPoint();
           }
         });
       infoButton.setMargin(new Insets(0, 0, 0, 0));
@@ -269,7 +273,7 @@ public class JTSTestBuilderToolBar {
       infoButton.addActionListener(
         new java.awt.event.ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            tbFrame.infoButton_actionPerformed();
+            tbFrame.modeInfo();
           }
         });
       zoomButton.setMaximumSize(new Dimension(30, 30));
@@ -277,7 +281,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.zoomInButton_actionPerformed(e);
+            tbFrame.modeZoomIn();
           }
         });
       zoomButton.setToolTipText(AppStrings.TIP_ZOOM);
@@ -298,7 +302,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.oneToOneButton_actionPerformed(e);
+            tbFrame.zoomOneToOne();
           }
         });
       oneToOneButton.setFont(new java.awt.Font("SansSerif", 0, 10));
@@ -319,7 +323,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.zoomToInputButton_actionPerformed(e);
+            tbFrame.zoomToInput();
           }
         });
 
@@ -336,7 +340,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.zoomToInputA_actionPerformed(e);
+            tbFrame.zoomToInputA();
           }
         });
       
@@ -353,7 +357,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.zoomToInputB_actionPerformed(e);
+            tbFrame.zoomToInputB();
           }
         });
       zoomToInputButton.setMaximumSize(new Dimension(30, 30));
@@ -371,7 +375,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.zoomToResult_actionPerformed(e);
+            tbFrame.zoomToResult();
           }
         });
       zoomToResultButton.setMaximumSize(new Dimension(30, 30));
@@ -388,7 +392,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.zoomToFullExtentButton_actionPerformed(e);
+            tbFrame.zoomToFullExtent();
           }
         });
       zoomToFullExtentButton.setMaximumSize(new Dimension(30, 30));
@@ -397,7 +401,7 @@ public class JTSTestBuilderToolBar {
         new java.awt.event.ActionListener() {
 
           public void actionPerformed(ActionEvent e) {
-            tbFrame.panButton_actionPerformed(e);
+            tbFrame.modePan();
           }
         });
       panButton.setMaximumSize(new Dimension(30, 30));
@@ -418,79 +422,79 @@ public class JTSTestBuilderToolBar {
       btnEditVertex.setMnemonic('0');
       btnEditVertex.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          tbFrame.btnEditVertex_actionPerformed(e);
+          tbFrame.modeEditVertex();
         }
       });
 
-      extractComponentButton = createToggleButton(AppStrings.TIP_EXTRACT_COMPONENTS,
+      extractComponentButton = createToggleButton(
+          AppStrings.TIP_EXTRACT_COMPONENTS,
           new ImageIcon(this.getClass().getResource("ExtractComponent.png")), 
           new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
-              tbFrame.actionExtractComponentButton();
+              tbFrame.modeExtractComponent();
             }
           });
 
-      JToggleButton deleteVertexButton = createToggleButton(AppStrings.TIP_DELETE_VERTEX_COMPONENT,
+      JToggleButton deleteVertexButton = createToggleButton(
+          AppStrings.TIP_DELETE_VERTEX_COMPONENT,
           new ImageIcon(this.getClass().getResource("DeleteVertex.png")), 
           new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-              tbFrame.actionDeleteVertexButton();
-            }
-          });
+            public void actionPerformed(ActionEvent e) {
+                tbFrame.modeDeleteVertex();
+          }});
 
-      toolButtonGroup.add(drawRectangleButton);
-      toolButtonGroup.add(drawPolygonButton);
-      toolButtonGroup.add(drawLineStringButton);
-      toolButtonGroup.add(drawPointButton);
-      toolButtonGroup.add(panButton);
-      toolButtonGroup.add(zoomButton);
-      toolButtonGroup.add(btnEditVertex);
-      toolButtonGroup.add(deleteVertexButton);
-      toolButtonGroup.add(infoButton);
-      toolButtonGroup.add(extractComponentButton);
+      group(drawRectangleButton,drawPolygonButton
+        ,drawLineStringButton
+        ,drawPointButton
+        ,panButton
+        ,zoomButton
+        ,btnEditVertex
+        ,deleteVertexButton
+        ,infoButton
+        ,extractComponentButton
+      );
 
 
-      jToolBar1.add(newButton, null);
-      jToolBar1.add(copyButton, null);
-      jToolBar1.add(previousButton, null);
-      jToolBar1.add(nextButton, null);
+      add(
+        newButton, copyButton, previousButton, nextButton,
+        strut(8),
+        deleteButton,
+        strut(8),
+        exchangeButton,
+        strut(8),
+        oneToOneButton,
+        zoomToInputAButton, zoomToInputBButton, zoomToInputButton,
+        zoomToResultButton, zoomToFullExtentButton,
+        strut(20),
+        zoomButton,
+        //jToolBar1.add(panButton  // remove in favour of using Zoom tool right-drag
+        infoButton,
+        extractComponentButton,
+        
+        strut(20),
+        drawRectangleButton,drawPolygonButton,drawLineStringButton,
+        drawPointButton, btnEditVertex,
+        deleteVertexButton
+      );
       
-      jToolBar1.add(Box.createHorizontalStrut(8), null);
-      jToolBar1.add(deleteButton, null);
-      
-      jToolBar1.add(Box.createHorizontalStrut(8), null);
-      jToolBar1.add(exchangeButton, null);
-      
-      jToolBar1.add(Box.createHorizontalStrut(8), null);
-      
-      jToolBar1.add(oneToOneButton, null);
-      jToolBar1.add(zoomToInputAButton, null);
-      jToolBar1.add(zoomToInputBButton, null);
-      jToolBar1.add(zoomToInputButton, null);
-      jToolBar1.add(zoomToResultButton, null);
-      jToolBar1.add(zoomToFullExtentButton, null);
-      
-      jToolBar1.add(Box.createHorizontalStrut(28), null);
-      
-      jToolBar1.add(zoomButton, null);
-      jToolBar1.add(panButton, null);
-      jToolBar1.add(infoButton, null);
-      jToolBar1.add(extractComponentButton, null);
-      
-      jToolBar1.add(Box.createHorizontalStrut(28), null);
-      
-      jToolBar1.add(drawRectangleButton, null);
-      jToolBar1.add(drawPolygonButton, null);
-      jToolBar1.add(drawLineStringButton, null);
-      jToolBar1.add(drawPointButton, null);
-      jToolBar1.add(btnEditVertex, null);
-      jToolBar1.add(deleteVertexButton, null);
+      return toolbar;
+  }
 
-      return jToolBar1;
+  private Component strut(int width) {
+    return Box.createHorizontalStrut(width);
   }
   
+  private void add(Component ...  comps) {
+    for (Component comp : comps) {
+      toolbar.add(comp);
+    }
+  }
+  private void group(AbstractButton ...  btns) {
+    for (AbstractButton btn : btns) {
+      toolButtonGroup.add(btn);
+    }
+  }
   public void setFocusGeometry(int index)
   {
     drawRectangleButton.setIcon(index == 0 ? drawRectangleIcon : drawRectangleBIcon);
@@ -534,6 +538,8 @@ public class JTSTestBuilderToolBar {
     btn.setFont(new java.awt.Font("SansSerif", 0, 10));
     btn.setMaximumSize(new Dimension(30, 30));
     btn.addActionListener(actionListener);
+    btn.setFocusable(false);
+    btn.setFocusPainted(false);
     return btn;
   }
   

@@ -26,6 +26,7 @@ import org.locationtech.jtstest.function.ConversionFunctions;
 import org.locationtech.jtstest.function.CreateFractalShapeFunctions;
 import org.locationtech.jtstest.function.CreateRandomShapeFunctions;
 import org.locationtech.jtstest.function.CreateShapeFunctions;
+import org.locationtech.jtstest.function.DiffFunctions;
 import org.locationtech.jtstest.function.DissolveFunctions;
 import org.locationtech.jtstest.function.DistanceFunctions;
 import org.locationtech.jtstest.function.DoubleKeyMap;
@@ -83,6 +84,7 @@ public class GeometryFunctionRegistry
     funcRegistry.add(SelectionFunctions.class);
     funcRegistry.add(SimplificationFunctions.class);
     funcRegistry.add(AffineTransformationFunctions.class);
+    funcRegistry.add(DiffFunctions.class);
     funcRegistry.add(DissolveFunctions.class);
     funcRegistry.add(DistanceFunctions.class);
     funcRegistry.add(CreateShapeFunctions.class);
@@ -316,6 +318,22 @@ public class GeometryFunctionRegistry
       GeometryFunction func = (GeometryFunction) i.next();
       String funcName = func.getName();
       if (funcName.equalsIgnoreCase(name))
+        return func;
+    }
+    return null;
+  }
+  /**
+   * Finds the first function which matches the given category and name.
+   * 
+   * @param name
+   * @return a matching function, or null
+   */
+  public GeometryFunction find(String category, String name)
+  {
+    for (Iterator i = functions.iterator(); i.hasNext(); ) {
+      GeometryFunction func = (GeometryFunction) i.next();
+      String funcName = func.getName();
+      if (category.equalsIgnoreCase(func.getCategory()) && funcName.equalsIgnoreCase(name))
         return func;
     }
     return null;

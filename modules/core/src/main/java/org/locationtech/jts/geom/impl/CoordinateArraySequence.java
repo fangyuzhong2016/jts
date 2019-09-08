@@ -12,13 +12,9 @@
 package org.locationtech.jts.geom.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.CoordinateArrays;
-import org.locationtech.jts.geom.CoordinateSequence;
-import org.locationtech.jts.geom.Coordinates;
-import org.locationtech.jts.geom.Envelope;
-import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.*;
 
 /**
  * A {@link CoordinateSequence} backed by an array of {@link Coordinate}s.
@@ -87,13 +83,14 @@ public class CoordinateArraySequence
    */
   public CoordinateArraySequence(Coordinate[] coordinates, int dimension, int measures)
   {
-    this.coordinates = coordinates;
     this.dimension = dimension;
     this.measures = measures;
     if (coordinates == null) {
       this.coordinates = new Coordinate[0];
     }
-    enforceArrayConsistency( this.coordinates );
+    else {
+      this.coordinates = enforceArrayConsistency(coordinates);
+    }
   }
 
   /**
@@ -163,23 +160,42 @@ public class CoordinateArraySequence
 
   /**
    * Ensure array contents of the same type, making use of {@link #createCoordinate()} as needed.
+   * <p>
+   * A new array will be created if needed to return a consistent result.
+   * </p>
    * 
-   * @param array array is modified in place as needed
+   * @param array array containing consistent coordinate instances
    */
-  protected void enforceArrayConsistency(Coordinate[] array)
+  protected Coordinate[] enforceArrayConsistency(Coordinate[] array)
   {
      Coordinate sample = createCoordinate();
      Class<?> type = sample.getClass();
+     boolean isConsistent=true;
      for( int i = 0; i < array.length; i++) {
        Coordinate coordinate = array[i];
-       if( coordinate == null ) {
-         array[i] = createCoordinate();
+       if( coordinate != null && !coordinate.getClass().equals(type)) {
+         isConsistent = false;
+         break;
        }
-       else if(!coordinate.getClass().equals(type)) {
-         Coordinate duplicate = createCoordinate();
-         duplicate.setCoordinate(coordinate);
-         array[i] = duplicate;         
+     }
+     if( isConsistent ){
+       return array;
+     }
+     else {
+       Class<? extends Coordinate> coordinateType = sample.getClass();
+       Coordinate copy[] = (Coordinate[]) Array.newInstance(coordinateType, array.length);
+       for ( int i = 0; i < copy.length; i++){
+          Coordinate coordinate = array[i];
+          if( coordinate != null && !coordinate.getClass().equals(type)){
+            Coordinate duplicate = createCoordinate();
+            duplicate.setCoordinate(coordinate);
+            copy[i] = duplicate;
+          }
+          else {
+            copy[i] = coordinate;
+          }
        }
+       return copy;
      }
   }
 
@@ -225,14 +241,7 @@ public class CoordinateArraySequence
    * @see org.locationtech.jts.geom.CoordinateSequence#getX(int)
    */
   public void getCoordinate(int index, Coordinate coord) {
-    coord.x = coordinates[index].x;
-    coord.y = coordinates[index].y;
-    if( hasZ()) {
-      coord.setZ(coordinates[index].getZ());
-    }
-    if( hasM()) {
-      coord.setM(coordinates[index].getM());
-    }    
+    coord.setCoordinate(coordinates[index]);
   }
 
   /**

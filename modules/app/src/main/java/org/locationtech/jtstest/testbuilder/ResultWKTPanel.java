@@ -12,18 +12,29 @@
 package org.locationtech.jtstest.testbuilder;
 
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
-import org.locationtech.jts.geom.*;
-import org.locationtech.jts.util.*;
-import org.locationtech.jtstest.testbuilder.controller.JTSTestBuilderController;
-import org.locationtech.jtstest.testbuilder.model.*;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.util.Memory;
+import org.locationtech.jtstest.testbuilder.model.TestBuilderModel;
 import org.locationtech.jtstest.testbuilder.ui.SwingUtil;
-import org.locationtech.jtstest.util.*;
+import org.locationtech.jtstest.util.ExceptionFormatter;
 
 
 /**
@@ -44,7 +55,7 @@ extends JPanel
   JLabel memoryLabel = new JLabel();
   GridLayout labelPanelLayout = new GridLayout(1,3);
 
-  JPanel rPanel = new JPanel();
+  JPanel panelLHBtns = new JPanel();
   JButton copyButton = new JButton();
   JButton copyToTestButton = new JButton();
 	JPanel rButtonPanel = new JPanel();
@@ -52,11 +63,7 @@ extends JPanel
   GridLayout rButtonPanelLayout = new GridLayout();
   BorderLayout rPanelLayout = new BorderLayout();
   BorderLayout tabPanelLayout = new BorderLayout();
-	
-  private final ImageIcon copyIcon = new ImageIcon(this.getClass().getResource("Copy.png"));
-  private final ImageIcon copyToTestIcon = new ImageIcon(this.getClass().getResource("CopyToTest.png"));
-  private final ImageIcon clearIcon = new ImageIcon(this.getClass().getResource("Delete_small.png"));
-	
+		
 	public ResultWKTPanel() {
 		try {
 			jbInit();
@@ -71,22 +78,22 @@ extends JPanel
    
     jScrollPane1.setBorder(BorderFactory.createLoweredBevelBorder());
     
-    JButton copyButton = SwingUtil.createButton(copyIcon, "Copy Result (Ctl-click for formatted)", 
+    JButton copyButton = SwingUtil.createButton(AppIcons.COPY, "Copy Result (Ctl-click for formatted)", 
         new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         rCopyButton_actionPerformed(e);
       }
     });
-    JButton copyToTestButton = SwingUtil.createButton(copyToTestIcon, "Copy Result to new Test",
+    JButton copyToTestButton = SwingUtil.createButton(AppIcons.COPY_TO_TEST, "Copy Result to new Test",
         new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         JTSTestBuilderFrame.instance().copyResultToTest();
       }
     });
-    JButton btnClearResult = SwingUtil.createButton(clearIcon, "Clear Result",         
+    JButton btnClearResult = SwingUtil.createButton(AppIcons.CUT, "Clear Result",         
         new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        JTSTestBuilderController.clearResult();
+        JTSTestBuilder.controller().clearResult();
       }
     });
 
@@ -99,12 +106,12 @@ extends JPanel
     rButtonPanel.add(copyToTestButton);
     rButtonPanel.add(btnClearResult);
     
-    rPanel.setLayout(rPanelLayout);
-    rPanel.add(rButtonPanel, BorderLayout.NORTH);
+    panelLHBtns.setLayout(rPanelLayout);
+    panelLHBtns.add(rButtonPanel, BorderLayout.NORTH);
     
     txtResult.setWrapStyleWord(true);
     txtResult.setLineWrap(true);
-    txtResult.setBackground(SystemColor.control);
+    txtResult.setBackground(AppColors.BACKGROUND);
     
     labelPanel.setLayout(labelPanelLayout);
     //labelPanel.setBorder(BorderFactory.createEmptyBorder(0,4,2,2));
@@ -128,9 +135,21 @@ extends JPanel
     memoryLabel.setBorder(BorderFactory.createLoweredBevelBorder());
     memoryLabel.setToolTipText("JVM Memory Usage");
 
+    //-------------------------------------
+    JButton btnInspect = SwingUtil.createButton(AppIcons.GEOM_INSPECT, "Inspect", new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        JTSTestBuilder.controller().inspectResult();
+      }        
+    });
+
+    Box panelRHBtns = Box.createVerticalBox();
+    panelRHBtns.setPreferredSize(new java.awt.Dimension(30, 30));
+    panelRHBtns.add(btnInspect);
+
     this.add(jScrollPane1, BorderLayout.CENTER);
     this.add(labelPanel, BorderLayout.NORTH);
-    this.add(rPanel, BorderLayout.WEST);
+    this.add(panelLHBtns, BorderLayout.WEST);
+    this.add(panelRHBtns, BorderLayout.EAST);
     
     
     jScrollPane1.getViewport().add(txtResult, null);
@@ -158,10 +177,9 @@ extends JPanel
     timeLabel.setText(time);
     memoryLabel.setText(Memory.usedTotalString());   
   }
-  
-  public void updateResult()
+
+  public void setResult(Object o)
   {
-  	Object o = tbModel.getResult();
     if (o == null) {
       setString("");
     }
@@ -186,13 +204,13 @@ extends JPanel
   {
     String  str = tbModel.getResultDisplayString(g);
     txtResult.setText(str);
-    txtResult.setBackground(SystemColor.control);
+    txtResult.setBackground(AppColors.BACKGROUND);
   }
   
   private void setString(String s)
   {
     txtResult.setText(s);
-    txtResult.setBackground(SystemColor.control);
+    txtResult.setBackground(AppColors.BACKGROUND);
   }
   
   private void setError(Throwable ex)

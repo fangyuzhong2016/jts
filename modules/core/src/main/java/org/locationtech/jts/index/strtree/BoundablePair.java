@@ -60,6 +60,19 @@ class BoundablePair
     if (i == 0) return boundable1;
     return boundable2;
   }
+
+  /**
+   * Computes the maximum distance between any
+   * two items in the pair of nodes.
+   * 
+   * @return the maximum distance between items in the pair
+   */
+  public double maximumDistance()
+  {
+    return EnvelopeDistance.maximumDistance( 
+        (Envelope) boundable1.getBounds(),
+        (Envelope) boundable2.getBounds());       
+  }
   
   /**
    * Computes the distance between the {@link Boundable}s in this pair.
@@ -81,36 +94,6 @@ class BoundablePair
     return ((Envelope) boundable1.getBounds()).distance(
         ((Envelope) boundable2.getBounds()));
   }
-
-  
-  /*
-  public double getMaximumDistance()
-  {
-  	if (maxDistance < 0.0)
-  		maxDistance = maxDistance();
-  	return maxDistance;
-  }
-  */
-  
-  /*
-  private double maxDistance()
-  {
-    return maximumDistance( 
-        (Envelope) boundable1.getBounds(),
-        (Envelope) boundable2.getBounds());      	
-  }
-  
-  private static double maximumDistance(Envelope env1, Envelope env2)
-  {
-  	double minx = Math.min(env1.getMinX(), env2.getMinX());
-  	double miny = Math.min(env1.getMinY(), env2.getMinY());
-  	double maxx = Math.max(env1.getMaxX(), env2.getMaxX());
-  	double maxy = Math.max(env1.getMaxY(), env2.getMaxY());
-    Coordinate min = new Coordinate(minx, miny);
-    Coordinate max = new Coordinate(maxx, maxy);
-    return min.distance(max);
-  }
-  */
   
   /**
    * Gets the minimum possible distance between the Boundables in
@@ -162,6 +145,12 @@ class BoundablePair
    * from the expansion of the larger boundable
    * with distance less than minDistance
    * and adds them to a priority queue.
+   * <p>
+   * Note that expanded pairs may contain
+   * the same item/node on both sides.
+   * This must be allowed to support distance
+   * functions which have non-zero distances
+   * between the item and itself (non-zero reflexive distance).
    * 
    * @param priQ the priority queue to add the new pairs to
    * @param minDistance the limit on the distance between added pairs
@@ -179,33 +168,39 @@ class BoundablePair
      */
     if (isComp1 && isComp2) {
       if (area(boundable1) > area(boundable2)) {
-        expand(boundable1, boundable2, priQ, minDistance);
+        expand(boundable1, boundable2, false, priQ, minDistance);
         return;
       }
       else {
-        expand(boundable2, boundable1, priQ, minDistance);
+        expand(boundable2, boundable1, true, priQ, minDistance);
         return;
       }
     }
     else if (isComp1) {
-      expand(boundable1, boundable2, priQ, minDistance);
+      expand(boundable1, boundable2, false, priQ, minDistance);
       return;
     }
     else if (isComp2) {
-      expand(boundable2, boundable1, priQ, minDistance);
+      expand(boundable2, boundable1, true, priQ, minDistance);
       return;
     }
     
     throw new IllegalArgumentException("neither boundable is composite");
   }
   
-  private void expand(Boundable bndComposite, Boundable bndOther,
+  private void expand(Boundable bndComposite, Boundable bndOther, boolean isFlipped,
       PriorityQueue priQ, double minDistance)
   {
     List children = ((AbstractNode) bndComposite).getChildBoundables();
     for (Iterator i = children.iterator(); i.hasNext(); ) {
       Boundable child = (Boundable) i.next();
-      BoundablePair bp = new BoundablePair(child, bndOther, itemDistance);
+      BoundablePair bp;
+      if (isFlipped) {
+        bp = new BoundablePair(bndOther, child, itemDistance);
+      }
+      else {
+        bp = new BoundablePair(child, bndOther, itemDistance);        
+      }
       // only add to queue if this pair might contain the closest points
       // MD - it's actually faster to construct the object rather than called distance(child, bndOther)!
       if (bp.getDistance() < minDistance) {

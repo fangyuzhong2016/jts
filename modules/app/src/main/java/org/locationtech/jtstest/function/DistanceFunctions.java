@@ -63,4 +63,25 @@ public class DistanceFunctions {
     return dist.orientedDistance();
 	}
 	
+  public static double distanceIndexed(Geometry a, Geometry b) {
+    return IndexedFacetDistance.distance(a, b);
+  }
+  
+  public static Geometry nearestPointsIndexed(Geometry a, Geometry b) {
+    Coordinate[] pts =  IndexedFacetDistance.nearestPoints(a, b);
+    return a.getFactory().createLineString(pts);
+  }
+  
+  public static Geometry nearestPointsIndexedEachB(Geometry a, Geometry b) {
+    IndexedFacetDistance ifd = new IndexedFacetDistance(a);
+    
+    int n = b.getNumGeometries();
+    LineString[] lines = new LineString[n];
+    for (int i = 0; i < n; i++) {
+      Coordinate[] pts =  ifd.nearestPoints(b.getGeometryN(i));
+      lines[i] = a.getFactory().createLineString(pts);
+    }
+    
+    return a.getFactory().createMultiLineString(lines);
+  }
 }
