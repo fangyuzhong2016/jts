@@ -25,6 +25,24 @@
   </nodes>
   <notes />
   <edges>
+    <edge source="org.locationtech.jts.precision" target="org.locationtech.jts.geom">
+      <point x="0.0" y="-15.0" />
+      <point x="472.5" y="50.0" />
+      <point x="320.0" y="50.0" />
+      <point x="43.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.io" target="org.locationtech.jts.geom">
+      <point x="0.0" y="-15.0" />
+      <point x="218.0" y="60.0" />
+      <point x="262.0" y="60.0" />
+      <point x="-14.5" y="15.0" />
+    </edge>
+    <edge source="org.locationtech.jts.simplify" target="org.locationtech.jts.geom">
+      <point x="31.5" y="-15.0" />
+      <point x="120.0" y="50.0" />
+      <point x="233.0" y="50.0" />
+      <point x="-43.5" y="15.0" />
+    </edge>
     <edge source="org.locationtech.jts.simplify" target="org.locationtech.jts.index">
       <point x="-31.5" y="-15.0" />
       <point x="0.0" y="15.0" />
@@ -35,30 +53,12 @@
       <point x="291.0" y="60.0" />
       <point x="14.5" y="15.0" />
     </edge>
-    <edge source="org.locationtech.jts.precision" target="org.locationtech.jts.geom">
-      <point x="0.0" y="-15.0" />
-      <point x="472.5" y="50.0" />
-      <point x="320.0" y="50.0" />
-      <point x="43.5" y="15.0" />
-    </edge>
-    <edge source="org.locationtech.jts.simplify" target="org.locationtech.jts.geom">
-      <point x="31.5" y="-15.0" />
-      <point x="120.0" y="50.0" />
-      <point x="233.0" y="50.0" />
-      <point x="-43.5" y="15.0" />
-    </edge>
     <edge source="org.locationtech.jts.dissolve" target="org.locationtech.jts.edgegraph">
       <point x="0.0" y="-15.0" />
       <point x="0.0" y="15.0" />
     </edge>
-    <edge source="org.locationtech.jts.io" target="org.locationtech.jts.geom">
-      <point x="0.0" y="-15.0" />
-      <point x="218.0" y="60.0" />
-      <point x="262.0" y="60.0" />
-      <point x="-14.5" y="15.0" />
-    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="270.0" y="245.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="292.5" y="244.5" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
