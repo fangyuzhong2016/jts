@@ -13,8 +13,8 @@
 package org.locationtech.jts.geom;
 
 /**
- * Identifies {@link Geometry} subclasses which
- * are 1-dimensional and have components which are {@link LineString}s. 
+ * 标识{@link Geometry}子类，
+ * 是1维且具有{@link LineString}的组件。
  * 
  * @author Martin Davis
  *

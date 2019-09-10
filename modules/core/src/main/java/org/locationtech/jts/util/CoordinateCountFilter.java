@@ -17,8 +17,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 
 /**
- *  A {@link CoordinateFilter} that counts the total number of coordinates
- *  in a <code>Geometry</code>.
+ *  一个{@link CoordinateFilter }，用于计算<code>Geometry</code>中的坐标总数
  *
  *@version 1.7
  */
@@ -28,9 +27,9 @@ public class CoordinateCountFilter implements CoordinateFilter {
   public CoordinateCountFilter() { }
 
   /**
-   *  Returns the result of the filtering.
+   *  返回过滤的结果。
    *
-   *@return    the number of points found by this <code>CoordinateCountFilter</code>
+   *@return    此<code>CoordinateCountFilter</code>找到的点数
    */
   public int getCount() {
     return n;

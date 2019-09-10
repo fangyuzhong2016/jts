@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Utilities for processing {@link Collection}s.
+ * 用于处理{@link Collection}的实用程序。
  *
  * @version 1.7
  */
@@ -30,12 +30,11 @@ public class CollectionUtil
   }
 
   /**
-   * Executes a function on each item in a {@link Collection}
-   * and returns the results in a new {@link List}
+   * 对{@link Collection}中的每个项执行一个函数，并在新的{@link List}中返回结果
    *
-   * @param coll the collection to process
-   * @param func the Function to execute
-   * @return a list of the transformed objects
+   * @param coll 要处理的集合
+   * @param func 要执行的函数
+   * @return 已转换对象的列表
    */
   public static List transform(Collection coll, Function func)
   {
@@ -47,11 +46,10 @@ public class CollectionUtil
   }
 
   /**
-   * Executes a function on each item in a Collection but does
-   * not accumulate the result
+   * 对集合中的每个项执行一个函数，但不会返回结果
    *
-   * @param coll the collection to process
-   * @param func the Function to execute
+   * @param coll 要处理的集合
+   * @param func 要执行的函数
    */
   public static void apply(Collection coll, Function func)
   {
@@ -61,13 +59,12 @@ public class CollectionUtil
   }
 
   /**
-   * Executes a {@link Function} on each item in a Collection
-   * and collects all the entries for which the result
-   * of the function is equal to {@link Boolean} <tt>true</tt>.
+   * 对集合中的每个项执行{@link Function }，
+   * 并收集函数结果等于{@link Boolean } <tt>true</tt>的所有条目。
    *
-   * @param collection the collection to process
-   * @param func the Function to execute
-   * @return a list of objects for which the function was true
+   * @param collection 要处理的集合
+   * @param func 要执行的函数
+   * @return 函数为true的对象列表
    */
   public static List select(Collection collection, Function func) {
     List result = new ArrayList();

@@ -36,118 +36,74 @@ import org.locationtech.jts.util.Assert;
 
 
 /**
- * A representation of a planar, linear vector geometry.
+ * 平面线性矢量几何的表示。
  * <P>
  *
- *  <H3>Binary Predicates</H3>
- * Because it is not clear at this time
- * what semantics for spatial
- * analysis methods involving <code>GeometryCollection</code>s would be useful,
- * <code>GeometryCollection</code>s are not supported as arguments to binary
- * predicates or the <code>relate</code>
- * method.
+ *  <H3>二进制谓词</H3>
+ *  因为目前还不清楚
+ *  *涉及<code>GeometryCollection </code>的空间分析方法的语义是否有用，
+ *  * <code>GeometryCollection</code>s不支持作为二进制的参数谓词或<code>relate</code>方法。
+ * <H3>叠加方法</H3>
  *
- * <H3>Overlay Methods</H3>
+ * overlay方法返回可能代表结果的最具体的类。
+ * 如果结果是同类的，如果结果包含单个元素，则将返回<code>Point</code>，<code>LineString</code>或<code>Polygon</code>;
+ * 否则，将返回<code>MultiPoint</code>，<code>MultiLineString</code>，或<code>MultiPolygon</code>。
+ * 如果结果是异构的，则返回<code>GeometryCollection</code>。
+ * <P>
  *
- * The overlay methods 
- * return the most specific class possible to represent the result. If the
- * result is homogeneous, a <code>Point</code>, <code>LineString</code>, or
- * <code>Polygon</code> will be returned if the result contains a single
- * element; otherwise, a <code>MultiPoint</code>, <code>MultiLineString</code>,
- * or <code>MultiPolygon</code> will be returned. If the result is
- * heterogeneous a <code>GeometryCollection</code> will be returned. <P>
+ * 因为目前尚不清楚涉及<code>GeometryCollection</code>的集合理论方法的语义是否有用，
+ * <code>GeometryCollections</code>不支持作为集合论方法的参数。
  *
- * Because it is not clear at this time what semantics for set-theoretic
- * methods involving <code>GeometryCollection</code>s would be useful,
- * <code>GeometryCollections</code>
- * are not supported as arguments to the set-theoretic methods.
+ *  <H4>计算几何的表示 </H4>
  *
- *  <H4>Representation of Computed Geometries </H4>
- *
- *  The SFS states that the result
- *  of a set-theoretic method is the "point-set" result of the usual
- *  set-theoretic definition of the operation (SFS 3.2.21.1). However, there are
- *  sometimes many ways of representing a point set as a <code>Geometry</code>.
+ *  SFS指出，集合论方法的结果是通常的集合理论定义（SFS 3.2.21.1）的“点集”结果。
+ *  但是，有时会有很多方法将点集表示为<code>Geometry</code>。
  *  <P>
  *
- *  The SFS does not specify an unambiguous representation of a given point set
- *  returned from a spatial analysis method. One goal of JTS is to make this
- *  specification precise and unambiguous. JTS uses a canonical form for
- *  <code>Geometry</code>s returned from overlay methods. The canonical
- *  form is a <code>Geometry</code> which is simple and noded:
+ *  SFS没有指定从空间分析方法返回的给定点集的明确表示。
+ *  JTS的一个目标是使该规范精确且明确。
+ *  JTS使用从覆盖方法返回的<code>Geometry</code>的规范形式。规范表单是<code>Geometry</code>，它简单且节点化:
  *  <UL>
- *    <LI> Simple means that the Geometry returned will be simple according to
- *    the JTS definition of <code>isSimple</code>.
- *    <LI> Noded applies only to overlays involving <code>LineString</code>s. It
- *    means that all intersection points on <code>LineString</code>s will be
- *    present as endpoints of <code>LineString</code>s in the result.
+ *    <LI> 简单意味着根据<code>isSimple</code>的JTS定义，返回的Geometry将很简单.
+ *    <LI>Noded仅适用于涉及<code>LineString</code>的叠加层。
+ *    它表示<code>LineString</code>s上的所有交叉点将作为结果中<code>LineString</code>的端点出现。
  *  </UL>
- *  This definition implies that non-simple geometries which are arguments to
- *  spatial analysis methods must be subjected to a line-dissolve process to
- *  ensure that the results are simple.
+ *  这个定义意味着作为空间分析方法的参数的非简单几何必须经过线溶解过程以确保结果简单。
  *
- *  <H4> Constructed Points And The Precision Model </H4>
+ *  <H4>构造点与精度模型 </H4>
  *
- *  The results computed by the set-theoretic methods may
- *  contain constructed points which are not present in the input <code>Geometry</code>
- *  s. These new points arise from intersections between line segments in the
- *  edges of the input <code>Geometry</code>s. In the general case it is not
- *  possible to represent constructed points exactly. This is due to the fact
- *  that the coordinates of an intersection point may contain twice as many bits
- *  of precision as the coordinates of the input line segments. In order to
- *  represent these constructed points explicitly, JTS must truncate them to fit
- *  the <code>PrecisionModel</code>. <P>
+ * 由集合论方法计算的结果可能包含输入<code>Geometry</code>s中不存在的构造点。
+ * 这些新点来自输入<code>Geometry</code>的边缘中的线段之间的交叉点。
+ * 在一般情况下，不可能准确地表示构造点。这是因为交点的坐标可能包含两倍于输入线段坐标的精度。
+ * 为了显式地表示这些构造的点，JTS必须截断它们以适合<code>PrecisionModel</code>。 <P>
  *
- *  Unfortunately, truncating coordinates moves them slightly. Line segments
- *  which would not be coincident in the exact result may become coincident in
- *  the truncated representation. This in turn leads to "topology collapses" --
- *  situations where a computed element has a lower dimension than it would in
- *  the exact result. <P>
+ *  不幸的是，截断坐标会略微移动它们。在精确结果中不重合的线段可能在截断的表示中变得一致。
+ *  这又导致“拓扑崩溃” ---计算元素的维度低于精确结果的情况。 <P>
  *
- *  When JTS detects topology collapses during the computation of spatial
- *  analysis methods, it will throw an exception. If possible the exception will
- *  report the location of the collapse. <P>
+ *  当JTS在计算空间分析方法期间检测到拓扑崩溃时，它将引发异常。如果可能，例外将报告崩溃的位置。<P>
  *
- * <h3>Geometry Equality</h3>
+ * <h3>几何相等</h3>
  * 
- * There are two ways of comparing geometries for equality: 
- * <b>structural equality</b> and <b>topological equality</b>.
+ * 有两种比较几何的方法：
+ * <b>结构相等</b> 和 <b>拓扑相等</b>.
  * 
- * <h4>Structural Equality</h4>
+ * <h4>结构相等</h4>
  *
- * Structural Equality is provided by the 
- * {@link #equalsExact(Geometry)} method.  
- * This implements a comparison based on exact, structural pointwise
- * equality. 
- * The {@link #equals(Object)} is a synonym for this method, 
- * to provide structural equality semantics for
- * use in Java collections.
- * It is important to note that structural pointwise equality
- * is easily affected by things like
- * ring order and component order.  In many situations
- * it will be desirable to normalize geometries before
- * comparing them (using the {@link #norm()} 
- * or {@link #normalize()} methods).
- * {@link #equalsNorm(Geometry)} is provided
- * as a convenience method to compute equality over
- * normalized geometries, but it is expensive to use.
- * Finally, {@link #equalsExact(Geometry, double)}
- * allows using a tolerance value for point comparison.
+ * 结构相等由{@link #equalsExact(Geometry) }方法提供。这实现了基于精确的结构逐点相等的比较。
+ * {@link #equals(Object)}是此方法的同义词，用于提供在Java集合中使用的结构相等语义。
+ * 值得注意的是，结构逐点相等很容易受到环序和组件顺序等因素的影响。
+ * 在许多情况下，最好在比较它们之前规范化几何（使用{@link #norm()}或{@link #normalize()}方法）。
+ * 提供{@link #equalsNorm(Geometry)}作为计算规范化几何上的相等性的便捷方法，但使用起来很昂贵。
+ * 最后，{@link #equalsExact(Geometry，double)}允许使用公差值进行点比较。
  * 
+ * <h4>拓扑相等</h4>
  * 
- * <h4>Topological Equality</h4>
- * 
- * Topological Equality is provided by the 
- * {@link #equalsTopo(Geometry)} method. 
- * It implements the SFS definition of point-set equality
- * defined in terms of the DE-9IM matrix.
- * To support the SFS naming convention, the method
- * {@link #equals(Geometry)} is also provided as a synonym.  
- * However, due to the potential for confusion with {@link #equals(Object)}
- * its use is discouraged.
+ * 拓扑平等由{@link #equalsTopo(Geometry)}方法提供。
+ * 它实现了根据DE-9IM矩阵定义的点集相等的SFS定义。
+ * 为了支持SFS命名约定，方法{@link #equals(Geometry)}也作为同义词提供。
+ * 但是，由于可能与{@link #equals(Object)}混淆，因此不建议使用它。
  * <p>
- * Since {@link #equals(Object)} and {@link #hashCode()} are overridden, 
- * Geometries can be used effectively in Java collections.
+ * 由于重写了{@link #equals(Object)}和{@link #hashCode()}，因此可以在Java集合中有效地使用几何。
  *
  *@version 1.7
  */
@@ -172,28 +128,27 @@ public abstract class Geometry
   };
 
   /**
-   *  The bounding box of this <code>Geometry</code>.
+   *  此<code>Geometry</code>的边界框。
    */
   protected Envelope envelope;
 
   /**
-   * The {@link GeometryFactory} used to create this Geometry
+   * {@link GeometryFactory}用于创建此Geometry
    */
   protected final GeometryFactory factory;
 
   /**
-   *  The ID of the Spatial Reference System used by this <code>Geometry</code>
+   *  此<code>Geometry</code>使用的空间参照系的ID
    */
   protected int SRID;
 
   /**
-   * An object reference which can be used to carry ancillary data defined
-   * by the client.
+   * 一个对象引用，可用于携带客户端定义的辅助数据。
    */
   private Object userData = null;
 
   /**
-   * Creates a new <code>Geometry</code> via the specified GeometryFactory.
+   * 通过指定的GeometryFactory创建一个新的<code>Geometry</code>。
    *
    * @param factory
    */
@@ -203,19 +158,17 @@ public abstract class Geometry
   }
 
   /**
-   * Returns the name of this Geometry's actual class.
+   * 返回此Geometry的实际类的名称。
    *
-   *@return the name of this <code>Geometry</code>s actual class
+   *@return 这个 <code>Geometry</code>的实际类的名称
    */
   public abstract String getGeometryType();
 
   /**
-   * Returns true if the array contains any non-empty <code>Geometry</code>s.
+   * 如果数组包含任何非空<code>Geometry</code>，则返回true。
    *
-   *@param  geometries  an array of <code>Geometry</code>s; no elements may be
-   *      <code>null</code>
-   *@return             <code>true</code> if any of the <code>Geometry</code>s
-   *      <code>isEmpty</code> methods return <code>false</code>
+   *@param  geometries  一个 <code>Geometry</code>的数组;没有元素可能是<code>null</code>
+   *@return             如果任何<code>Geometry</code>的<code>isEmpty</code>方法返回<code>false</code>，就返回<code>true</code>
    */
   protected static boolean hasNonEmptyElements(Geometry[] geometries) {
     for (int i = 0; i < geometries.length; i++) {
@@ -227,11 +180,10 @@ public abstract class Geometry
   }
 
   /**
-   *  Returns true if the array contains any <code>null</code> elements.
+   * 如果数组包含任何<code>null</code>元素，则返回true。
    *
-   *@param  array  an array to validate
-   *@return        <code>true</code> if any of <code>array</code>s elements are
-   *      <code>null</code>
+   *@param  array  要验证的数组
+   *@return       如果 <code>array</code>的任何元素是<code>null</code>，则返回<code>true</code>
    */
   protected static boolean hasNullElements(Object[] array) {
     for (int i = 0; i < array.length; i++) {
@@ -243,30 +195,25 @@ public abstract class Geometry
   }
 
   /**
-   *  Returns the ID of the Spatial Reference System used by the <code>Geometry</code>.
+   *  返回<code>Geometry</code>使用的空间参考系统(Spatial Reference System)的ID。
    *  <P>
    *
-   *  JTS supports Spatial Reference System information in the simple way
-   *  defined in the SFS. A Spatial Reference System ID (SRID) is present in
-   *  each <code>Geometry</code> object. <code>Geometry</code> provides basic
-   *  accessor operations for this field, but no others. The SRID is represented
-   *  as an integer.
+   *  JTS以SFS中定义的简单方式支持空间参考系统信息。
+   *  每个<code>Geometry</code>对象中都存在空间参考系统ID（SRID）。
+   * <code>Geometry</code>为此字段提供基本访问者操作，但不提供其他操作。 SRID表示为整数。
    *
-   *@return    the ID of the coordinate space in which the <code>Geometry</code>
-   *      is defined.
+   *@return    定义 <code>Geometry</code>的坐标空间的ID。
    *
    */
   public int getSRID() {
     return SRID;
   }
     /**
-   *  Sets the ID of the Spatial Reference System used by the <code>Geometry</code>.
+   *  设置<code>Geometry</code>使用的空间参照系的ID。
    *  <p>
-   *  <b>NOTE:</b> This method should only be used for exceptional circumstances or 
-   *  for backwards compatibility.  Normally the SRID should be set on the 
-   *  {@link GeometryFactory} used to create the geometry.
-   *  SRIDs set using this method will <i>not</i> be propagated to 
-   *  geometries returned by constructive methods.
+   *  <b>注意:</b> 此方法仅应用于特殊情况或向后兼容性。
+     *  通常，应在用于创建几何的{@link GeometryFactory}上设置SRID。
+   *  使用此方法设置的SRID将<i>not</i>传播到由构造方法返回的几何。
    *  
    *  @see GeometryFactory
    */

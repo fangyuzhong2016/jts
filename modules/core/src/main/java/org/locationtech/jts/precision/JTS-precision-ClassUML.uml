@@ -15,25 +15,8 @@
     <node x="0.0" y="160.0">org.locationtech.jts.precision.EnhancedPrecisionOp</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="org.locationtech.jts.precision.CommonBitsOp" target="org.locationtech.jts.precision.CommonBitsRemover">
-      <point x="34.5" y="-15.0" />
-      <point x="121.0" y="55.0" />
-      <point x="129.5" y="55.0" />
-      <point x="43.0" y="15.0" />
-    </edge>
-    <edge source="org.locationtech.jts.precision.EnhancedPrecisionOp" target="org.locationtech.jts.precision.CommonBitsOp">
-      <point x="-43.25" y="-15.0" />
-      <point x="43.25" y="135.0" />
-      <point x="52.0" y="135.0" />
-      <point x="-34.5" y="15.0" />
-    </edge>
-    <edge source="org.locationtech.jts.precision.GeometryPrecisionReducer" target="org.locationtech.jts.precision.PrecisionReducerCoordinateOperation">
-      <point x="0.0" y="-15.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="240.5" y="265.5" />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="261.5" y="284.5" />
   <SelectedNodes>
     <node>org.locationtech.jts.precision.EnhancedPrecisionOp</node>
   </SelectedNodes>

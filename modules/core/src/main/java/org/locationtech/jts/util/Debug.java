@@ -29,13 +29,10 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 
 /**
- * Provides routines to simplify and localize debugging output.
- * Debugging is controlled via a Java system property value.
- * If the system property with the name given in
- * DEBUG_PROPERTY_NAME (currently "jts.debug") has the value
- * "on" or "true" debugging is enabled.
- * Otherwise, debugging is disabled.
- * The system property can be set by specifying the following JVM option:
+ * 提供简化和本地化调试输出的例程。
+ * 调试是通过Java系统属性值控制的。
+ * 如果具有DEBUG_PROPERTY_NAME（当前为“jts.debug”）中给出的名称的系统属性具有值“on”或“true”，则启用调试。否则，禁用调试。
+ * 可以通过指定以下JVM选项来设置系统属性：
  * <pre>
  * -Djts.debug=on
  * </pre>

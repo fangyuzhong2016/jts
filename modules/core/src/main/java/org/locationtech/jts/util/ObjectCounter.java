@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Counts occurrences of objects.
+ * 计算对象的出现次数。
  * 
  * @author Martin Davis
  *

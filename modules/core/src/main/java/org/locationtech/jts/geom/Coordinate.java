@@ -27,23 +27,7 @@ import org.locationtech.jts.util.NumberUtil;
  * 则构造坐标的Z坐标为NaN（也是NULL_ORDINATE的值）。
  * 标准比较函数忽略Z坐标。除了基本访问器功能外，JTS仅支持涉及Z纵坐标的特定操作。
  *
- * <p><p/>
- * A lightweight class used to store coordinates on the 2-dimensional Cartesian plane.
- * <p>
- * It is distinct from {@link Point}, which is a subclass of {@link Geometry}. 
- * Unlike objects of type {@link Point} (which contain additional
- * information such as an envelope, a precision model, and spatial reference
- * system information), a <code>Coordinate</code> only contains ordinate values
- * and accessor methods. </p>
- * <p>
- * <code>Coordinate</code>s are two-dimensional points, with an additional Z-ordinate. 
- * If an Z-ordinate value is not specified or not defined, 
- * constructed coordinates have a Z-ordinate of <code>NaN</code>
- * (which is also the value of <code>NULL_ORDINATE</code>).  
- * The standard comparison functions ignore the Z-ordinate.
- * Apart from the basic accessor functions, JTS supports
- * only specific operations involving the Z-ordinate.</p> 
- * <p>
+ *
  * Implementations may optionally support Z-ordinate and M-measure values
  * as appropriate for a {@link CoordinateSequence}. 
  * Use of {@link #getZ()} and {@link #getM()}

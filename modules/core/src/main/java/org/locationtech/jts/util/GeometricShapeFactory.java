@@ -22,12 +22,11 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.geom.util.AffineTransformation;
 
 /**
- * Computes various kinds of common geometric shapes.
- * Provides various ways of specifying the location and extent
- * and rotations of the generated shapes,
- * as well as number of line segments used to form them.
+ * 计算各种常见的几何形状。
+ * 提供各种方法来生成指定的图形，
+ * 该图形的位置、范围和旋转角度，以及用于形成它们的线段数都可以外部指定。
  * <p>
- * <b>Example of usage:</b>
+ * <b>用法示例：</b>
  * <pre>
  *  GeometricShapeFactory gsf = new GeometricShapeFactory();
  *  gsf.setSize(100);
@@ -47,13 +46,12 @@ public class GeometricShapeFactory
   protected int nPts = 100;
   
   /**
-   * Default is no rotation.
+   * 默认是没有旋转.
    */
   protected double rotationAngle = 0.0;
 
   /**
-   * Create a shape factory which will create shapes using the default
-   * {@link GeometryFactory}.
+   * 创建一个图形工厂，使用默认的{@link GeometryFactory}创建图形。
    */
   public GeometricShapeFactory()
   {
@@ -61,10 +59,9 @@ public class GeometricShapeFactory
   }
 
   /**
-   * Create a shape factory which will create shapes using the given
-   * {@link GeometryFactory}.
+   * 创建一个图形工厂，使用给定的{@link GeometryFactory}创建图形。
    *
-   * @param geomFact the factory to use
+   * @param geomFact 使用的创建几何图形的工厂
    */
   public GeometricShapeFactory(GeometryFactory geomFact)
   {
@@ -78,9 +75,8 @@ public class GeometricShapeFactory
   }
   
   /**
-   * Sets the location of the shape by specifying the base coordinate
-   * (which in most cases is the
-   * lower left point of the envelope containing the shape).
+   * 通过指定基本坐标来设置几何图形的位置
+   * (在大多数情况下，它是包含几何图形最大外接矩形的左下点).
    *
    * @param base the base coordinate of the shape
    */

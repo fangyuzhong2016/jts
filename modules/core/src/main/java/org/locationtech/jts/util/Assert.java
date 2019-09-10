@@ -14,30 +14,28 @@
 package org.locationtech.jts.util;
 
 /**
- *  A utility for making programming assertions.
+ *  用于编程断言的实用程序。
  *
  *@version 1.7
  */
 public class Assert {
 
   /**
-   *  Throws an <code>AssertionFailedException</code> if the given assertion is
-   *  not true.
+   * 如果给定的断言是true，则抛出<code>AssertionFailedException</code>。
    *
-   *@param  assertion                  a condition that is supposed to be true
-   *@throws  AssertionFailedException  if the condition is false
+   *@param  assertion                  一个应该是真实的条件
+   *@throws  AssertionFailedException  如果条件是假的
    */
   public static void isTrue(boolean assertion) {
     isTrue(assertion, null);
   }
 
   /**
-   *  Throws an <code>AssertionFailedException</code> with the given message if
-   *  the given assertion is not true.
+   *  如果给定的断言不为真，则使用给定的消息抛出<code>AssertionFailedException</code>。
    *
-   *@param  assertion                  a condition that is supposed to be true
-   *@param  message                    a description of the assertion
-   *@throws  AssertionFailedException  if the condition is false
+   *@param  assertion                  一个应该是真实的条件
+   *@param  message                    断言的描述
+   *@throws  AssertionFailedException  如果条件是假的
    */
   public static void isTrue(boolean assertion, String message) {
     if (!assertion) {
@@ -51,26 +49,25 @@ public class Assert {
   }
 
   /**
-   *  Throws an <code>AssertionFailedException</code> if the given objects are
-   *  not equal, according to the <code>equals</code> method.
+   *  根据<code>equal </code>方法，如果给定对象不相等，
+   *  则抛出<code>AssertionFailedException </code>。
    *
-   *@param  expectedValue              the correct value
-   *@param  actualValue                the value being checked
-   *@throws  AssertionFailedException  if the two objects are not equal
+   *@param  expectedValue              正确的值
+   *@param  actualValue                正在检查的值
+   *@throws  AssertionFailedException  如果两个对象不相等
    */
   public static void equals(Object expectedValue, Object actualValue) {
     equals(expectedValue, actualValue, null);
   }
 
   /**
-   *  Throws an <code>AssertionFailedException</code> with the given message if
-   *  the given objects are not equal, according to the <code>equals</code>
-   *  method.
+   *  如果给定的对象不相等，则根据<code>equals</code> 方法，
+   *  使用给定的消息抛出<code>AssertionFailedException </code>。
    *
-   *@param  expectedValue              the correct value
-   *@param  actualValue                the value being checked
-   *@param  message                    a description of the assertion
-   *@throws  AssertionFailedException  if the two objects are not equal
+   *@param  expectedValue              正确的值
+   *@param  actualValue                正在检查的值
+   *@param  message                    断言的描述
+   *@throws  AssertionFailedException  如果两个对象不相等
    */
   public static void equals(Object expectedValue, Object actualValue, String message) {
     if (!actualValue.equals(expectedValue)) {
@@ -80,7 +77,7 @@ public class Assert {
   }
 
   /**
-   *  Always throws an <code>AssertionFailedException</code>.
+   *  始终抛出<code>AssertionFailedException</code>。
    *
    *@throws  AssertionFailedException  thrown always
    */
@@ -89,10 +86,9 @@ public class Assert {
   }
 
   /**
-   *  Always throws an <code>AssertionFailedException</code> with the given
-   *  message.
+   *  始终使用给定的消息抛出<code>AssertionFailedException</code>。
    *
-   *@param  message                    a description of the assertion
+   *@param  message                    断言的描述
    *@throws  AssertionFailedException  thrown always
    */
   public static void shouldNeverReachHere(String message) {

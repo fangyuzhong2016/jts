@@ -12,7 +12,7 @@
 package org.locationtech.jts.util;
 
 /**
- * Utility functions to report JVM memory usage.
+ * 实用程序用于报告JVM内存使用情况。
  * 
  * @author mbdavis
  *

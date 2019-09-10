@@ -18,8 +18,7 @@ import org.locationtech.jts.geom.CoordinateFilter;
 import org.locationtech.jts.geom.Geometry;
 
 /**
- *  A {@link CoordinateFilter} that creates an array containing every
- *  coordinate in a {@link Geometry}.
+ *  一个{@link CoordinateFilter }，它创建一个包含{@link Geometry }中每个坐标的数组。
  *
  *@version 1.7
  */
@@ -28,19 +27,18 @@ public class CoordinateArrayFilter implements CoordinateFilter {
   int n = 0;
 
   /**
-   *  Constructs a <code>CoordinateArrayFilter</code>.
+   *  构造一个<code>CoordinateArrayFilter</code>。
    *
-   *@param  size  the number of points that the <code>CoordinateArrayFilter</code>
-   *      will collect
+   *@param  size  <code>CoordinateArrayFilter</code>将收集的点数
    */
   public CoordinateArrayFilter(int size) {
     pts = new Coordinate[size];
   }
 
   /**
-   *  Returns the gathered <code>Coordinate</code>s.
+   *  返回收集的<code>Coordinate</code>。
    *
-   *@return    the <code>Coordinate</code>s collected by this <code>CoordinateArrayFilter</code>
+   *@return    此<code>CoordinateArrayFilter</code>收集的<code>Coordinate</code>
    */
   public Coordinate[] getCoordinates() {
     return pts;

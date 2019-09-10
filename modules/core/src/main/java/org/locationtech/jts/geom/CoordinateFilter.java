@@ -15,17 +15,15 @@ package org.locationtech.jts.geom;
 
 
 /**
- *  An interface for classes which use the values of the coordinates in a {@link Geometry}. 
- * Coordinate filters can be used to implement centroid and
- * envelope computation, and many other functions.
+ *  使用{@link Geometry}中坐标值的类的接口。
+ * 坐标过滤器可用于实现质心和包络计算以及许多其他功能。
  * <p>
- * <code>CoordinateFilter</code> is
- * an example of the Gang-of-Four Visitor pattern. 
+ * <code>CoordinateFilter</code>是Gang-of-Four Visitor模式的一个示例。
  * <p>
- * <b>Note</b>: it is not recommended to use these filters to mutate the coordinates.
- * There is no guarantee that the coordinate is the actual object stored in the source geometry.
- * In particular, modified values may not be preserved if the source Geometry uses a non-default {@link CoordinateSequence}.
- * If in-place mutation is required, use {@link CoordinateSequenceFilter}.
+ * <b>注意</b>: 不建议使用这些过滤器来改变坐标。
+ * 无法保证坐标是存储在源几何中的实际对象。
+ * 特别是，如果源Geometry使用非默认的{@link CoordinateSequence}，则可能无法保留修改后的值。
+ * 如果需要就地变异，请使用{@link CoordinateSequenceFilter}。
  *  
  * @see Geometry#apply(CoordinateFilter)
  * @see CoordinateSequenceFilter
@@ -35,12 +33,10 @@ package org.locationtech.jts.geom;
 public interface CoordinateFilter {
 
   /**
-   * Performs an operation with the provided <code>coord</code>.
-   * Note that there is no guarantee that the input coordinate 
-   * is the actual object stored in the source geometry,
-   * so changes to the coordinate object may not be persistent.
+   * 使用提供的<code>coord</code>执行操作。
+   * 请注意，无法保证输入坐标是存储在源几何中的实际对象，因此对坐标对象的更改可能不会保存。
    *
-   *@param  coord  a <code>Coordinate</code> to which the filter is applied.
+   *@param  coord  应用过滤器的<code>Coordinate</code>。
    */
   void filter(Coordinate coord);
 }

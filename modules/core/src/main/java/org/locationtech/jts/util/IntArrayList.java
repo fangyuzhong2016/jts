@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * An extendable array of primitive <code>int</code> values.
+ * 一个可扩展的原始<code>int</code>值数组。
  * 
  * @author Martin Davis
  *
@@ -25,36 +25,34 @@ public class IntArrayList {
   private int size = 0;
 
   /**
-   * Constructs an empty list.
+   * 构造一个空列表。
    */
   public IntArrayList() {
     this(10);
   }
 
   /**
-   * Constructs an empty list with the specified initial capacity
+   * 构造具有指定初始容量的空列表
    * 
-   * @param initialCapacity the initial capacity of the list
+   * @param initialCapacity 列表的初始容量
    */
   public IntArrayList(int initialCapacity) {
     data = new int[initialCapacity];
   }
 
   /**
-   * Returns the number of values in this list.
+   * 返回此列表中的值的数量。
    * 
-   * @return the number of values in the list
+   * @return 列表中的值的数量
    */
   public int size() {
     return size;
   }
 
   /**
-   * Increases the capacity of this list instance, if necessary, 
-   * to ensure that it can hold at least the number of elements 
-   * specified by the capacity argument.
+   * 如有必要，增加此列表实例的容量，以确保它至少可以保存capacity参数指定的元素数。
    * 
-   * @param capacity the desired capacity
+   * @param capacity 所需的容量
    */
   public void ensureCapacity(final int capacity) {
     if (capacity <= data.length) return;
@@ -63,9 +61,9 @@ public class IntArrayList {
     data = Arrays.copyOf(data, newLength);
   }
   /**
-   * Adds a value to the end of this list.
+   * 在此列表的末尾添加一个值。
    * 
-   * @param value the value to add
+   * @param value 要添加的值
    */
   public void add(final int value) {
     ensureCapacity(size + 1);
@@ -74,7 +72,7 @@ public class IntArrayList {
   }
   
   /**
-   * Adds all values in an array to the end of this list.
+   * 将数组中的所有值添加到此列表的末尾。
    * 
    * @param values an array of values
    */
@@ -87,10 +85,9 @@ public class IntArrayList {
    }
   
   /**
-   * Returns a int array containing a copy of
-   * the values in this list.
+   * 返回一个int数组，其中包含此列表中值的副本。
    * 
-   * @return an array containing the values in this list
+   * @return 包含此列表中的值的数组
    */
   public int[] toArray() {
     int[] array = new int[size];

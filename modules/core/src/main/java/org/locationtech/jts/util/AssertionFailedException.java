@@ -14,25 +14,23 @@
 package org.locationtech.jts.util;
 
 /**
- *  Thrown when the application is in an inconsistent state. Indicates a problem
- *  with the code.
+ *  当应用程序处于不一致状态时抛出。表示代码有问题。
  *
  *@version 1.7
  */
 public class AssertionFailedException extends RuntimeException {
 
   /**
-   *  Creates an <code>AssertionFailedException</code>.
+   *  创建<code>AssertionFailedException</code>。
    */
   public AssertionFailedException() {
     super();
   }
 
   /**
-   *  Creates a <code>AssertionFailedException</code> with the given detail
-   *  message.
+   *  使用给定的详细消息创建<code>AssertionFailedException</code>。
    *
-   *@param  message  a description of the assertion
+   *@param  message  断言的描述
    */
   public AssertionFailedException(String message) {
     super(message);

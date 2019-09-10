@@ -14,7 +14,7 @@ package org.locationtech.jts.util;
 import java.util.ArrayList;
 
 /**
- * A priority queue over a set of {@link Comparable} objects.
+ * 一组{@link Comparable}对象上的优先级队列。
  * 
  * @author Martin Davis
  *
