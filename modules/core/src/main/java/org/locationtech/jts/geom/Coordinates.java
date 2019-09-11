@@ -12,14 +12,14 @@
 package org.locationtech.jts.geom;
 
 /**
- * Useful utility functions for handling Coordinate objects.
+ * 用于处理Coordinate对象的有用实用程序函数。
  */
 public class Coordinates {
   /**
-   * Factory method providing access to common Coordinate implementations.
+   * 提供对公共Coordinate实现的访问的工厂方法。
    * 
    * @param dimension
-   * @return created coordinate
+   * @return 返回创建的坐标对象
    */
   public static Coordinate create(int dimension)
   {
@@ -27,11 +27,11 @@ public class Coordinates {
   }
 
   /**
-   * Factory method providing access to common Coordinate implementations.
+   * 提供对公共Coordinate实现的访问的工厂方法。
    * 
-   * @param dimension
-   * @param measures
-   * @return created coordinate
+   * @param dimension 坐标纬度
+   * @param measures M值
+   * @return 返回创建的坐标对象
    */
   public static Coordinate create(int dimension, int measures)
   {
@@ -48,10 +48,10 @@ public class Coordinates {
   }
     
   /**
-   * Determine dimension based on subclass of {@link Coordinate}.
+   * 根据{@link Coordinate}的子类确定维度。
    * 
-   * @param coordinate supplied coordinate
-   * @return number of ordinates recorded
+   * @param coordinate 提供的坐标
+   * @return 记录的纵坐标数
    */
   public static int dimension(Coordinate coordinate)
   {
@@ -68,9 +68,9 @@ public class Coordinates {
   }
 
   /**
-   * Determine number of measures based on subclass of {@link Coordinate}.
+   * 根据{@link Coordinate}的子类确定度量数。
    * 
-   * @param coordinate supplied coordinate
+   * @param coordinate 提的供坐标
    * @return number of measures recorded
    */
   public static int measures(Coordinate coordinate)

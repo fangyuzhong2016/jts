@@ -14,37 +14,36 @@
 package org.locationtech.jts.geom;
 
 /**
- * Provides constants representing the dimensions of a point, a curve and a surface.
- * Also provides constants representing the dimensions of the empty geometry and
- * non-empty geometries, and the wildcard constant {@link #DONTCARE} meaning "any dimension".
- * These constants are used as the entries in {@link IntersectionMatrix}s.
+ * 提供点、曲线和曲面的维度的常数类
+ * 还提供表示空几何和非空几何的维度的常量，以及表示“任何维度”的通配符常量{@link #DONTCARE}。
+ * 这些常量用作{@link IntersectionMatrix}中的条目。
  * 
  * @version 1.7
  */
 public class Dimension {
 
   /**
-   *  Dimension value of a point (0).
+   * point 的维度 (0)
    */
   public final static int P = 0;
 
   /**
-   *  Dimension value of a curve (1).
+   * curve (1) 的维度.
    */
   public final static int L = 1;
 
   /**
-   *  Dimension value of a surface (2).
+   *  surface (2) 的维度.
    */
   public final static int A = 2;
 
   /**
-   *  Dimension value of the empty geometry (-1).
+   *  空几何的维度（-1）.
    */
   public final static int FALSE = -1;
 
   /**
-   *  Dimension value of non-empty geometries (= {P, L, A}).
+   *  非空几何的维度值(= {P，L，A}).
    */
   public final static int TRUE = -2;
 
@@ -84,13 +83,12 @@ public class Dimension {
   public final static char SYM_A = '2';
   
   /**
-   *  Converts the dimension value to a dimension symbol, for example, <code>TRUE =&gt; 'T'</code>
+   * 将维值转换为维度符号， for example, <code>TRUE =&gt; 'T'</code>
    *  .
    *
-   *@param  dimensionValue  a number that can be stored in the <code>IntersectionMatrix</code>
-   *      . Possible values are <code>{TRUE, FALSE, DONTCARE, 0, 1, 2}</code>.
-   *@return                 a character for use in the string representation of
-   *      an <code>IntersectionMatrix</code>. Possible values are <code>{T, F, * , 0, 1, 2}</code>
+   *@param  dimensionValue  一个可以存储在<code>IntersectionMatrix</code>中的数字
+   *      . 可能的值为 <code> {TRUE，FALSE，DONTCARE，0,1,2} </code>.
+   *@return                 用于 <code>IntersectionMatrix</code>的字符串表示形式的字符。可能的值为<code>{T，F，*，0,1,2}</code>
    *      .
    */
   public static char toDimensionSymbol(int dimensionValue) {
@@ -112,14 +110,13 @@ public class Dimension {
   }
 
   /**
-   *  Converts the dimension symbol to a dimension value, for example, <code>'*' =&gt; DONTCARE</code>
+   *  例如，将维度符号转换为维度值, <code>'*' =&gt; DONTCARE</code>
    *  .
    *
-   *@param  dimensionSymbol  a character for use in the string representation of
-   *      an <code>IntersectionMatrix</code>. Possible values are <code>{T, F, * , 0, 1, 2}</code>
+   *@param  dimensionSymbol  用于<code>IntersectionMatrix</code>的字符串表示形式的字符。可能的值为<code> {T，F，*，0,1,2} </code>
    *      .
-   *@return a number that can be stored in the <code>IntersectionMatrix</code>
-   *      . Possible values are <code>{TRUE, FALSE, DONTCARE, 0, 1, 2}</code>.
+   *@return 一个可以存储在 <code>IntersectionMatrix</code>中的数字
+   *      . 可能的值为 <code> {TRUE，FALSE，DONTCARE，0,1,2} </code>。
    */
   public static int toDimensionValue(char dimensionSymbol) {
     switch (Character.toUpperCase(dimensionSymbol)) {

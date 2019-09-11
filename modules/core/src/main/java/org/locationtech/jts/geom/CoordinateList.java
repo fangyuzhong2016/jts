@@ -18,8 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A list of {@link Coordinate}s, which may
- * be set to prevent repeated coordinates from occurring in the list.
+ *{@link Coordinate}列表，可以设置为阻止列表中出现重复坐标。
  *
  *
  * @version 1.7
@@ -33,18 +32,17 @@ public class CoordinateList
   private final static Coordinate[] coordArrayType = new Coordinate[0];
 
   /**
-   * Constructs a new list without any coordinates
+   * 构造一个没有任何坐标的新列表
    */
   public CoordinateList()
   {
   }
 
   /**
-   * Constructs a new list from an array of Coordinates, allowing repeated points.
-   * (I.e. this constructor produces a {@link CoordinateList} with exactly the same set of points
-   * as the input array.)
+   * 从一组坐标构造一个新列表，允许重复点。
+   * （即，这个构造函数生成一个{@link CoordinateList}，它与输入数组具有完全相同的点集。）
    * 
-   * @param coord the initial coordinates
+   * @param coord 初始坐标
    */
   public CoordinateList(Coordinate[] coord)
   {
@@ -53,11 +51,10 @@ public class CoordinateList
   }
 
   /**
-   * Constructs a new list from an array of Coordinates,
-   * allowing caller to specify if repeated points are to be removed.
+   * 从Coordinates数组构造一个新列表，允许调用者指定是否要删除重复的点。
    *
-   * @param coord the array of coordinates to load into the list
-   * @param allowRepeated if <code>false</code>, repeated points are removed
+   * @param coord 要加载到列表中的坐标数组
+   * @param allowRepeated 如果为 <code>false</code>，删除重复的点
    */
   public CoordinateList(Coordinate[] coord, boolean allowRepeated)
   {
@@ -73,11 +70,11 @@ public class CoordinateList
 
 
   /** 
-   * Adds a section of an array of coordinates to the list.
-   * @param coord The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * @param start the index to start from
-   * @param end the index to add up to but not including
+   * 将一组坐标添加到列表中。
+   * @param coord  坐标coordinates 对象
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
+   * @param start 开始的索引
+   * @param end 要加起来但不包括的索引
    * @return true (as by general collection contract)
    */
   public boolean add(Coordinate[] coord, boolean allowRepeated, int start, int end)
@@ -92,10 +89,10 @@ public class CoordinateList
   }
 
   /** 
-   * Adds an array of coordinates to the list.
+   * 向列表添加坐标数组。
    * @param coord The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * @param direction if false, the array is added in reverse order
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
+   * @param direction 果为false，则以相反的顺序添加数组
    * @return true (as by general collection contract)
    */
   public boolean add(Coordinate[] coord, boolean allowRepeated, boolean direction)
@@ -115,9 +112,9 @@ public class CoordinateList
 
 
   /** 
-   * Adds an array of coordinates to the list.
+   * 向列表添加坐标数组。
    * @param coord The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
    * @return true (as by general collection contract)
    */
   public boolean add(Coordinate[] coord, boolean allowRepeated)
@@ -127,9 +124,9 @@ public class CoordinateList
   }
 
   /** 
-   * Adds a coordinate to the list.
-   * @param obj The coordinate to add
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * 将坐标添加到列表中。
+   * @param obj 要添加的坐标
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
    * @return true (as by general collection contract)
    */
   public boolean add(Object obj, boolean allowRepeated)
@@ -139,10 +136,10 @@ public class CoordinateList
   }
 
   /**
-   * Adds a coordinate to the end of the list.
+   * 将坐标添加到列表的末尾。
    * 
    * @param coord The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
    */
   public void add(Coordinate coord, boolean allowRepeated)
   {
@@ -157,11 +154,11 @@ public class CoordinateList
   }
 
   /**
-   * Inserts the specified coordinate at the specified position in this list.
+   * 将指定坐标插入此列表中的指定位置。
    * 
-   * @param i the position at which to insert
-   * @param coord the coordinate to insert
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * @param i 插入的位置
+   * @param coord 要插入的坐标
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
    */
   public void add(int i, Coordinate coord, boolean allowRepeated)
   {
@@ -182,9 +179,10 @@ public class CoordinateList
     super.add(i, coord);
   }
 
-  /** Add an array of coordinates
+  /**
+   * 添加坐标数组
    * @param coll The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * @param allowRepeated 如果设置为false，则折叠重复的坐标
    * @return true (as by general collection contract)
    */
   public boolean addAll(Collection<? extends Coordinate> coll, boolean allowRepeated)
@@ -198,7 +196,7 @@ public class CoordinateList
   }
 
   /**
-   * Ensure this coordList is a ring, by adding the start point if necessary
+   * 如果需要，通过添加起点确保此coordList是一个环
    */
   public void closeRing()
   {
@@ -208,7 +206,8 @@ public class CoordinateList
     }
   }
 
-  /** Returns the Coordinates in this collection.
+  /**
+   * 返回此集合中的坐标。
    *
    * @return the coordinates
    */
@@ -218,9 +217,9 @@ public class CoordinateList
   }
 
   /**
-   * Returns a deep copy of this <tt>CoordinateList</tt> instance.
+   * 返回此<tt>CoordinateList</tt>实例的深层副本。
    *
-   * @return a clone of this <tt>CoordinateList</tt> instance
+   * @return 此 <tt>CoordinateList</tt>实例的克隆
    */
   public Object clone() {
       CoordinateList clone = (CoordinateList) super.clone();

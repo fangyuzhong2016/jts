@@ -12,46 +12,46 @@
 package org.locationtech.jts.geom;
 
 /**
- * Coordinate subclass supporting XY ordinates.
+ * 坐标对象Coordinate的子类，用于创建二维的XY坐标
  * <p>
- * This data object is suitable for use with coordinate sequences with <tt>dimension</tt> = 2.
+ * 该数据对象适用于<tt>dimension</tt> = 2的坐标序列。
  * <p>
- * The {@link Coordinate#z} field is visible, but intended to be ignored.
+ * {@link Coordinate#z} 字段可见，但被忽略
  *
  * @since 1.16
  */
 public class CoordinateXY extends Coordinate {
   private static final long serialVersionUID = 3532307803472313082L;
 
-  /** Standard ordinate index value for X */
+  /** X的标准坐标索引 */
   public static final int X = 0;
 
-  /** Standard ordinate index value for Y */
+  /** Y的标准坐标指数值 */
   public static final int Y = 1;
 
-  /** CoordinateXY does not support Z values. */
+  /**CoordinateXY不支持Z值. */
   public static final int Z = -1;
 
-  /** CoordinateXY does not support M measures. */
+  /** CoordinateXY不支持M度量. */
   public static final int M = -1;
 
-  /** Default constructor */
+  /**默认构造函数 */
   public CoordinateXY() {
     super();
   }
 
   /**
-   * Constructs a CoordinateXY instance with the given ordinates.
+   * 使用给定的坐标构造一个CoordinateXY实例。
    * 
-   * @param x the X ordinate
-   * @param y the Y ordinate
+   * @param x X坐标
+   * @param y Y坐标
    */
   public CoordinateXY(double x, double y) {
     super(x, y, Coordinate.NULL_ORDINATE);
   }
 
   /**
-   * Constructs a CoordinateXY instance with the x and y ordinates of the given Coordinate.
+   * 使用给定Coordinate的x和y坐标构造一个CoordinateXY实例。
    * 
    * @param coord the Coordinate providing the ordinates
    */
@@ -60,7 +60,7 @@ public class CoordinateXY extends Coordinate {
   }
 
   /**
-   * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXY.
+   * 使用给定CoordinateXY的x和y坐标构造一个CoordinateXY实例。
    * 
    * @param coord the CoordinateXY providing the ordinates
    */
@@ -69,21 +69,21 @@ public class CoordinateXY extends Coordinate {
   }
 
   /**
-   * Creates a copy of this CoordinateXY.
+   *创建此CoordinateXY的副本。
    * 
-   * @return a copy of this CoordinateXY
+   * @return 这个CoordinateXY的副本
    */
   public CoordinateXY copy() {
     return new CoordinateXY(this);
   }
     
-  /** The z-ordinate is not supported */
+  /** 不支持z坐标 */
   @Override
   public double getZ() {
       return NULL_ORDINATE;
   }
 
-  /** The z-ordinate is not supported */
+  /** 不支持z坐标 */
   @Override
   public void setZ(double z) {
       throw new IllegalArgumentException("CoordinateXY dimension 2 does not support z-ordinate");

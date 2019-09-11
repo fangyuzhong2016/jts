@@ -15,103 +15,90 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
 import org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory;
 
 /**
- * The internal representation of a list of coordinates inside a Geometry.
+ * 几何内部坐标列表的内部表示。
  * <p>
- * This allows Geometries to store their
- * points using something other than the JTS {@link Coordinate} class. 
- * For example, a storage-efficient implementation
- * might store coordinate sequences as an array of x's
- * and an array of y's. 
- * Or a custom coordinate class might support extra attributes like M-values.
+ * 这允许Geometries使用JTS {@link Coordinate}类之外的其他东西来存储它们的点。
+ * 例如，存储高效的实现可能将坐标序列存储为x的数组和y的数组。或者自定义坐标类可能支持额外的属性，如M值。
  * <p>
- * Implementing a custom coordinate storage structure
- * requires implementing the {@link CoordinateSequence} and
- * {@link CoordinateSequenceFactory} interfaces. 
- * To use the custom CoordinateSequence, create a
- * new {@link GeometryFactory} parameterized by the CoordinateSequenceFactory
- * The {@link GeometryFactory} can then be used to create new {@link Geometry}s.
- * The new Geometries
- * will use the custom CoordinateSequence implementation.
+ * 实现自定义坐标存储结构需要实现{@link CoordinateSequence}和{@link CoordinateSequenceFactory}接口。
+ * 要使用自定义CoordinateSequence，请创建一个由CoordinateSequenceFactory参数化的新{@link GeometryFactory}
+ * 然后可以使用{@link GeometryFactory}创建新的{@link Geometry}。
+ * 新Geometries将使用自定义CoordinateSequence实现。
  * <p>
- * For an example, see the code for
- * {@link ExtendedCoordinateExample}.
  *
  * @see CoordinateArraySequenceFactory
  * @see PackedCoordinateSequenceFactory
- * @see ExtendedCoordinateExample
  *
  * @version 1.7
  */
 public interface CoordinateSequence
     extends Cloneable
 {
-  /** Standard ordinate index value for, where X is 0 */
+  /** 标准坐标索引，其中X为0 */
   int X = 0;
 
-  /** Standard ordinate index value for, where Y is 1 */
+  /** 标准坐标索引，其中Y为1 */
   int Y = 1;
   
   /**
-   * Standard ordinate index value for, where Z is 2.
+   * 标准坐标索引，其中Z为2。
    *
-   * <p>This constant assumes XYZM coordinate sequence definition, please check this assumption
-   * using {@link #getDimension()} and {@link #getMeasures()} before use.
+   * <p>
+   *     此常量假定XYZM坐标序列定义，请在使用前使用{@link #getDimension()}和{@link #getMeasures()}检查此假设。
    */
-  /** Standard z-ordinate index */
+  /**标准z坐标索引 */
   int Z = 2;
 
   /**
-   * Standard ordinate index value for, where M is 3.
+   * 标准坐标索引，其中M为3。
    *
-   * <p>This constant assumes XYZM coordinate sequence definition, please check this assumption
-   * using {@link #getDimension()} and {@link #getMeasures()} before use.
+   * <p>
+   *     此常量假定XYZM坐标序列定义，请在使用前使用{@link #getDimension()}和{@link #getMeasures()}检查此假设*。
    */
   int M = 3;
 
   /**
-   * Returns the dimension (number of ordinates in each coordinate) for this sequence.
+   * 返回此序列的维度（每个坐标中的纵坐标数）。
    *
-   * <p>This total includes any measures, indicated by non-zero {@link #getMeasures()}.
+   * <p>
+   *     此总数包括由非零{@link #getMeasures()}表示的任何度量。
    *
-   * @return the dimension of the sequence.
+   * @return 序列的维度。
    */
   int getDimension();
 
   /**
-   * Returns the number of measures included in {@link #getDimension()} for each coordinate for this
-   * sequence.
+   * 返回此序列的每个坐标在{@link #getDimension()}中包含的度量数。
    * 
-   * For a measured coordinate sequence a non-zero value is returned.
+   * 对于M的坐标序列，返回非零值。
    * <ul>
-   * <li>For XY sequence measures is zero</li>
-   * <li>For XYM sequence measure is one<li>
-   * <li>For XYZ sequence measure is zero</li>
-   * <li>For XYZM sequence measure is one</li>
-   * <li>Values greater than one are supported</li>
+   * <li>对于XY序列，M是0</li>
+   * <li>对于XYM序列,M是1<li>
+   * <li>对于XYZ序列，M是0</li>
+   * <li>对于XYZM，M是1</li>
+   * <li>支持大于1的值</li>
    * </ul>
    *
-   * @return the number of measures included in dimension
+   * @return 维度中包含的M的值
    */
   default int getMeasures() {
     return 0;
   }
   
   /**
-   * Checks {@link #getDimension()} and {@link #getMeasures()} to determine if {@link #getZ(int)}
-   * is supported.
+   * 检查{@link #getDimension()}和{@link #getMeasures()}以确定是否支持{@link #getZ(int)}。
    * 
-   * @return true if {@link #getZ(int)} is supported.
+   * @return 如果支持{@link #getZ(int)}，则为true。
    */
   default boolean hasZ() {
       return (getDimension()-getMeasures()) > 2;
   }
 
   /**
-   * Tests whether the coordinates in the sequence have measures associated with them. Returns true
-   * if {@link #getMeasures()} > 0. See {@link #getMeasures()} to determine the number of measures
-   * present.
+   * 测试序列中的坐标是否具有与之相关的M。
+   * 如果{@link #getMeasures()}> 0，则返回true。请参阅{@link #getMeasures()}以确定存在的M。
    *
-   * @return true if {@link #getM(int)} is supported.
+   * @return 如果支持{@link #getM(int)}，则为true。
    *
    * @see #getMeasures()
    * @see #getM(int)
@@ -121,73 +108,67 @@ public interface CoordinateSequence
   }
 
   /**
-   * Creates a coordinate for use in this sequence.
+   * 创建一个用于此序列的坐标。
    * <p>
-   * The coordinate is created supporting the same number of {@link #getDimension()} and {@link #getMeasures()}
-   * as this sequence and is suitable for use with {@link #getCoordinate(int, Coordinate)}.
+   * 创建的坐标支持相同数量的{@link #getDimension()}和{@link #getMeasures()}作为此序列，适用于{@link #getCoordinate(int, Coordinate )}。
    * </p>
-   * @return coordinate for use with this sequence
+   * @return 用于此序列的坐标
    */
   default Coordinate createCoordinate() {
     return Coordinates.create(getDimension(), getMeasures());
   }
   
   /**
-   * Returns (possibly a copy of) the i'th coordinate in this sequence.
-   * Whether or not the Coordinate returned is the actual underlying
-   * Coordinate or merely a copy depends on the implementation.
+   * 返回此序列中第i个坐标的（可能是副本）。
+   * 返回的坐标是实际的基础坐标还是仅仅是副本取决于实施。
    * <p>
-   * Note that in the future the semantics of this method may change
-   * to guarantee that the Coordinate returned is always a copy.
-   * Callers should not to assume that they can modify a CoordinateSequence by
-   * modifying the object returned by this method.
+   * 请注意，将来此方法的语义可能会更改，以保证返回的Coordinate始终是副本。
+   * 调用者不应该假设他们可以通过修改此方法返回的对象来修改CoordinateSequence。
    *
-   * @param i the index of the coordinate to retrieve
-   * @return the i'th coordinate in the sequence
+   * @param i 要检索的坐标的索引
+   * @return 序列中的第i个坐标
    */
   Coordinate getCoordinate(int i);
 
   /**
-   * Returns a copy of the i'th coordinate in this sequence.
-   * This method optimizes the situation where the caller is
-   * going to make a copy anyway - if the implementation
-   * has already created a new Coordinate object, no further copy is needed.
+   * 返回此序列中第i个坐标的副本。
+   * 此方法优化了调用者无论如何要复制的情况 - 如果实现已经创建了新的Coordinate对象，则不需要进一步复制。
    *
-   * @param i the index of the coordinate to retrieve
-   * @return a copy of the i'th coordinate in the sequence
+   * @param i 要检索的坐标的索引
+   * @return 序列中第i个坐标的副本
    */
   Coordinate getCoordinateCopy(int i);
 
   /**
-   * Copies the i'th coordinate in the sequence to the supplied
-   * {@link Coordinate}.  Only the first two dimensions are copied.
+   * 将序列中的第i个坐标复制到提供的坐标
+   * {@link Coordinate}.  仅复制前两个维度。
    *
-   * @param index the index of the coordinate to copy
-   * @param coord a {@link Coordinate} to receive the value
+   * @param index 要复制的坐标的索引
+   * @param coord 一个{@link Coordinate}来接收这个值
    */
   void getCoordinate(int index, Coordinate coord);
 
   /**
-   * Returns ordinate X (0) of the specified coordinate.
+   * 返回指定坐标的纵坐标X（0）。
    *
    * @param index
-   * @return the value of the X ordinate in the index'th coordinate
+   * @return 索引坐标系中X坐标的值
    */
   double getX(int index);
 
   /**
-   * Returns ordinate Y (1) of the specified coordinate.
+   * 返回指定坐标的纵坐标Y（1）。
    *
    * @param index
-   * @return the value of the Y ordinate in the index'th coordinate
+   * @return 索引坐标中Y坐标的值
    */
   double getY(int index);
 
   /**
-   * Returns ordinate Z of the specified coordinate if available.
+   * 如果可用，返回指定坐标的纵坐标Z.
    * 
    * @param index
-   * @return the value of the Z ordinate in the index'th coordinate, or Double.NaN if not defined.
+   * @return 索引坐标中Z坐标的值，如果未定义，则为Double.NaN。
    */
   default double getZ(int index)
   {
@@ -199,10 +180,10 @@ public interface CoordinateSequence
   }
 
   /**
-   * Returns ordinate M of the specified coordinate if available.
+   * 如果可用，返回指定坐标的纵坐标M.
    * 
    * @param index
-   * @return the value of the M ordinate in the index'th coordinate, or Double.NaN if not defined.
+   * @return 索引坐标中M坐标的值，如果未定义，则为Double.NaN。
    */
   default double getM(int index)
   {
@@ -216,14 +197,12 @@ public interface CoordinateSequence
   }
   
   /**
-   * Returns the ordinate of a coordinate in this sequence.
-   * Ordinate indices 0 and 1 are assumed to be X and Y.
+   * 返回此序列中坐标的纵坐标。
+   * 纵坐标指数0和1假定为X和Y.
    * <p>
-   * Ordinates indices greater than 1 have user-defined semantics
-   * (for instance, they may contain other dimensions or measure
-   * values as described by {@link #getDimension()} and {@link #getMeasures()}).
+   * 坐标索引大于1具有用户定义的语义（例如，它们可能包含{@link #getDimension()}和{@link #getMeasures()}所描述的其他维度或M值。
    *
-   * @param index  the coordinate index in the sequence
+   * @param index  序列中的坐标索引
    * @param ordinateIndex the ordinate index in the coordinate (in range [0, dimension-1])
    */
   double getOrdinate(int index, int ordinateIndex);

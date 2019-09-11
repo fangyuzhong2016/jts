@@ -12,46 +12,45 @@
 package org.locationtech.jts.geom;
 
 /**
- * Coordinate subclass supporting XYM ordinates.
+ *
+ * 坐标对象Coordinate的子类，支持XYM坐标串
  * <p>
- * This data object is suitable for use with coordinate sequences with <tt>dimension</tt> = 3 and <tt>measures</tt> = 1.
+ * 该数据对象适用于<tt>dimension</tt> = 3且 <tt>measure</tt> = 1的坐标序列。
  * <p>
- * The {@link Coordinate#z} field is visible, but intended to be ignored.
+ * {@link Coordinate#z} 字段可见, 但意图被忽略。
  * 
  * @since 1.16
  */
 public class CoordinateXYM extends Coordinate {
   private static final long serialVersionUID = 2842127537691165613L;
 
-  /** Standard ordinate index value for X */
+  /** X的标准坐标索引 */
   public static final int X = 0;
 
-  /** Standard ordinate index value for Y */
+  /** Y的标准坐标索引*/
   public static final int Y = 1;
 
-  /** CoordinateXYM does not support Z values. */
+  /** CoordinateXYM不支持Z值。 */
   public static final int Z = -1;
 
   /**
-   * Standard ordinate index value for M in XYM sequences.
+   * XYM序列中M的标准纵坐标索引值。
    *
-   * <p>This constant assumes XYM coordinate sequence definition.  Check this assumption using
-   * {@link #getDimension()} and {@link #getMeasures()} before use.
    */
   public static final int M = 2;
 
-  /** Default constructor */
+  /** 默认构造函数 */
   public CoordinateXYM() {
     super();
     this.m = 0.0;
   }
 
   /**
-   * Constructs a CoordinateXYM instance with the given ordinates and measure.
+   * 使用给定的纵坐标和度量构造一个CoordinateXYM实例。
    * 
-   * @param x the X ordinate
-   * @param y the Y ordinate
-   * @param m the M measure value
+   * @param x X纵坐标
+   * @param y Y纵坐标
+   * @param m M值
    */
   public CoordinateXYM(double x, double y, double m) {
     super(x, y, Coordinate.NULL_ORDINATE);
@@ -59,7 +58,7 @@ public class CoordinateXYM extends Coordinate {
   }
 
   /**
-   * Constructs a CoordinateXYM instance with the x and y ordinates of the given Coordinate.
+   * 使用给定Coordinate的x和y坐标构造一个CoordinateXYM实例。
    * 
    * @param coord the coordinate providing the ordinates
    */
@@ -69,7 +68,7 @@ public class CoordinateXYM extends Coordinate {
   }
 
   /**
-   * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXYM.
+   * 使用给定CoordinateXYM的x和y坐标构造一个CoordinateXY实例。
    * 
    * @param coord the coordinate providing the ordinates
    */
@@ -79,7 +78,7 @@ public class CoordinateXYM extends Coordinate {
   }
   
   /**
-   * Creates a copy of this CoordinateXYM.
+   * 创建此CoordinateXYM的副本。
    * 
    * @return a copy of this CoordinateXYM
    */

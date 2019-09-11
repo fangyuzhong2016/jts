@@ -12,28 +12,29 @@
 package org.locationtech.jts.geom;
 
 /**
- * Coordinate subclass supporting XYZM ordinates.
+ * Coordinate对象的子类，支持XYZM的坐标串
  * <p>
- * This data object is suitable for use with coordinate sequences with <tt>dimension</tt> = 4 and <tt>measures</tt> = 1.
+ * 该数据对象适用于<tt>dimension</tt> = 4且<tt>measure</tt> = 1的坐标序列。
  *
  * @since 1.16
  */
 public class CoordinateXYZM extends Coordinate {
   private static final long serialVersionUID = -8763329985881823442L;
 
-  /** Default constructor */
+  /** 默认构造函数 */
   public CoordinateXYZM() {
     super();
     this.m = 0.0;
   }
 
   /**
-   * Constructs a CoordinateXYZM instance with the given ordinates and measure.
+   *
+   * 使用给定的纵坐标和M构造一个CoordinateXYZM实例。
    * 
-   * @param x the X ordinate
-   * @param y the Y ordinate
-   * @param z the Z ordinate
-   * @param m the M measure value
+   * @param x X纵坐标
+   * @param y Y纵坐标
+   * @param z Z纵坐标
+   * @param m M值
    */
   public CoordinateXYZM(double x, double y, double z, double m) {
     super(x, y, z);
@@ -41,7 +42,7 @@ public class CoordinateXYZM extends Coordinate {
   }
 
   /**
-   * Constructs a CoordinateXYZM instance with the ordinates of the given Coordinate.
+   * 使用给定Coordinate的纵坐标构造CoordinateXYZM实例。
    * 
    * @param coord the coordinate providing the ordinates
    */
@@ -51,7 +52,7 @@ public class CoordinateXYZM extends Coordinate {
   }
   
   /**
-   * Constructs a CoordinateXYZM instance with the ordinates of the given CoordinateXYZM.
+   * 使用给定CoordinateXYZM的纵坐标构造CoordinateXYZM实例。
    * 
    * @param coord the coordinate providing the ordinates
    */
@@ -61,9 +62,9 @@ public class CoordinateXYZM extends Coordinate {
   }
 
   /**
-   * Creates a copy of this CoordinateXYZM.
+   * 创建此CoordinateXYZM的副本。
    * 
-   * @return a copy of this CoordinateXYZM
+   * @return CoordinateXYZM的副本
    */
   public CoordinateXYZM copy() {
     return new CoordinateXYZM(this);
