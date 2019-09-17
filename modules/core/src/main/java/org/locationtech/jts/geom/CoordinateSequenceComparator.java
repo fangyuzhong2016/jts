@@ -15,26 +15,24 @@ package org.locationtech.jts.geom;
 import java.util.Comparator;
 
 /**
- * Compares two {@link CoordinateSequence}s.
- * For sequences of the same dimension, the ordering is lexicographic.
- * Otherwise, lower dimensions are sorted before higher.
- * The dimensions compared can be limited; if this is done
- * ordinate dimensions above the limit will not be compared.
+ * 比较两个{@link CoordinateSequence}。
+ * 对于相同维度的序列，排序是词典的。
+ * 否则，较低的维度在较高之前排序。
+ * 比较的维度可以是有限的;如果这样做，则不会比较高于限制的坐标。
  * <p>
- * If different behaviour is required for comparing size, dimension, or
- * coordinate values, any or all methods can be overridden.
+ * 如果比较大小，维度或坐标值需要不同的行为，则可以覆盖任何或所有方法。
  *
  */
 public class CoordinateSequenceComparator
 	implements Comparator
 {
   /**
-   * Compare two <code>double</code>s, allowing for NaN values.
-   * NaN is treated as being less than any valid number.
+   * 比较两个<code>double</code>，允许NaN值。
+   * NaN被视为小于任何有效数字。
    *
-   * @param a a <code>double</code>
-   * @param b a <code>double</code>
-   * @return -1, 0, or 1 depending on whether a is less than, equal to or greater than b
+   * @param a 一个<code>double</code>
+   * @param b 另一个<code>double</code>
+   * @return -1,0或1 取决于a是否小于，等于或大于b
    */
   public static int compare(double a, double b)
   {
@@ -51,12 +49,12 @@ public class CoordinateSequenceComparator
   }
 
   /**
-   * The number of dimensions to test
+   * 要测试的维数
    */
   protected int dimensionLimit;
 
   /**
-   * Creates a comparator which will test all dimensions.
+   * 创建一个比较器，用于测试所有维度
    */
   public CoordinateSequenceComparator()
   {
@@ -64,9 +62,9 @@ public class CoordinateSequenceComparator
   }
 
   /**
-   * Creates a comparator which will test only the specified number of dimensions.
+   * 创建一个仅测试指定维数的比较器。
    *
-   * @param dimensionLimit the number of dimensions to test
+   * @param dimensionLimit 要测试的维数
    */
   public CoordinateSequenceComparator(int dimensionLimit)
   {
@@ -74,11 +72,11 @@ public class CoordinateSequenceComparator
   }
 
   /**
-   * Compares two {@link CoordinateSequence}s for relative order.
+   * 比较两个{@link CoordinateSequence}的相对顺序。
    *
-   * @param o1 a {@link CoordinateSequence}
-   * @param o2 a {@link CoordinateSequence}
-   * @return -1, 0, or 1 depending on whether o1 is less than, equal to, or greater than o2
+   * @param o1 一个{@link CoordinateSequence}
+   * @param o2 另一个{@link CoordinateSequence}
+   * @return -1,0或1取决于o1是否小于，等于或大于o2
    */
   public int compare(Object o1, Object o2)
   {
@@ -120,14 +118,13 @@ public class CoordinateSequenceComparator
   }
 
   /**
-   * Compares the same coordinate of two {@link CoordinateSequence}s
-   * along the given number of dimensions.
+   * 比较给定维数的两个{@link CoordinateSequence}的相同坐标。
    *
-   * @param s1 a {@link CoordinateSequence}
-   * @param s2 a {@link CoordinateSequence}
-   * @param i the index of the coordinate to test
-   * @param dimension the number of dimensions to test
-   * @return -1, 0, or 1 depending on whether s1[i] is less than, equal to, or greater than s2[i]
+   * @param s1 一个{@link CoordinateSequence}
+   * @param s2 一个{@link CoordinateSequence}
+   * @param i 要测试的坐标的索引
+   * @param dimension 要测试的维数
+   * @return -1,0或1取决于s1[i]是否小于，等于或大于s2[i]
    */
   protected int compareCoordinate(CoordinateSequence s1, CoordinateSequence s2, int i, int dimension)
   {

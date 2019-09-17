@@ -12,9 +12,8 @@
 package org.locationtech.jts.geom;
 
 /**
- * A factory to create concrete instances of {@link CoordinateSequence}s.
- * Used to configure {@link GeometryFactory}s
- * to provide specific kinds of CoordinateSequences.
+ * 一个工厂接口，用于创建{@link CoordinateSequence}的具体实例。
+ * 用于配置{@link GeometryFactory}以提供特定种类的CoordinateSequences。
  *
  * @version 1.7
  */
@@ -22,53 +21,44 @@ public interface CoordinateSequenceFactory
 {
 
   /**
-   * Returns a {@link CoordinateSequence} based on the given array.
-   * Whether the array is copied or simply referenced
-   * is implementation-dependent.
-   * This method must handle null arguments by creating an empty sequence.
+   * 根据给定的数组返回{@link CoordinateSequence}。
+   * 数组是复制还是简单引用是依赖于实现的。
+   * 此方法必须通过创建空序列来处理空参数。
    *
-   * @param coordinates the coordinates
+   * @param coordinates 坐标数组对象 coordinates
    */
   CoordinateSequence create(Coordinate[] coordinates);
 
   /**
-   * Creates a {@link CoordinateSequence} which is a copy
-   * of the given {@link CoordinateSequence}.
-   * This method must handle null arguments by creating an empty sequence.
+   * 创建{@link CoordinateSequence}，它是给定{@link CoordinateSequence}的副本。
+   * 此方法必须通过创建空序列来处理空参数。
    *
-   * @param coordSeq the coordinate sequence to copy
+   * @param coordSeq 要复制的坐标序列
    */
   CoordinateSequence create(CoordinateSequence coordSeq);
 
   /**
-   * Creates a {@link CoordinateSequence} of the specified size and dimension.
-   * For this to be useful, the {@link CoordinateSequence} implementation must
-   * be mutable.
+   * 创建指定大小和维度的{@link CoordinateSequence}。
+   * 为了使其有用，{@link CoordinateSequence}实现必须是可变的。
    * <p>
-   * If the requested dimension is larger than the CoordinateSequence implementation
-   * can provide, then a sequence of maximum possible dimension should be created.
-   * An error should not be thrown.
+   * 如果请求的维度大于CoordinateSequence实现可以提供的维度，则应创建一系列最大可能维度。
+   * 不应该抛出错误。
    *
-   * @param size the number of coordinates in the sequence
-   * @param dimension the dimension of the coordinates in the sequence (if user-specifiable,
-   * otherwise ignored)
+   * @param size 序列中的坐标数
+   * @param dimension 序列中坐标的维度（如果用户可指定，否则忽略）
    */
   CoordinateSequence create(int size, int dimension);
 
   /**
-   * Creates a {@link CoordinateSequence} of the specified size and dimension with measure support.
-   * For this to be useful, the {@link CoordinateSequence} implementation must
-   * be mutable.
+   * 使用M值支持创建指定大小和维度的{@link CoordinateSequence}。
+   * 为了使其有用，{@link CoordinateSequence}实现必须是可变的。
    * <p>
-   * If the requested dimension or measures are larger than the CoordinateSequence implementation
-   * can provide, then a sequence of maximum possible dimension should be created.
-   * An error should not be thrown.
+   * 如果请求的维度或M值大于CoordinateSequence实现可以提供的，则应创建最大可能维度的序列。
+   * 不应该抛出错误。
    *
-   * @param size the number of coordinates in the sequence
-   * @param dimension the dimension of the coordinates in the sequence (if user-specifiable,
-   * otherwise ignored)
-   * @param measures the number of measures of the coordinates in the sequence (if user-specifiable,
-   * otherwise ignored)
+   * @param size 序列中的坐标数
+   * @param dimension 序列中坐标的维度（如果用户可指定，否则忽略）
+   * @param measures 序列中坐标的M值（如果用户可指定，否则忽略）
    */
   default CoordinateSequence create(int size, int dimension, int measures) {
       return create(size, dimension);

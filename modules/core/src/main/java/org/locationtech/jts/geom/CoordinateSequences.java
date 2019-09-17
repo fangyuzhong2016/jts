@@ -16,16 +16,16 @@ import org.locationtech.jts.util.NumberUtil;
 
 
 /**
- * Utility functions for manipulating {@link CoordinateSequence}s
+ * 用于操纵{@link CoordinateSequence}的实用程序函数
  *
  * @version 1.7
  */
 public class CoordinateSequences {
 
   /**
-   * Reverses the coordinates in a sequence in-place.
+   * 以原位顺序反转序列中的坐标。
    * 
-   * @param seq the coordinate sequence to reverse
+   * @param seq 要反转的坐标序列
    */
   public static void reverse(CoordinateSequence seq)
   {
@@ -37,11 +37,11 @@ public class CoordinateSequences {
   }
 
   /**
-   * Swaps two coordinates in a sequence.
+   * 交换序列中的两个坐标。
    *
-   * @param seq the sequence to modify
-   * @param i the index of a coordinate to swap
-   * @param j the index of a coordinate to swap
+   * @param seq 要修改的序列
+   * @param i 要交换的坐标的索引
+   * @param j 要交换的坐标的索引
    */
   public static void swap(CoordinateSequence seq, int i, int j)
   {
@@ -54,15 +54,14 @@ public class CoordinateSequences {
   }
   
   /**
-   * Copies a section of a {@link CoordinateSequence} to another {@link CoordinateSequence}.
-   * The sequences may have different dimensions;
-   * in this case only the common dimensions are copied.
+   * 将{@link CoordinateSequence}的一部分复制到另一个{@link CoordinateSequence}。
+   * 序列可能有不同的维度;在这种情况下，只复制公共维度。
    *
-   * @param src the sequence to copy from
-   * @param srcPos the position in the source sequence to start copying at
-   * @param dest the sequence to copy to
-   * @param destPos the position in the destination sequence to copy to
-   * @param length the number of coordinates to copy
+   * @param src 从中复制的序列
+   * @param srcPos 源序列中的位置开始复制
+   * @param dest 要复制的序列
+   * @param destPos 要复制到的目标序列中的位置
+   * @param length 要复制的坐标数
    */
   public static void copy(CoordinateSequence src, int srcPos, CoordinateSequence dest, int destPos, int length)
   {
@@ -72,14 +71,13 @@ public class CoordinateSequences {
   }
 
   /**
-   * Copies a coordinate of a {@link CoordinateSequence} to another {@link CoordinateSequence}.
-   * The sequences may have different dimensions;
-   * in this case only the common dimensions are copied.
+   * 将{@link CoordinateSequence}的坐标复制到另一个{@link CoordinateSequence}。
+   * 序列可能有不同的维度;在这种情况下，只复制通用维度。
    * 
-   * @param src the sequence to copy from
-   * @param srcPos the source coordinate to copy
-   * @param dest the sequence to copy to
-   * @param destPos the destination coordinate to copy to
+   * @param src 从中复制的序列
+   * @param srcPos 要复制的源坐标
+   * @param dest 要复制的序列
+   * @param destPos 要复制到的目标坐标
    */
   public static void copyCoord(CoordinateSequence src, int srcPos, CoordinateSequence dest, int destPos)
   {
@@ -90,13 +88,11 @@ public class CoordinateSequences {
   }
   
   /**
-   * Tests whether a {@link CoordinateSequence} forms a valid {@link LinearRing},
-   * by checking the sequence length and closure
-   * (whether the first and last points are identical in 2D). 
-   * Self-intersection is not checked.
+   * 通过检查序列长度和闭包(2D中的第一个和最后一个点是否相同)来测试{@link CoordinateSequence}是否形成有效的{@link LinearRing}。
+   * 不检查自相交。
    * 
-   * @param seq the sequence to test
-   * @return true if the sequence is a ring
+   * @param seq 要测试的序列
+   * @return 如果序列是一个环，则为true
    * @see LinearRing
    */
   public static boolean isRing(CoordinateSequence seq) 
@@ -112,16 +108,13 @@ public class CoordinateSequences {
   }
   
   /**
-   * Ensures that a CoordinateSequence forms a valid ring, 
-   * returning a new closed sequence of the correct length if required.
-   * If the input sequence is already a valid ring, it is returned 
-   * without modification.
-   * If the input sequence is too short or is not closed, 
-   * it is extended with one or more copies of the start point.
+   * 确保CoordinateSequence形成有效的环，如果需要，返回正确长度的新闭合序列。
+   * 如果输入序列已经是有效的环，则返回它而不进行修改。
+   * 如果输入序列太短或未关闭，则使用起始点的一个或多个副本进行扩展。
    * 
-   * @param fact the CoordinateSequenceFactory to use to create the new sequence
-   * @param seq the sequence to test
-   * @return the original sequence, if it was a valid ring, or a new sequence which is valid.
+   * @param fact CoordinateSequenceFactory用于创建新序列
+   * @param seq 要测试的序列
+   * @return 原始序列，如果它是有效环，或新序列是有效的。
    */
   public static CoordinateSequence ensureValidRing(CoordinateSequenceFactory fact, CoordinateSequence seq)
   {
@@ -164,16 +157,14 @@ public class CoordinateSequences {
   }
 
   /**
-   * Tests whether two {@link CoordinateSequence}s are equal.
-   * To be equal, the sequences must be the same length.
-   * They do not need to be of the same dimension, 
-   * but the ordinate values for the smallest dimension of the two
-   * must be equal.
-   * Two <code>NaN</code> ordinates values are considered to be equal. 
+   * 测试两个{@link CoordinateSequence}是否相等。
+   * 为了相同，序列必须是相同的长度。
+   * 它们不需要具有相同的维度，但两个的最小维度的坐标值必须相等。
+   * 两个<code>NaN</code>坐标值被认为是相等的。
    * 
-   * @param cs1 a CoordinateSequence
-   * @param cs2 a CoordinateSequence
-   * @return true if the sequences are equal in the common dimensions
+   * @param cs1 CoordinateSequence
+   * @param cs2 CoordinateSequence
+   * @return 如果序列在公共维度中相等，则为true
    */
   public static boolean isEqual(CoordinateSequence cs1, CoordinateSequence cs2) {
     int cs1Size = cs1.size();
@@ -196,14 +187,14 @@ public class CoordinateSequences {
   }
   
   /**
-   * Creates a string representation of a {@link CoordinateSequence}.
-   * The format is:
+   * 创建{@link CoordinateSequence}的字符串表示形式。
+   * 格式为：
    * <pre>
    *   ( ord0,ord1.. ord0,ord1,...  ... )
    * </pre>
    * 
-   * @param cs the sequence to output
-   * @return the string representation of the sequence
+   * @param cs 要输出的序列
+   * @return 序列的字符串表示
    */
   public static String toString(CoordinateSequence cs)
   {
@@ -225,11 +216,10 @@ public class CoordinateSequences {
   }
 
   /**
-   *  Returns the minimum coordinate, using the usual lexicographic comparison.
+   *  使用通常的字典比较返回最小坐标。
    *
-   *@param  seq  the coordinate sequence to search
-   *@return  the minimum coordinate in the sequence, found using <code>compareTo</code>
-   *@see Coordinate#compareTo(Object)
+   *@param  seq  要搜索的坐标序列
+   *@return  使用 <code>compareTo</code>找到序列中的最小坐标，
    */
   public static Coordinate minCoordinate(CoordinateSequence seq)
   {
@@ -243,27 +233,22 @@ public class CoordinateSequences {
     return minCoord;
   }
   /**
-   *  Returns the index of the minimum coordinate of the whole
-   *  coordinate sequence, using the usual lexicographic comparison.
+   *  使用通常的字典比较返回整个坐标序列的最小坐标的索引。
    *
-   *@param  seq  the coordinate sequence to search
-   *@return  the index of the minimum coordinate in the sequence, found using <code>compareTo</code>
-   *@see Coordinate#compareTo(Object)
+   *@param  seq  要搜索的坐标序列
+   *@return  序列中最小坐标的索引，使用<code>compareTo</code>找到
    */
   public static int minCoordinateIndex(CoordinateSequence seq) {
     return minCoordinateIndex(seq, 0, seq.size() - 1);
   }
 
   /**
-   *  Returns the index of the minimum coordinate of a part of
-   *  the coordinate sequence (defined by {@code from} and {@code to},
-   *  using the usual lexicographic comparison.
-   *
-   *@param  seq   the coordinate sequence to search
-   *@param  from  the lower search index
-   *@param  to    the upper search index
+   *  使用通常的字典比较，返回坐标序列的一部分（由{@code from}和{@code to}定义）的最小坐标的索引。
+   *  
+   *@param  seq   要搜索的坐标序列
+   *@param  from  开始的搜索索引
+   *@param  to    结束的搜索索引
    *@return  the index of the minimum coordinate in the sequence, found using <code>compareTo</code>
-   *@see Coordinate#compareTo(Object)
    */
   public static int minCoordinateIndex(CoordinateSequence seq, int from, int to)
   {
@@ -280,10 +265,9 @@ public class CoordinateSequences {
   }
 
   /**
-   *  Shifts the positions of the coordinates until <code>firstCoordinate</code>
-   *  is first.
+   * 移动坐标的位置，直到<code>firstCoordinate</code>的坐标在第一位置为止。
    *
-   *@param  seq      the coordinate sequence to rearrange
+   *@param  seq      重新排列的坐标序列
    *@param  firstCoordinate  the coordinate to make first
    */
   public static void scroll(CoordinateSequence seq, Coordinate firstCoordinate) {
@@ -293,11 +277,10 @@ public class CoordinateSequences {
   }
 
   /**
-   *  Shifts the positions of the coordinates until the coordinate at  <code>firstCoordinateIndex</code>
-   *  is first.
+   *  移动坐标的位置，直到<code>firstCoordinateIndex</code>的坐标在第一位置为止。
    *
-   *@param  seq      the coordinate sequence to rearrange
-   *@param  indexOfFirstCoordinate  the index of the coordinate to make first
+   *@param  seq      重新排列的坐标序列
+   *@param  indexOfFirstCoordinate  要排列在第一位的坐标索引
    */
   public static void scroll(CoordinateSequence seq, int indexOfFirstCoordinate)
   {
@@ -305,14 +288,13 @@ public class CoordinateSequences {
   }
 
   /**
-   *  Shifts the positions of the coordinates until the coordinate at  <code>firstCoordinateIndex</code>
-   *  is first.
+   *  移动坐标的位置，直到<code> firstCoordinateIndex</code>的坐标排列在第一位为止。
    *
-   *@param  seq      the coordinate sequence to rearrange
+   *@param  seq      重新排列的坐标序列
    *@param  indexOfFirstCoordinate
-   *                 the index of the coordinate to make first
+   *                 要排列在第一位的坐标索引
    *@param  ensureRing
-   *                 makes sure that {@code} will be a closed ring upon exit
+   *                 确保{@code}在退出时成为闭环
    */
     public static void scroll(CoordinateSequence seq, int indexOfFirstCoordinate, boolean ensureRing) {
     int i = indexOfFirstCoordinate;
@@ -339,13 +321,12 @@ public class CoordinateSequences {
   }
 
   /**
-   *  Returns the index of <code>coordinate</code> in a {@link CoordinateSequence}
-   *  The first position is 0; the second, 1; etc.
+   * 返回{@link CoordinateSequence}中<code>coordinate</code>的索引
+   *  排列在第一个位置是 0; 第二个位置是1; 以此类推.
    *
-   *@param  coordinate   the <code>Coordinate</code> to search for
-   *@param  seq  the coordinate sequence to search
-   *@return              the position of <code>coordinate</code>, or -1 if it is
-   *      not found
+   *@param  coordinate   要搜索的<code>Coordinate</code>
+   *@param  seq  要搜索的坐标序列
+   *@return              <code>coordinate</code>的位置，如果未找到，则返回-1
    */
   public static int indexOf(Coordinate coordinate, CoordinateSequence seq) {
     for (int i = 0; i < seq.size(); i++) {

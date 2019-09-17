@@ -15,7 +15,7 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
 import org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory;
 
 /**
- * 几何内部坐标列表的内部表示。
+ * JTS的坐标序列接口，几何内部坐标列表的内部表示。
  * <p>
  * 这允许Geometries使用JTS {@link Coordinate}类之外的其他东西来存储它们的点。
  * 例如，存储高效的实现可能将坐标序列存储为x的数组和y的数组。或者自定义坐标类可能支持额外的属性，如M值。
@@ -208,35 +208,32 @@ public interface CoordinateSequence
   double getOrdinate(int index, int ordinateIndex);
 
   /**
-   * Returns the number of coordinates in this sequence.
-   * @return the size of the sequence
+   * 返回此序列中的坐标数。(坐标序列的长度)
+   * @return 序列的大小
    */
   int size();
 
   /**
-   * Sets the value for a given ordinate of a coordinate in this sequence.
+   * 以给定坐标的值设置此序列中坐标。
    *
-   * @param index  the coordinate index in the sequence
-   * @param ordinateIndex the ordinate index in the coordinate (in range [0, dimension-1])
-   * @param value  the new ordinate value
+   * @param index  序列中的坐标索引
+   * @param ordinateIndex 坐标中的坐标索引(在 [0, dimension-1]范围内)
+   * @param value  新的坐标值
    */
   void setOrdinate(int index, int ordinateIndex, double value);
 
   /**
-   * Returns (possibly copies of) the Coordinates in this collection.
-   * Whether or not the Coordinates returned are the actual underlying
-   * Coordinates or merely copies depends on the implementation. Note that
-   * if this implementation does not store its data as an array of Coordinates,
-   * this method will incur a performance penalty because the array needs to
-   * be built from scratch.
+   * 返回此坐标的集合（可能是副本）。
+   * 返回的坐标是否是实际的基础坐标或仅仅是副本取决于实现。
+   * 请注意，如果此实现不将其数据存储为Coordinates数组，则此方法将导致性能下降，因为需要从头开始构建数组。
    *
-   * @return a array of coordinates containing the point values in this sequence
+   * @return 包含此序列中的点值的坐标数组
    */
   Coordinate[] toCoordinateArray();
 
   /**
-   * Expands the given {@link Envelope} to include the coordinates in the sequence.
-   * Allows implementing classes to optimize access to coordinate values.
+   * 扩展给定的{@link Envelope}以包含序列中的坐标。
+   * 允许实现类以优化对坐标值的访问。
    *
    * @param env the envelope to expand
    * @return a ref to the expanded envelope
@@ -244,18 +241,18 @@ public interface CoordinateSequence
   Envelope expandEnvelope(Envelope env);
 
   /**
-   * Returns a deep copy of this collection.
-   * Called by Geometry#clone.
+   * 返回此集合的深层副本。
+   * 由Geometry#clone调用。
    *
-   * @return a copy of the coordinate sequence containing copies of all points
-   * @deprecated Recommend {@link #copy()} 
+   * @return 包含所有点副本的坐标序列的副本
+   * @deprecated 推荐{@link #copy()}
    */
   Object clone();
   
   /**
-   * Returns a deep copy of this collection.
+   * 返回此集合的深层副本。
    *
-   * @return a copy of the coordinate sequence containing copies of all points
+   * @return 包含所有点副本的坐标序列的副本
    */
   CoordinateSequence copy();
 }

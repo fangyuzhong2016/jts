@@ -17,27 +17,18 @@ import org.locationtech.jts.geom.util.GeometryEditor;
 import org.locationtech.jts.geom.util.GeometryTransformer;
 
 /**
- *  An interface for classes which process the coordinates in a {@link CoordinateSequence}. 
- *  A filter can either record information about each coordinate,
- *  or change the value of the coordinate. 
- *  Filters can be
- *  used to implement operations such as coordinate transformations, centroid and
- *  envelope computation, and many other functions.
- *  {@link Geometry} classes support the concept of applying a
- *  <code>CoordinateSequenceFilter</code> to each 
- *  {@link CoordinateSequence}s they contain. 
+ *  JTS的坐标序列过滤器，用于处理{@link CoordinateSequence}中坐标的类的接口。
+ *  过滤器可以记录有关每个坐标的信息，也可以更改坐标的值。
+ *  过滤器可用于实现诸如坐标变换，质心和包络计算等操作以及许多其他功能。
+ *  {@link Geometry}类支持将<code>CoordinateSequenceFilter</code>应用于它们包含的每个{@link CoordinateSequence}的概念。
  *  <p>
- *  For maximum efficiency, the execution of filters can be short-circuited by using the {@link #isDone} method.
+ *  为了获得最大效率，可以使用{@link #isDone}方法将过滤器的执行短路。
  *  <p>
- *  <code>CoordinateSequenceFilter</code> is
- *  an example of the Gang-of-Four Visitor pattern.
+ *  <code>CoordinateSequenceFilter</code>是Gang-of-Four Visitor模式的一个示例。
  *  <p> 
- * <b>Note</b>: In general, it is preferable to treat Geometrys as immutable. 
- * Mutation should be performed by creating a new Geometry object (see {@link GeometryEditor} 
- * and {@link GeometryTransformer} for convenient ways to do this).
- * An exception to this rule is when a new Geometry has been created via {@link Geometry#copy()}.
- * In this case mutating the Geometry will not cause aliasing issues, 
- * and a filter is a convenient way to implement coordinate transformation.
+ * <b>注意</b>: 通常，优选将Geometrys视为不可变的。
+ * 应该通过创建一个新的Geometry对象来执行变换（请参阅{@link GeometryEditor} 和{@link GeometryTransformer}以获得方便的方法）。
+ * 此规则的一个例外是通过{@link Geometry＃copy()}创建了一个新的Geometry,在这种情况下，改变几何不会导致别名问题，过滤器是实现坐标转换的便捷方式。
  *  
  * @see Geometry#apply(CoordinateFilter)
  * @see GeometryTransformer
@@ -50,32 +41,28 @@ import org.locationtech.jts.geom.util.GeometryTransformer;
 public interface CoordinateSequenceFilter 
 {
   /**
-   * Performs an operation on a coordinate in a {@link CoordinateSequence}.
+   * 对{@link CoordinateSequence}中的坐标执行操作。
    *
-   *@param seq  the <code>CoordinateSequence</code> to which the filter is applied
-   *@param i the index of the coordinate to apply the filter to
+   *@param seq  应用过滤器的<code>CoordinateSequence</code>
+   *@param i 要应用过滤器的坐标的索引
    */
   void filter(CoordinateSequence seq, int i);
   
   /**
-   * Reports whether the application of this filter can be terminated.
-   * Once this method returns <tt>true</tt>, it must 
-   * continue to return <tt>true</tt> on every subsequent call.
+   * 报告是否可以终止此过滤器的应用程序。
+   * 一旦此方法返回<tt>true</tt>，它必须在每次后续调用时继续返回<tt>true</tt>。
    * 
-   * @return true if the application of this filter can be terminated.
+   * @return 如果可以终止此过滤器的应用程序，则为true。
    */
   boolean isDone();
   
   /**
-   * Reports whether the execution of this filter
-   * has modified the coordinates of the geometry.
-   * If so, {@link Geometry#geometryChanged} will be executed
-   * after this filter has finished being executed.
+   * 报告此过滤器的执行是否已修改几何的坐标。
+   * 如果是这样，在此过滤器执行完毕后将执行{@link Geometry#geometryChanged}。
    * <p>
-   * Most filters can simply return a constant value reflecting
-   * whether they are able to change the coordinates.
+   * 大多数过滤器只能返回一个常量值，反映它们是否能够更改坐标。
    * 
-   * @return true if this filter has changed the coordinates of the geometry
+   * @return 如果此滤镜已更改几何的坐标，则为true
    */
   boolean isGeometryChanged();
 }
