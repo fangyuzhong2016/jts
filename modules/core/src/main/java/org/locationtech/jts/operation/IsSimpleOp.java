@@ -91,6 +91,7 @@ public class IsSimpleOp
    *
    * @deprecated use IsSimpleOp(Geometry)
    */
+
   public IsSimpleOp() {
   }
 

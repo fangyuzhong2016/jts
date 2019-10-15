@@ -14,16 +14,14 @@ package org.locationtech.jts.geom;
 import java.io.Serializable;
 
 /**
- *  Defines a rectangular region of the 2D coordinate plane.
- *  It is often used to represent the bounding box of a {@link Geometry},
- *  e.g. the minimum and maximum x and y values of the {@link Coordinate}s.
+ *  定义了2D的矩形区域的坐标平面。
+ *  它经常被用于表示{@link Geometry}的边界框，例如{@link Coordinate}的最小和最大x和y数值•
  *  <p>
  *  Envelopes support infinite or half-infinite regions, by using the values of
  *  <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code>.
  *  Envelope objects may have a null value.
  *  <p>
- *  When Envelope objects are created or initialized,
- *  the supplies extent values are automatically sorted into the correct order.
+ *  When Envelope objects are created or initialized,the supplies extent values are automatically sorted into the correct order.
  *
  *@version 1.7
  */

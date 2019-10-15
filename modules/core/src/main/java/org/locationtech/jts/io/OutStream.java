@@ -14,9 +14,8 @@ package org.locationtech.jts.io;
 import java.io.IOException;
 
 /**
- * A interface for classes providing an output stream of bytes.
- * This interface is similar to the Java <code>OutputStream</code>,
- * but with a narrower interface to make it easier to implement.
+ * 一种用于提供字节的输出流类接口。
+ * 该接口是类似于Java的<code>OutputStream</code>，但较窄的接口，使之更容易实现。
  */
 public interface OutStream
 {

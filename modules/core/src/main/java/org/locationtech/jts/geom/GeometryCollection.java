@@ -20,8 +20,7 @@ import org.locationtech.jts.util.Assert;
 
 
 /**
- * Models a collection of {@link Geometry}s of
- * arbitrary type and dimension.
+ * Models a collection of {@link Geometry}s of arbitrary type and dimension.
  * 
  *
  *@version 1.7

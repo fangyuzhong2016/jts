@@ -168,7 +168,8 @@ public abstract class Geometry
    * 如果数组包含任何非空<code>Geometry</code>，则返回true。
    *
    *@param  geometries  一个 <code>Geometry</code>的数组;没有元素可能是<code>null</code>
-   *@return             如果任何<code>Geometry</code>的<code>isEmpty</code>方法返回<code>false</code>，就返回<code>true</code>
+   *@return             如果任何<code>Geometry</code>的<code>isEmpty</code>方法返回<code>false</code>，
+   *                    就返回<code>true</code>
    */
   protected static boolean hasNonEmptyElements(Geometry[] geometries) {
     for (int i = 0; i < geometries.length; i++) {
@@ -222,7 +223,7 @@ public abstract class Geometry
   }
 
   /**
-   * Gets the factory which contains the context in which this geometry was created.
+   * 获取创建Geometry的对象的工厂
    *
    * @return the factory for this geometry
    */
@@ -231,30 +232,29 @@ public abstract class Geometry
   }
 
   /**
-   * Gets the user data object for this geometry, if any.
+   * 获取此几何体的用户数据对象（如果有）。
    *
-   * @return the user data object, or <code>null</code> if none set
+   * @return 用户数据对象，或<code>null</code>如果没有设置
    */
   public Object getUserData() {
         return userData;
   }
 
   /**
-   * Returns the number of {@link Geometry}s in a {@link GeometryCollection}
-   * (or 1, if the geometry is not a collection).
+   * 返回 {@link Geometry}中的 {@link GeometryCollection}的数量（如果几何不是集合，则为 1）。
    *
-   * @return the number of geometries contained in this geometry
+   * @return 几何体geometry中包含的geometry的数量
    */
   public int getNumGeometries() {
     return 1;
   }
 
   /**
-   * Returns an element {@link Geometry} from a {@link GeometryCollection}
-   * (or <code>this</code>, if the geometry is not a collection).
+   * 获取几何集合 {@link GeometryCollection} 中指定位置n的几何对象 {@link Geometry}
+   * (如果几何不是集合，返回 <code>this</code>).
    *
-   * @param n the index of the geometry element
-   * @return the n'th geometry contained in this geometry
+   * @param n 几何元素的索引
+   * @return 此几何体中包含的几何体
    */
   public Geometry getGeometryN(int n) {
     return this;
@@ -262,14 +262,12 @@ public abstract class Geometry
 
 
   /**
-   * A simple scheme for applications to add their own custom data to a Geometry.
-   * An example use might be to add an object representing a Coordinate Reference System.
+   * 应用程序向几何体添加其自己的自定义数据的简单方案。
+   * 例如，添加表示坐标参考系统的对象。
    * <p>
-   * Note that user data objects are not present in geometries created by
-   * construction methods.
+   * 请注意，在由构造方法创建的几何图形中不存在用户数据对象。
    *
-   * @param userData an object, the semantics for which are defined by the
-   * application using this Geometry
+   * @param userData 对象，其语义由应用程序使用此几何体定义
    */
   public void setUserData(Object userData) {
         this.userData = userData;
@@ -277,77 +275,60 @@ public abstract class Geometry
 
 
   /**
-   *  Returns the <code>PrecisionModel</code> used by the <code>Geometry</code>.
-   *
-   *@return    the specification of the grid of allowable points, for this
-   *      <code>Geometry</code> and all other <code>Geometry</code>s
+   * 返回<code>Geometry</code>使用的<code>PrecisionModel</code>。
+   *@return    the specification of the grid of allowable points, for this <code>Geometry</code> and all other <code>Geometry</code>s
    */
   public PrecisionModel getPrecisionModel() {
     return factory.getPrecisionModel();
   }
 
   /**
-   *  Returns a vertex of this <code>Geometry</code>
-   *  (usually, but not necessarily, the first one).
-   *  The returned coordinate should not be assumed
-   *  to be an actual Coordinate object used in
-   *  the internal representation.
+   *  返回该 <code>Geometry</code>的一个顶点坐标串对象
+   *  (通常，但不一定，第一个).
+   *  不应假定返回的坐标是内部表示中使用的实际坐标对象。
    *
-   *@return    a {@link Coordinate} which is a vertex of this <code>Geometry</code>.
-   *@return null if this Geometry is empty
+   *@return    一个坐标串 {@link Coordinate} ，表示该 <code>Geometry</code> 的顶点
+   *@return 如果此几何体为空，则为 null
    */
   public abstract Coordinate getCoordinate();
   
   /**
-   *  Returns an array containing the values of all the vertices for 
-   *  this geometry.
-   *  If the geometry is a composite, the array will contain all the vertices
-   *  for the components, in the order in which the components occur in the geometry.
+   *  返回包含此几何体的所有顶点值的数组。
+   *  如果几何体是复合体，则数组将包含零部件的所有顶点，其顺序是零部件在几何体中的出现顺序。
    *  <p>
-   *  In general, the array cannot be assumed to be the actual internal 
-   *  storage for the vertices.  Thus modifying the array
-   *  may not modify the geometry itself. 
-   *  Use the {@link CoordinateSequence#setOrdinate} method
-   *  (possibly on the components) to modify the underlying data.
-   *  If the coordinates are modified, 
-   *  {@link #geometryChanged} must be called afterwards.
-   *
-   *@return    the vertices of this <code>Geometry</code>
+   *  通常，不能假定数组是顶点的实际内部存储。
+   *  因此，修改数组可能不会修改几何本身。
+   *  使用 {@link CoordinateSequence#setOrdinate}方法（可能在组件上）修改基础数据。
+   *  如果坐标被修改，则随后必须调用{@link #geometryChanged}
+   *@return    此几何的顶点坐标数组
    *@see #geometryChanged
    *@see CoordinateSequence#setOrdinate
    */
   public abstract Coordinate[] getCoordinates();
 
   /**
-   *  Returns the count of this <code>Geometry</code>s vertices. The <code>Geometry</code>
-   *  s contained by composite <code>Geometry</code>s must be
-   *  Geometry's; that is, they must implement <code>getNumPoints</code>
+   * 返回此几何体 <code>Geometry</code>的顶点个数
+   *  The <code>Geometry</code>s contained by composite <code>Geometry</code>s must be Geometry's; that is, they must implement <code>getNumPoints</code>
    *
    *@return    the number of vertices in this <code>Geometry</code>
    */
   public abstract int getNumPoints();
 
   /**
-   * Tests whether this {@link Geometry} is simple.
-   * The SFS definition of simplicity
-   * follows the general rule that a Geometry is simple if it has no points of
-   * self-tangency, self-intersection or other anomalous points.
+   * 测试该几何体 {@link Geometry}是否是简单的
+   * SFS 简单性定义为 – 遵循一般规则，即如果几何体没有 自切点、自交点或其他异常点点，则其是简单的。
    * <p>
-   * Simplicity is defined for each {@link Geometry} subclass as follows:
+   * 为每个 {@link Geometry} 子类定义简单性，如下所示：
    * <ul>
-   * <li>Valid polygonal geometries are simple, since their rings
-   * must not self-intersect.  <code>isSimple</code>
-   * tests for this condition and reports <code>false</code> if it is not met.
-   * (This is a looser test than checking for validity).
-   * <li>Linear rings have the same semantics.
-   * <li>Linear geometries are simple iff they do not self-intersect at points
-   * other than boundary points.
-   * <li>Zero-dimensional geometries (points) are simple iff they have no
-   * repeated points.
-   * <li>Empty <code>Geometry</code>s are always simple.
+   * <li>有效的多边形几何体很简单，因为它们的环不能自相交。使用<code>isSimple</code>方法测试，如果未能满足，返回<code>false</code>
+   * (这是一个比检查有效性更宽松的测试).
+   * <li>线性环具有相同的语义。
+   * <li>线性几何体是简单的，如果它们不在边界点以外的点上自相交。
+   * <li>零维几何（点）是简单的，如果它们没有重复点。
+   * <li>空的<code>Geometry</code>总是简单的
    * </ul>
    *
-   * @return <code>true</code> if this <code>Geometry</code> is simple
+   * @return  如果<code>Geometry</code>是简单的，返回<code>true</code>
    * @see #isValid
    */
   public boolean isSimple()
@@ -357,12 +338,11 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this <code>Geometry</code>
-   * is topologically valid, according to the OGC SFS specification.
+   * 根据 OGC SFS 规范，测试此<code>Geometry</code>在拓扑上是否有效。
    * <p>
-   * For validity rules see the Javadoc for the specific Geometry subclass.
+   * 有关有效性规则，请参阅特定几何子类的 Javadoc。
    *
-   *@return <code>true</code> if this <code>Geometry</code> is valid
+   *@return 如果<code>Geometry</code>在拓扑上是有效的，返回<code>true</code>
    *
    * @see IsValidOp
    */
@@ -372,21 +352,19 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether the set of points covered by this <code>Geometry</code> is
-   * empty.
+   * 测试此<code>Geometry</code>涵盖的点集是否为空。
    *
-   *@return <code>true</code> if this <code>Geometry</code> does not cover any points
+   *@return  如果此<code>Geometry</code>不包括任何点，返回<code>true</code>
    */
   public abstract boolean isEmpty();
 
   /**
-   *  Returns the minimum distance between this <code>Geometry</code>
-   *  and another <code>Geometry</code>.
+   * 返回此<code>Geometry</code>与另一个<code>Geometry</code>之间的最小距离。
    *
-   * @param  g the <code>Geometry</code> from which to compute the distance
-   * @return the distance between the geometries
-   * @return 0 if either input geometry is empty
-   * @throws IllegalArgumentException if g is null
+   * @param  g 计算与该几何的最小距离的另一个<code>Geometry</code>
+   * @return 几何体之间的距离
+   * @return 如果任一输入几何体为空，则为 0
+   * @throws IllegalArgumentException 如果 g 为空
    */
   public double distance(Geometry g)
   {
@@ -394,12 +372,11 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether the distance from this <code>Geometry</code>
-   * to another is less than or equal to a specified value.
+   * 测试此<code>Geometry</code>到另一个几何体的距离值是否小于或等于指定值。
    *
-   * @param geom the Geometry to check the distance to
-   * @param distance the distance value to compare
-   * @return <code>true</code> if the geometries are less than <code>distance</code> apart.
+   * @param geom 待检查距离的Geometry
+   * @param distance 要比较的距离值
+   * @return 此<code>Geometry</code>到另一个几何体的距离值小于或等于指定值<code>distance</code>,返回 <code>true</code>
    */
   public boolean isWithinDistance(Geometry geom, double distance)
   {
@@ -407,9 +384,9 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this is a rectangular {@link Polygon}.
+   * 测试此Geometry是否是矩形( {@link Polygon})
    * 
-   * @return true if the geometry is a rectangle.
+   * @return 如果几何体是矩形，则为 true。
    */
   public boolean isRectangle()
   {
@@ -418,12 +395,11 @@ public abstract class Geometry
   }
 
   /**
-   *  Returns the area of this <code>Geometry</code>.
-   *  Areal Geometries have a non-zero area.
-   *  They override this function to compute the area.
-   *  Others return 0.0
+   * 返回此<code>Geometry</code>的面积。
+   *  Areal 几何体具有非零面积。
+   *  它们重写此函数以计算面积。其他返回 0.0
    *
-   *@return the area of the Geometry
+   *@return 几何体的面积
    */
   public double getArea()
   {
@@ -431,13 +407,13 @@ public abstract class Geometry
   }
 
   /**
-   *  Returns the length of this <code>Geometry</code>.
-   *  Linear geometries return their length.
-   *  Areal geometries return their perimeter.
-   *  They override this function to compute the area.
-   *  Others return 0.0
+   *  返回此<code>Geometry</code>的长度。
+   *  线性几何体返回其长度。
+   *  Areal几何体返回其周长。
+   *  它们重写此函数以计算长度。
+   *  其他返回 0.0
    *
-   *@return the length of the Geometry
+   *@return 几何的长度
    */
   public double getLength()
   {
@@ -445,13 +421,11 @@ public abstract class Geometry
   }
 
   /**
-   * Computes the centroid of this <code>Geometry</code>.
-   * The centroid
-   * is equal to the centroid of the set of component Geometries of highest
-   * dimension (since the lower-dimension geometries contribute zero
-   * "weight" to the centroid).
+   * 计算此<code>Geometry</code>的质心。
+   * 质心是等于设定最高维度的部件的几何形状的重心
+   * (since the lower-dimension geometries contribute zero "weight" to the centroid).
    * <p>
-   * The centroid of an empty geometry is <code>POINT EMPTY</code>.
+   * 空几何的重心是<code>POINT EMPTY</code>。
    *
    * @return a {@link Point} which is the centroid of this Geometry
    */
@@ -464,14 +438,12 @@ public abstract class Geometry
   }
 
   /**
-   * Computes an interior point of this <code>Geometry</code>.
-   * An interior point is guaranteed to lie in the interior of the Geometry,
-   * if it possible to calculate such a point exactly. Otherwise,
-   * the point may lie on the boundary of the geometry.
+   * 计算此<code>Geometry</code>的内部点。
+   * 如果可以精确计算此点，则保证内部点位于几何体的内部。 否则，点可能位于几何体的边界上。
    * <p>
-   * The interior point of an empty geometry is <code>POINT EMPTY</code>.
+   * 空几何体的内部点是<code>POINT EMPTY</code>。
    *
-   * @return a {@link Point} which is in the interior of this Geometry
+   * @return 返回位于此几何体的内部的点{@link Point}
    */
   public Point getInteriorPoint()
   {
@@ -481,58 +453,49 @@ public abstract class Geometry
   }
 
   /**
-   * Returns the dimension of this geometry.
-   * The dimension of a geometry is is the topological 
-   * dimension of its embedding in the 2-D Euclidean plane.
-   * In the JTS spatial model, dimension values are in the set {0,1,2}.
+   * 返回此几何体的维度。
+   *几何体的维度是其嵌入在二维欧几里得平面中的拓扑维度。
+   * 在 JTS 空间模型中，维度值位于集 [0，1，2]中。
    * <p>
-   * Note that this is a different concept to the dimension of 
-   * the vertex {@link Coordinate}s.  
-   * The geometry dimension can never be greater than the coordinate dimension.
-   * For example, a 0-dimensional geometry (e.g. a Point) 
-   * may have a coordinate dimension of 3 (X,Y,Z). 
+   *     请注意，这与顶点坐标{@link Coordinate}的维度的概念不同。
+   * Note that this is a different concept to the dimension of the vertex {@link Coordinate}s.
+   * 几何维度不能大于坐标维度。
+   * 例如，0 维几何体（例如点）的坐标维度可能为 3 （X，Y，Z）。
    *
-   *@return the topological dimension of this geometry.
+   *@return 此几何体的拓扑维度。
    */
   public abstract int getDimension();
 
   /**
-   * Returns the boundary, or an empty geometry of appropriate dimension
-   * if this <code>Geometry</code>  is empty.
-   * (In the case of zero-dimensional geometries, '
-   * an empty GeometryCollection is returned.)
-   * For a discussion of this function, see the OpenGIS Simple
-   * Features Specification. As stated in SFS Section 2.1.13.1, "the boundary
-   * of a Geometry is a set of Geometries of the next lower dimension."
+   * 返回该几何的边界几何体，如果该几何体<code>Geometry</code>是空的，则返回空几何体
+   * (在零维几何体的情况下，将返回一个空几何集合。)
+   * 有关此函数的讨论，请参阅 OpenGIS 简单功能规范。
+   * 如 SFS 第 2.1.13.1 节所述，"几何的边界是下一个下维的一组几何。
    *
-   *@return    the closure of the combinatorial boundary of this <code>Geometry</code>
+   *@return    返回该几何的边界几何体，如果该几何体<code>Geometry</code>是空的，则返回空几何体
    */
   public abstract Geometry getBoundary();
 
   /**
+   * 返回该几何体的边界几何的维度
    *  Returns the dimension of this <code>Geometry</code>s inherent boundary.
    *
-   *@return    the dimension of the boundary of the class implementing this
-   *      interface, whether or not this object is the empty geometry. Returns
-   *      <code>Dimension.FALSE</code> if the boundary is the empty geometry.
+   *@return    实现此接口的类的边界的维度，无论此对象是否为空几何体. 如果边界为空几何体，返回<code>Dimension.FALSE</code> .
    */
   public abstract int getBoundaryDimension();
 
   /**
-   *  Gets a Geometry representing the envelope (bounding box) of 
-   *  this <code>Geometry</code>. 
+   * 获取表示此<code>Geometry</code>的包络（边框）几何 .
    *  <p>
-   *  If this <code>Geometry</code> is:
+   *  如果该 <code>Geometry</code> 是:
    *  <ul>
-   *  <li>empty, returns an empty <code>Point</code>. 
-   *  <li>a point, returns a <code>Point</code>.
-   *  <li>a line parallel to an axis, a two-vertex <code>LineString</code> 
-   *  <li>otherwise, returns a
-   *  <code>Polygon</code> whose vertices are (minx miny, maxx miny, 
-   *  maxx maxy, minx maxy, minx miny).
+   *  <li>空几何, 返回空的 <code>Point</code>.
+   *  <li>一个点, 返回该点 <code>Point</code>.
+   *  <li>平行于轴线的一条线, 该线段的<code>LineString</code>顶点
+   *  <li>否则, 返回<code>Polygon</code>的顶点，(minx miny, maxx miny, maxx maxy, minx maxy, minx miny).
    *  </ul>
    *
-   *@return a Geometry representing the envelope of this Geometry
+   *@return 表示此几何的包络线的几何
    *      
    * @see GeometryFactory#toGeometry(Envelope) 
    */
@@ -541,18 +504,14 @@ public abstract class Geometry
   }
 
   /**
-   * Gets an {@link Envelope} containing 
-   * the minimum and maximum x and y values in this <code>Geometry</code>.
-   * If the geometry is empty, an empty <code>Envelope</code> 
-   * is returned.
+   * 获取<code>Geometry</code>的内部包络矩形 {@link Envelope}(包含了最大最小XY值)
+   * 如果该几何体是空的，则返回空的<code>Envelope</code>
    * <p>
-   * The returned object is a copy of the one maintained internally,
-   * to avoid aliasing issues.  
-   * For best performance, clients which access this
-   * envelope frequently should cache the return value.
+   * 返回的对象是一个副本内部进行维护，以避免混淆的问题。
+   * 为了获得最佳性能，这经常访问这个包络矩形的对象应该缓存的返回值。
    *
    *@return the envelope of this <code>Geometry</code>.
-   *@return an empty Envelope if this Geometry is empty
+   *@return 一个空的包络矩形，如果这个几何对象是空
    */
   public Envelope getEnvelopeInternal() {
     if (envelope == null) {
@@ -562,20 +521,17 @@ public abstract class Geometry
   }
 
   /**
-   * Notifies this geometry that its coordinates have been changed by an external
-   * party (for example, via a {@link CoordinateFilter}). 
-   * When this method is called the geometry will flush
-   * and/or update any derived information it has cached (such as its {@link Envelope} ).
-   * The operation is applied to all component Geometries.
+   * 通知该几何形状使得其坐标已通过外部方更改（例如，通过{@link CoordinateFilter}）。
+   *当这种方法被称为几何将刷新和/或更新的任何导出的信息它已经高速缓存 (such as its {@link Envelope} ).
+   * 该操作被施加到所有的部件的几何形状。
    */
   public void geometryChanged() {
     apply(geometryChangedFilter);
   }
 
   /**
-   * Notifies this Geometry that its Coordinates have been changed by an external
-   * party. When #geometryChanged is called, this method will be called for
-   * this Geometry and its component Geometries.
+   * 通知此几何，其坐标已经由外方改变。
+   * 当#geometryChanged被调用时，该方法将被调用此几何及其部件的几何形状。
    * 
    * @see #apply(GeometryComponentFilter)
    */
@@ -584,11 +540,11 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry is disjoint from the argument geometry.
+   * 测试此几何是否是与给定参数的几何不相交。
    * <p>
-   * The <code>disjoint</code> predicate has the following equivalent definitions:
+   *     <code>disjoint</code>(不相交)的谓词有如下的等价定义：
    * <ul>
-   * <li>The two geometries have no point in common
+   * <li>两个几何没有共同的点
    * <li>The DE-9IM Intersection Matrix for the two geometries matches 
    * <code>[FF*FF****]</code>
    * <li><code>! g.intersects(this) = true</code>

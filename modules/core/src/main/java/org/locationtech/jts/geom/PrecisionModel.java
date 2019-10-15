@@ -21,22 +21,17 @@ import org.locationtech.jts.io.WKTWriter;
 
 /**
  * Specifies the precision model of the {@link Coordinate}s in a {@link Geometry}.
- * In other words, specifies the grid of allowable
- *  points for all <code>Geometry</code>s.
+ * In other words, specifies the grid of allowable points for all <code>Geometry</code>s.
  * <p>
  * The {@link #makePrecise(Coordinate)} method allows rounding a coordinate to
  * a "precise" value; that is, one whose
  *  precision is known exactly.
  *<p>
  * Coordinates are assumed to be precise in geometries.
- * That is, the coordinates are assumed to be rounded to the
- * precision model given for the geometry.
- * JTS input routines automatically round coordinates to the precision model
- * before creating Geometries.
- * All internal operations
- * assume that coordinates are rounded to the precision model.
- * Constructive methods (such as boolean operations) always round computed
- * coordinates to the appropriate precision model.
+ * That is, the coordinates are assumed to be rounded to the precision model given for the geometry.
+ * JTS input routines automatically round coordinates to the precision model before creating Geometries.
+ * All internal operations assume that coordinates are rounded to the precision model.
+ * Constructive methods (such as boolean operations) always round computed coordinates to the appropriate precision model.
  * <p>
  * Currently three types of precision model are supported:
  * <ul>
@@ -53,13 +48,10 @@ import org.locationtech.jts.io.WKTWriter;
  *      <LI> jtsPt.y = round( (inputPt.y * scale ) / scale
  *    </UL>
  * </ul>
- * For example, to specify 3 decimal places of precision, use a scale factor
- * of 1000. To specify -3 decimal places of precision (i.e. rounding to
- * the nearest 1000), use a scale factor of 0.001.
+ * For example, to specify 3 decimal places of precision, use a scale factor of 1000. To specify -3 decimal places of precision (i.e. rounding to the nearest 1000), use a scale factor of 0.001.
  * <p>
  * Coordinates are represented internally as Java double-precision values.
- * Since Java uses the IEEE-394 floating point standard, this
- * provides 53 bits of precision. (Thus the maximum precisely representable
+ * Since Java uses the IEEE-394 floating point standard, this provides 53 bits of precision. (Thus the maximum precisely representable
  * <i>integer</i> is 9,007,199,254,740,992 - or almost 16 decimal digits of precision).
  * <p>
  * JTS binary methods currently do not handle inputs which have different precision models.
@@ -87,7 +79,7 @@ public class PrecisionModel implements Serializable, Comparable
   private static final long serialVersionUID = 7777263578777803835L;
 
   /**
-   * The types of Precision Model which JTS supports.
+   * JTS 支持的各种精度模型
    */
   public static class Type
       implements Serializable

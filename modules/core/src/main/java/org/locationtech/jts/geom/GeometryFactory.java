@@ -22,12 +22,11 @@ import org.locationtech.jts.geom.util.GeometryEditor;
 import org.locationtech.jts.util.Assert;
 
 /**
- * Supplies a set of utility methods for building Geometry objects from lists
- * of Coordinates.
+ * 提供了一组实用方法，从给定的坐标创建几何Geometry对象的工厂
  * <p>
- * Note that the factory constructor methods do <b>not</b> change the input coordinates in any way.
- * In particular, they are not rounded to the supplied <tt>PrecisionModel</tt>.
- * It is assumed that input Coordinates meet the given precision.
+ * 需要注意的是工厂构造方法做的<b>not</b>更改以任何方式输入坐标。
+ * 特别地，它们不四舍五入到供给的<tt>PrecisionModel</tt>。
+ * 假设输入坐标满足给定精度。
  *
  *
  * @version 1.7
@@ -48,8 +47,7 @@ public class GeometryFactory
   }
 
   /**
-   * Constructs a GeometryFactory that generates Geometries having the given
-   * PrecisionModel, spatial-reference ID, and CoordinateSequence implementation.
+   * 构造一个生成给定精度模型PrecisionModel，空间参考ID，和坐标序列CoordinateSequence的几何体工厂对象
    */
   public GeometryFactory(PrecisionModel precisionModel, int SRID,
                          CoordinateSequenceFactory coordinateSequenceFactory) {
@@ -59,9 +57,9 @@ public class GeometryFactory
   }
 
   /**
-   * Constructs a GeometryFactory that generates Geometries having the given
-   * CoordinateSequence implementation, a double-precision floating PrecisionModel and a
-   * spatial-reference ID of 0.
+   * 构造产生具有给定的CoordinateSequence实现方式中，双精度浮点PrecisionModel和0的空间参考ID几何图形一个GeometryFactory。
+   * Constructs a GeometryFactory that generates Geometries having the given CoordinateSequence implementation,
+   * a double-precision floating PrecisionModel and a spatial-reference ID of 0.
    */
   public GeometryFactory(CoordinateSequenceFactory coordinateSequenceFactory) {
     this(new PrecisionModel(), 0, coordinateSequenceFactory);

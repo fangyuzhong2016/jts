@@ -14,20 +14,17 @@ package org.locationtech.jts.io;
 import java.io.IOException;
 
 /**
- * A interface for classes providing an input stream of bytes.
- * This interface is similar to the Java <code>InputStream</code>,
- * but with a narrower interface to make it easier to implement.
+ * 一种用于提供字节的输入流类接口。
+ * 此接口类似于Java的<code>InputStream</code>接口，但较窄的接口，使之更容易实现。
  *
  */
 public interface InStream
 {
   /**
-   * Reads <code>buf.length</code> bytes from the input stream
-   * and stores them in the supplied buffer.
+   * 从所提供的输入流读取长度<code>buf.length</code>的字节流，存储到缓冲区中
+   * @param buf 接收字节的缓冲区
    *
-   * @param buf the buffer to receive the bytes
-   *
-   * @throws IOException if an I/O error occurs
+   * @throws IOException 如果发生I/O错误
    */
   void read(byte[] buf) throws IOException;
 }
