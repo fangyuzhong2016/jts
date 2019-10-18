@@ -13,8 +13,7 @@ package org.locationtech.jts.io;
 
 /**
  * Allows an array of bytes to be used as an {@link InStream}.
- * To optimize memory usage, instances can be reused
- * with different byte arrays.
+ * 为了优化存储器使用，实例可以具有不同的字节数组被重用。
  */
 public class ByteArrayInStream
 	implements InStream
@@ -24,21 +23,21 @@ public class ByteArrayInStream
 	 */
 	
   private byte[] buffer;
-	private int position;
+  private int position;
 
 	/**
-	 * Creates a new stream based on the given buffer.
+	 * 创建基于给定缓冲区的新流。
 	 * 
-	 * @param buffer the bytes to read
+	 * @param buffer 读取字节
 	 */
 	public ByteArrayInStream(final byte[] buffer) {
 		setBytes(buffer);
 	}
 
 	/**
-	 * Sets this stream to read from the given buffer
+	 * 设置此流从给定的缓冲区中读取
 	 * 
-	 * @param buffer the bytes to read
+	 * @param buffer 读取字节
 	 */
 	public void setBytes(final byte[] buffer) {
 		this.buffer = buffer;
@@ -46,11 +45,11 @@ public class ByteArrayInStream
 	}
 
 	/**
-	 * Reads up to <tt>buf.length</tt> bytes from the stream
-	 * into the given byte buffer.
+	 * 从所提供的输入流读取长度<code>buf.length</code>的字节流，存储到缓冲区中
 	 * 
 	 * @param buf the buffer to place the read bytes into
 	 */
+	@Override
 	public void read(final byte[] buf) {
 		int numToRead = buf.length;
 		// don't try and copy past the end of the input

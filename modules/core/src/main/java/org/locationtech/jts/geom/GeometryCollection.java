@@ -20,6 +20,7 @@ import org.locationtech.jts.util.Assert;
 
 
 /**
+ * 对任意类型和维度的几何体集合进行模型。
  * Models a collection of {@link Geometry}s of arbitrary type and dimension.
  * 
  *

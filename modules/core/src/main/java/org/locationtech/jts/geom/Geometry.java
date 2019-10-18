@@ -540,20 +540,18 @@ public abstract class Geometry
   }
 
   /**
-   * 测试此几何是否是与给定参数的几何不相交。
+   * 测试此几何是否是与给定参数的几何脱节(不相交)。
    * <p>
    *     <code>disjoint</code>(不相交)的谓词有如下的等价定义：
    * <ul>
    * <li>两个几何没有共同的点
-   * <li>The DE-9IM Intersection Matrix for the two geometries matches 
-   * <code>[FF*FF****]</code>
+   * <li>在DE-9IM交集矩阵的两个几何匹配<code>[FF*FF****]</code>
    * <li><code>! g.intersects(this) = true</code>
    * <br>(<code>disjoint</code> is the inverse of <code>intersects</code>)
    * </ul>
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
-   *@return        <code>true</code> if the two <code>Geometry</code>s are
-   *      disjoint
+   *@param  g  待比较的 <code>Geometry</code>
+   *@return       如果两个几何不相交，返回 <code>true</code>
    *
    * @see Geometry#intersects
    */
@@ -562,29 +560,24 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry touches the
-   * argument geometry.
+   * 测试此几何是否与给定的几何体相邻(touches)。
    * <p>
-   * The <code>touches</code> predicate has the following equivalent definitions:
+   * 该<code>touches</code>谓词有如下的等价定义：
    * <ul>
-   * <li>The geometries have at least one point in common, 
-   * but their interiors do not intersect.
-   * <li>The DE-9IM Intersection Matrix for the two geometries matches
-   * at least one of the following patterns
+   * <li> 几何形状有至少一个公共点，但他们的内部不相交。
+   * <li>在DE-9IM交集矩阵的两个几何匹配下面模式中的至少一个
    *  <ul>
    *   <li><code>[FT*******]</code>
    *   <li><code>[F**T*****]</code>
    *   <li><code>[F***T****]</code>
    *  </ul>
    * </ul>
-   * If both geometries have dimension 0, the predicate returns <code>false</code>,
-   * since points have only interiors.
-   * This predicate is symmetric.
+   * 如果两个几何的维度0，谓词返回false，因为点只有内部。该谓词是对称的。
    * 
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
-   *@return        <code>true</code> if the two <code>Geometry</code>s touch;
-   *      Returns <code>false</code> if both <code>Geometry</code>s are points
+   *@param  g  待比较的<code>Geometry</code>
+   *@return     如果两个几何体是相邻的返回<code>true</code>
+   *      如果两个几何体是点，返回 <code>false</code>
    */
   public boolean touches(Geometry g) {
     // short-circuit test
@@ -594,13 +587,12 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry intersects the argument geometry.
+   * 测试此几何是否与给定的参数几何体相交。
    * <p>
-   * The <code>intersects</code> predicate has the following equivalent definitions:
+   *  <code>intersects</code> 谓词有如下的等价定义：
    * <ul>
-   * <li>The two geometries have at least one point in common
-   * <li>The DE-9IM Intersection Matrix for the two geometries matches
-   * at least one of the patterns
+   * <li>两个几何体至少有一个公共点
+   * <li>在DE-9IM交集矩阵的两个几何相匹配下面的模式中的至少一个
    *  <ul>
    *   <li><code>[T********]</code>
    *   <li><code>[*T*******]</code>
@@ -611,8 +603,8 @@ public abstract class Geometry
    * <br>(<code>intersects</code> is the inverse of <code>disjoint</code>)
    * </ul>
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
-   *@return        <code>true</code> if the two <code>Geometry</code>s intersect
+   *@param  g  待测试几何体 <code>Geometry</code>
+   *@return      如果两个几何体相交，则返回 <code>true</code>
    *
    * @see Geometry#disjoint
    */
@@ -660,27 +652,24 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry crosses the
-   * argument geometry.
+   * 测试此几何是否与给定的参数几何体交叉(crosses)
    * <p>
-   * The <code>crosses</code> predicate has the following equivalent definitions:
+   * The <code>crosses</code> 谓词有如下的等价定义:
    * <ul>
-   * <li>The geometries have some but not all interior points in common.
-   * <li>The DE-9IM Intersection Matrix for the two geometries matches
-   * one of the following patterns:
+   * <li>几何形状有一些但不是全部共用内部点。
+   * <li>在DE-9IM交集矩阵的两个几何匹配下面模式中的一个：
    *   <ul>
    *    <li><code>[T*T******]</code> (for P/L, P/A, and L/A situations)
    *    <li><code>[T*****T**]</code> (for L/P, A/P, and A/L situations)
    *    <li><code>[0********]</code> (for L/L situations)
    *   </ul>
    * </ul>
-   * For any other combination of dimensions this predicate returns <code>false</code>.
+   * 对于这个谓词的其他的维度组合，返回 <code>false</code>
    * <p>
-   * The SFS defined this predicate only for P/L, P/A, L/L, and L/A situations.
-   * In order to make the relation symmetric,
-   * JTS extends the definition to apply to L/P, A/P and A/L situations as well.
+   * 该SFS只为P/L，P/A，L/L，和L/A的情况下所定义的本谓词。
+   * 为了使关系是对称的，JTS延伸的定义适用于L/P，A/P和A/L的情况下也是如此。
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
+   *@param  g  待测试几何体 <code>Geometry</code>
    *@return        <code>true</code> if the two <code>Geometry</code>s cross.
    */
   public boolean crosses(Geometry g) {
@@ -691,30 +680,21 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry is within the
-   * specified geometry.
+   * 测试该几何体是否内含(within)在给定的几何体中
    * <p>
-   * The <code>within</code> predicate has the following equivalent definitions:
+   * <code>within</code> 谓词有如下的等价定义:
    * <ul>
-   * <li>Every point of this geometry is a point of the other geometry,
-   * and the interiors of the two geometries have at least one point in common.
-   * <li>The DE-9IM Intersection Matrix for the two geometries matches 
-   * <code>[T*F**F***]</code>
+   * <li>几何形状A的线都在几何形状B内部。
+   * <li>在DE-9IM交集矩阵的两个几何匹配 <code>[T*F**F***]</code>
    * <li><code>g.contains(this) = true</code>
    * <br>(<code>within</code> is the converse of {@link #contains})
    * </ul>
-   * An implication of the definition is that
-   * "The boundary of a Geometry is not within the Geometry".
-   * In other words, if a geometry A is a subset of
-   * the points in the boundary of a geometry B, <code>A.within(B) = false</code>
-   * (As a concrete example, take A to be a LineString which lies in the boundary of a Polygon B.)
-   * For a predicate with similar behaviour but avoiding 
-   * this subtle limitation, see {@link #coveredBy}.
+   * 这个谓词的定义意味着“指定的几何体的边界不在该几何体内部”。
+   * 换句话说，如果几何体A是几何体B的边界点集的子集，那么<code>A.within(B) = false</code>
+   * 对于类似的行为谓词，但避免这种微妙的限制，请参见{@link #coveredBy}。
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
-   *@return        <code>true</code> if this <code>Geometry</code> is within
-   *      <code>g</code>
-   *
+   *@param  g  待测试几何体 <code>Geometry</code>
+   *@return     如果该几何体在指定的几何体内部，则返回<code>true</code>
    * @see Geometry#contains
    * @see Geometry#coveredBy
    */
@@ -723,28 +703,19 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry contains the
-   * argument geometry.
+   * 测试该几何体是否包含指定的几何体(指定的几何体在该几何体内部)
    * <p>
-   * The <code>contains</code> predicate has the following equivalent definitions:
+   * The <code>contains</code>谓词有如下的等价定义:
    * <ul>
-   * <li>Every point of the other geometry is a point of this geometry,
-   * and the interiors of the two geometries have at least one point in common.
-   * <li>The DE-9IM Intersection Matrix for the two geometries matches 
-   * the pattern
+   * <li>几何形状B的线都在几何形状A内部（区别于内含）
+   * <li>在DE-9IM交集矩阵的两个几何匹配
    * <code>[T*****FF*]</code>
    * <li><code>g.within(this) = true</code>
    * <br>(<code>contains</code> is the converse of {@link #within} )
    * </ul>
-   * An implication of the definition is that "Geometries do not
-   * contain their boundary".  In other words, if a geometry A is a subset of
-   * the points in the boundary of a geometry B, <code>B.contains(A) = false</code>.
-   * (As a concrete example, take A to be a LineString which lies in the boundary of a Polygon B.)
-   * For a predicate with similar behaviour but avoiding 
-   * this subtle limitation, see {@link #covers}.
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
-   *@return        <code>true</code> if this <code>Geometry</code> contains <code>g</code>
+   *@param  g  待测试几何体 <code>Geometry</code>
+   *@return    如果该几何体包含指定的几何体，则返回<code>true</code>
    *
    * @see Geometry#within
    * @see Geometry#covers
@@ -772,16 +743,11 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry overlaps the
-   * specified geometry.
+   * 测试给定的几何体是否与该几何体重叠
    * <p>
-   * The <code>overlaps</code> predicate has the following equivalent definitions:
+   * The <code>overlaps</code> 谓词有如下的等价定义:
    * <ul>
-   * <li>The geometries have at least one point each not shared by the other
-   * (or equivalently neither covers the other),
-   * they have the same dimension,
-   * and the intersection of the interiors of the two geometries has
-   * the same dimension as the geometries themselves.
+   * <li>几何形状共享一部分但不是所有的公共点，而且相交处有他们自己相同的区域
    * <li>The DE-9IM Intersection Matrix for the two geometries matches
    *   <code>[T*T***T**]</code> (for two points or two surfaces)
    *   or <code>[1*T***T**]</code> (for two curves)
@@ -789,7 +755,7 @@ public abstract class Geometry
    * If the geometries are of different dimension this predicate returns <code>false</code>.
    * This predicate is symmetric.
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
+   *@param  g  待测试几何体 <code>Geometry</code>
    *@return        <code>true</code> if the two <code>Geometry</code>s overlap.
    */
   public boolean overlaps(Geometry g) {
@@ -800,10 +766,9 @@ public abstract class Geometry
   }
 
   /**
-   * Tests whether this geometry covers the
-   * argument geometry.
+   * Tests whether this geometry covers the argument geometry.
    * <p>
-   * The <code>covers</code> predicate has the following equivalent definitions:
+   * The <code>covers</code> 谓词有如下的等价定义:
    * <ul>
    * <li>Every point of the other geometry is a point of this geometry.
    * <li>The DE-9IM Intersection Matrix for the two geometries matches
@@ -827,7 +792,7 @@ public abstract class Geometry
    * As an added benefit, <code>covers</code> is more amenable to optimization,
    * and hence should be more performant.
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
+   *@param  g  待测试几何体 <code>Geometry</code>
    *@return        <code>true</code> if this <code>Geometry</code> covers <code>g</code>
    *
    * @see Geometry#contains
@@ -858,7 +823,7 @@ public abstract class Geometry
    * Tests whether this geometry is covered by the
    * argument geometry.
    * <p>
-   * The <code>coveredBy</code> predicate has the following equivalent definitions:
+   * The <code>coveredBy</code> 谓词有如下的等价定义:
    * <ul>
    * <li>Every point of this geometry is a point of the other geometry.
    * <li>The DE-9IM Intersection Matrix for the two geometries matches
@@ -877,7 +842,7 @@ public abstract class Geometry
    * This predicate is similar to {@link #within},
    * but is more inclusive (i.e. returns <code>true</code> for more cases).
    *
-   *@param  g  the <code>Geometry</code> with which to compare this <code>Geometry</code>
+   *@param  g  待测试几何体 <code>Geometry</code>
    *@return        <code>true</code> if this <code>Geometry</code> is covered by <code>g</code>
    *
    * @see Geometry#within
@@ -902,8 +867,7 @@ public abstract class Geometry
    *  For more information on the DE-9IM, see the <i>OpenGIS Simple Features
    *  Specification</i>.
    *
-   *@param  g                the <code>Geometry</code> with which to compare
-   *      this <code>Geometry</code>
+   *@param  g                the <code>Geometry</code> with which to compare this <code>Geometry</code>
    *@param  intersectionPattern  the pattern against which to check the
    *      intersection matrix for the two <code>Geometry</code>s
    *@return                      <code>true</code> if the DE-9IM intersection
@@ -1032,11 +996,8 @@ public abstract class Geometry
   }
 
   /**
-   *  Returns the Well-known Text representation of this <code>Geometry</code>.
-   *  For a definition of the Well-known Text format, see the OpenGIS Simple
-   *  Features Specification.
-   *
-   *@return    the Well-known Text representation of this <code>Geometry</code>
+   * 返回该几何体 <code>Geometry</code>的WKT文本
+   *@return    几何体<code>Geometry</code>的WKT文本
    */
   public String toText() {
     WKTWriter writer = new WKTWriter();
@@ -1044,6 +1005,7 @@ public abstract class Geometry
   }
 
   /**
+   * 计算该几何体给定宽度值值的缓冲区区域
 	 * Computes a buffer area around this geometry having the given width. The
 	 * buffer of a Geometry is the Minkowski sum or difference of the geometry
 	 * with a disc of radius <code>abs(distance)</code>.

@@ -29,6 +29,7 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
 
 /**
+ * 读取Geometryfrom所熟知的二进制格式字节流。
  * Reads a {@link Geometry}from a byte stream in Well-Known Binary format.
  * Supports use of an {@link InStream}, which allows easy use
  * with arbitrary byte stream sources.
@@ -62,10 +63,10 @@ import org.locationtech.jts.geom.PrecisionModel;
 public class WKBReader
 {
   /**
-   * Converts a hexadecimal string to a byte array.
-   * The hexadecimal digit symbols are case-insensitive.
+   * 十六进制字符串为一个字节数组转换。
+   * 在十六进制数字符号是不区分大小写。
    *
-   * @param hex a string containing hex digits
+   * @param hex 含有十六进制数字的串
    * @return an array of bytes with the value of the hex string
    */
   public static byte[] hexToBytes(String hex)

@@ -7,35 +7,28 @@
 </head>
 <body bgcolor="white">
 
-Contains classes and interfaces implementing fundamental computational geometry algorithms.
+包含的类和接口实现基本的计算几何算法。
 
-<H3>Robustness</H3>
+<H3>稳健性</H3>
 
-Geometrical algorithms involve a combination of combinatorial and numerical computation.  As with
-all numerical computation using finite-precision numbers, the algorithms chosen are susceptible to
-problems of robustness.  A robustness problem occurs when a numerical calculation produces an
-incorrect answer for some inputs due to round-off errors.  Robustness problems are especially
-serious in geometric computation, since they can result in errors during topology building.
+几何算法涉及组合和数值计算的组合。与使用有限精度数字所有数值计算，选择所述算法易受鲁棒性的问题。
+当一个数值计算产生用于由于舍入误差某些输入不正确的回答时，会发生问题的鲁棒性。
+健壮性问题在几何运算更为严重，因为它们会导致拓扑构建过程中出现错误。
 <P>
-There are many approaches to dealing with the problem of robustness in geometrical computation.
-Not surprisingly, most robust algorithms are substantially more complex and less performant than
-the non-robust versions.  Fortunately, JTS is sensitive to robustness problems in only a few key
-functions (such as line intersection and the point-in-polygon test).  There are efficient robust
-algorithms available for these functions, and these algorithms are implemented in JTS.
+    有许多方法来处理鲁棒性的几何计算的问题。
+    不足为奇的是，最稳健的算法基本上更加复杂，比非鲁棒版本少高性能的。
+    幸运的是，JTS是敏感的健壮性仅几个关键功能（如线交点与点在多边形测试）的问题。
+    有许多可用于这些功能强大的高效的算法，这些算法在JTS实现。
 
-<H3>Computational Performance</H3>
+<H3>计算性能</H3>
 
-Runtime performance is an important consideration for a production-quality implementation of
-geometric algorithms.  The most computationally intensive algorithm used in JTS is intersection
-detection.  JTS methods need to determine both all intersection between the line segments in a
-single Geometry (self-intersection) and all intersections between the line segments of two different
-Geometries.
+运行时性能是一个生产质量实现几何算法的一个重要考虑因素。
+在JTS使用的计算量最大的算法是交叉点检测。
+JTS方法需要确定以单一几何两个不同几何形状的线段之间的线段（自相交），并且所有的交点之间的所有交叉点。
 <P>
-The obvious naive algorithm for intersection detection (comparing every segment with every other)
-has unacceptably slow performance.  There is a large literature of faster algorithms for intersection
-detection.  Unfortunately, many of them involve substantial code complexity.  JTS tries to balance code
-simplicity with performance gains.  It uses some simple techniques to produce substantial performance
-gains for common types of input data.
+    对交叉点检测（与每个其他每个片段进行比较）明显的幼稚算法具有不可接受的性能降低。
+    有用于交叉点检测更快的算法大量文献。不幸的是，其中不少涉及大量代码的复杂性。
+    JTS试图与性能提升，以平衡简化代码。它使用一些简单的技术来生产用于普通类型的输入数据的大幅性能提升。
 
 
 <h2>Package Specification</h2>

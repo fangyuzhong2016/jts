@@ -20,6 +20,8 @@ import java.util.Map;
 import org.locationtech.jts.io.WKTWriter;
 
 /**
+ * 指定几何中{@link Coordinate}(坐标)的精度模型。
+ * 换句话说，指定所有几何体的允许点的网格。
  * Specifies the precision model of the {@link Coordinate}s in a {@link Geometry}.
  * In other words, specifies the grid of allowable points for all <code>Geometry</code>s.
  * <p>
