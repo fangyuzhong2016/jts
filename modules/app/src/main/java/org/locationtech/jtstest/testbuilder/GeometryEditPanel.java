@@ -11,19 +11,26 @@
  */
 package org.locationtech.jtstest.testbuilder;
 
-import java.text.NumberFormat;
-import java.util.List;
-
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.NumberFormat;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -32,12 +39,24 @@ import javax.swing.SwingUtilities;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.util.Assert;
-import org.locationtech.jtstest.testbuilder.model.*;
-import org.locationtech.jtstest.testbuilder.ui.*;
-import org.locationtech.jtstest.testbuilder.ui.render.*;
+import org.locationtech.jtstest.testbuilder.model.DisplayParameters;
+import org.locationtech.jtstest.testbuilder.model.GeometryEditModel;
+import org.locationtech.jtstest.testbuilder.model.GeometryStretcherView;
+import org.locationtech.jtstest.testbuilder.model.Layer;
+import org.locationtech.jtstest.testbuilder.model.LayerList;
+import org.locationtech.jtstest.testbuilder.model.StaticGeometryContainer;
+import org.locationtech.jtstest.testbuilder.model.TestBuilderModel;
+import org.locationtech.jtstest.testbuilder.ui.ColorUtil;
+import org.locationtech.jtstest.testbuilder.ui.GeometryLocationsWriter;
+import org.locationtech.jtstest.testbuilder.ui.Viewport;
+import org.locationtech.jtstest.testbuilder.ui.render.DrawingGrid;
+import org.locationtech.jtstest.testbuilder.ui.render.GeometryPainter;
+import org.locationtech.jtstest.testbuilder.ui.render.GridRenderer;
+import org.locationtech.jtstest.testbuilder.ui.render.LayerRenderer;
+import org.locationtech.jtstest.testbuilder.ui.render.RenderManager;
+import org.locationtech.jtstest.testbuilder.ui.render.Renderer;
 import org.locationtech.jtstest.testbuilder.ui.style.AWTUtil;
-import org.locationtech.jtstest.testbuilder.ui.tools.*;
+import org.locationtech.jtstest.testbuilder.ui.tools.Tool;
 
 
 /**
@@ -420,7 +439,8 @@ public class GeometryEditPanel extends JPanel
     Stroke stroke = new BasicStroke(5);
     
     Geometry flashGeom = g;
-    if (g instanceof org.locationtech.jts.geom.Point)
+    double vSize = viewSize(g);
+    if (vSize <= 2 || g instanceof org.locationtech.jts.geom.Point)
       flashGeom = flashPointGeom(g);
     
     try {
@@ -433,7 +453,12 @@ public class GeometryEditPanel extends JPanel
     }
     gr.setPaintMode();
   }
-    
+  
+  private double viewSize(Geometry geom) {
+    Envelope env = geom.getEnvelopeInternal();
+    return viewport.toView(env.getDiameter());
+  }
+  
   private Geometry flashPointGeom(Geometry g)
   {
     double ptRadius = viewport.toModel(4);
@@ -457,7 +482,12 @@ public class GeometryEditPanel extends JPanel
   public void setCurrentTool(Tool newTool) {
     if (currentTool != null) currentTool.deactivate();
     currentTool = newTool;
-    if (currentTool != null) currentTool.activate(this);
+    if (currentTool != null) {
+      currentTool.activate(this);
+    }
+    else {
+      setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
   }
 
   public void zoomToGeometry(int i) {
@@ -578,11 +608,13 @@ public class GeometryEditPanel extends JPanel
       
       renderLayers(tbModel.getLayersBase(), false, g2);
       renderLayers(getLayerList(), true, g2);
+      renderLayers(tbModel.getLayersTop(), false, g2);
       
       if (isRevealingTopology && isRenderingStretchVertices) {
       	renderMagnifiedVertices(g2);
       }
       
+      gridRenderer.paintTop(g2);
       drawMark(g2);
     }
     

@@ -100,6 +100,7 @@ public class JTSTestBuilderFrame extends JFrame
   BorderLayout borderLayout3 = new BorderLayout();
   JPanel testPanel = new JPanel();
   WKTPanel wktPanel = new WKTPanel(this);
+  CommandPanel commandPanel = new CommandPanel();
   InspectorPanel inspectPanel = new InspectorPanel();
   TestListPanel testListPanel = new TestListPanel(this);
   //LayerListPanel layerListPanel = new LayerListPanel();
@@ -267,6 +268,14 @@ public class JTSTestBuilderFrame extends JFrame
     return resultValuePanel;
   }
   
+  public InfoPanel getLogPanel() {
+    return logPanel;
+  }
+  
+  public CommandPanel getCommandPanel() {
+    return commandPanel;
+  }
+  
   /**
    *  File | Exit action performed
    */
@@ -340,28 +349,6 @@ public class JTSTestBuilderFrame extends JFrame
     updateWktPanel();
   }
 
-  void createNewCase() {
-    tbModel.cases().createNew();
-    showGeomsTab();
-    updateTestCases();
-  }
-
-  void moveToPrevCase(boolean isZoom) {
-    tbModel.cases().prevCase();
-    updateTestCaseView();
-    if (isZoom) JTSTestBuilder.controller().zoomToInput();
-  }
-
-  void moveToNextCase(boolean isZoom) {
-    tbModel.cases().nextCase();
-    updateTestCaseView();
-    if (isZoom) JTSTestBuilder.controller().zoomToInput();
-  }
-
-  void copyCase() {
-    tbModel.cases().copyCase();
-    updateTestCases();
-  }
   TestCaseEdit currentCase() {
     return tbModel.cases().getCurrentCase();
   }
@@ -388,12 +375,6 @@ public class JTSTestBuilderFrame extends JFrame
     if (! (currResult instanceof Geometry))
       return;
     inspectGeometry((Geometry) currResult, 0, "R");
-  }
-  
-  void actionDeleteCase() {
-    tbModel.cases().deleteCase();
-    updateTestCaseView();
-    testListPanel.populateList();
   }
   
   void menuViewText_actionPerformed(ActionEvent e) {
@@ -556,70 +537,6 @@ public class JTSTestBuilderFrame extends JFrame
     }
   }
 
-  void setTool(Tool tool) {
-    testCasePanel.getGeometryEditPanel().setCurrentTool(tool);
-  }
-  void modeDrawRectangle() {
-    setTool(RectangleTool.getInstance());
-  }
-
-  void modeDrawPolygon() {
-    setTool(StreamPolygonTool.getInstance());
-  }
-
-  void modeDrawLineString() {
-    setTool(LineStringTool.getInstance());
-  }
-
-  void modeDrawPoint() {
-    setTool(PointTool.getInstance());
-  }
-
-  void modeInfo() {
-    setTool(InfoTool.getInstance());
-  }
-
-  void modeExtractComponent() {
-    setTool(ExtractComponentTool.getInstance());
-  }
-
-  void modeDeleteVertex() {
-    setTool(DeleteVertexTool.getInstance());
-  }
-
-  void modeZoomIn() {
-    setTool(zoomTool);
-  }
-
-  void modePan() {
-    setTool(PanTool.getInstance());
-  }
-  
-  void zoomOneToOne() {
-    testCasePanel.getGeometryEditPanel().getViewport().zoomToInitialExtent();
-  }
-
-  void zoomToFullExtent() {
-    testCasePanel.getGeometryEditPanel().zoomToFullExtent();
-  }
-
-  void zoomToResult() {
-    testCasePanel.getGeometryEditPanel().zoomToResult();
-  }
-
-  void zoomToInput() {
-    testCasePanel.getGeometryEditPanel().zoomToInput();
-  }
-
-  void zoomToInputA() {
-    testCasePanel.getGeometryEditPanel().zoomToGeometry(0);
-  }
-
-  void zoomToInputB() {
-    testCasePanel.getGeometryEditPanel().zoomToGeometry(1);
-  }
-
-
   void actionDeleteAllTestCases() {
     tbModel.cases().init();
     updateTestCaseView();
@@ -728,6 +645,7 @@ public class JTSTestBuilderFrame extends JFrame
     inputTabbedPane.add(wktPanel,  AppStrings.TAB_LABEL_INPUT);
     inputTabbedPane.add(resultWKTPanel, AppStrings.TAB_LABEL_RESULT);
     inputTabbedPane.add(resultValuePanel, AppStrings.TAB_LABEL_VALUE);
+    inputTabbedPane.add(commandPanel,  AppStrings.TAB_LABEL_COMMAND);
     inputTabbedPane.add(inspectPanel,  AppStrings.TAB_LABEL_INSPECT);
     inputTabbedPane.add(statsPanel, AppStrings.TAB_LABEL_STATS);
     inputTabbedPane.add(logPanel, AppStrings.TAB_LABEL_LOG);
@@ -787,23 +705,6 @@ public class JTSTestBuilderFrame extends JFrame
   public void updateLayerList() {
     layerListPanel.updateList();
   }
-  public void displayInfo(Coordinate modelPt)
-  {
-    displayInfo(
-        testCasePanel.getGeometryEditPanel().getInfo(modelPt)
-        );
-  }
-  
-  public void displayInfo(String s)
-  {
-    displayInfo(s, true);
-  }
-  
-  public void displayInfo(String s, boolean showTab)
-  {
-    logPanel.addInfo(s);
-    if (showTab) showInfoTab();
-  }
   
   private void reportProblemsParsingXmlTestFile(List parsingProblems) {
     if (parsingProblems.isEmpty()) {
@@ -830,10 +731,6 @@ public class JTSTestBuilderFrame extends JFrame
     Geometry cleanGeom = LinearComponentExtracter.getGeometry(tbModel.getGeometryEditModel().getGeometry(0));
     currentCase().setGeometry(0, cleanGeom);
     updateGeometry();
-  }
-
-  void modeEditVertex() {
-    testCasePanel.getGeometryEditPanel().setCurrentTool(EditVertexTool.getInstance());
   }
 
   private Coordinate pickOffset(Geometry a, Geometry b) {

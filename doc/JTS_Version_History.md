@@ -30,11 +30,22 @@ Distributions for older JTS versions can be obtained at the
 
 * Added `IndexedFacetDistance.isWithinDistance`
 * Added `OrdinateFormat` to ensure that ordinate text output is accurate and consistent
-* Improve performance of `UniqueCoordinateFilter` (#422)
-* Improve performance of `Polygonizer` (#431)
 * Added `Triangle.circumcentreDD`
 * Added `DD.determinant` methods
-* Added `Envelope.getDiameter`
+* Added `Envelope` methods `getDiameter`, `copy`, `disjoint` (#483)
+* Added `Intersection` class, refactored library to use it (#468)
+* Added `CascadedPolygonUnion` union-by-buffer on error capability (#470)
+* Added `HalfEdge` support for direction points (#479)
+* Added `CoordinateList.toCoordinateArray(isForward)` (#482)
+* Addded `HPRtree` Hilbert Packed R-tree (#494)
+* Added `VariableBuffer` class for computing varying-distance buffers (#495)
+^ Added `LineSegment.reflect` method (#495)
+
+### Performance Improvements
+
+* Improve performance of `UniqueCoordinateFilter` (#422)
+* Improve performance of `Polygonizer` (#431)
+* Avoid use of `ArrayList` in MonotoneChain builders
 
 ### Bug Fixes
 
@@ -47,23 +58,28 @@ Distributions for older JTS versions can be obtained at the
 * Fix generation of Voronoi diagrams for cases with sites in a square (#447)
 * Fix use of clipping envelope in `VoronoiDiagramBuilder`
 * Fix infinite loop on empty input in `IndexedPointInAreaLocator` and `SortedPackedIntervalRTree` (#462) 
+* Fix WKT parsing in Turkish locale (#456)
+* Improve accuracy of `LineSegment.lineIntersection` (#468)
+* Fix `Distance3DOp` coordinate ordering (#480) 
+* Fix `Geometry.reverse()` to have consistent behaviour and to copy all fields (#513)
 
 ## JTS TestBuilder
 
 ### Functionality Improvements
 
-* Add a CLI to run operations on file input
+* Add a UI to run external commands
+* Allow creating additional view layers
+* Support points in Reveal Topology mode
 
 ## JTS TestRunner
 
 ### Functionality Improvements
 
 * Allow test files/dirs to be specified as free args
-* Add cmd options to run operation on file input
 
 ## JtsOp 
 
-Add new command-line utility
+* Added command-line utility to run JTS operations
 
 
 

@@ -23,6 +23,7 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.math.MathUtil;
 import org.locationtech.jtstest.testbuilder.AppConstants;
 import org.locationtech.jtstest.testbuilder.ui.ColorUtil;
+import org.locationtech.jtstest.testbuilder.ui.SwingUtil;
 import org.locationtech.jtstest.testbuilder.ui.Viewport;
 
 
@@ -51,13 +52,23 @@ public class GridRenderer {
   }
 
   public void paint(Graphics2D g) {
-    if (! isEnabled)
-      return;
+    if (! isEnabled) return;
     try {
     drawAxes(g);
     drawLinedGrid(g);
 //    drawDottedGrid(g);
-    drawGridSizeLabel(g, viewport.gridMagnitudeModel());
+    //drawGridSizeLabel(g, viewport.gridMagnitudeModel());
+    }
+    // guards against crazy data causing problems
+    catch (ArithmeticException ex) {
+      return;
+    }
+  }
+
+  public void paintTop(Graphics2D g) {
+    if (! isEnabled) return;
+    try {
+      drawScaleBar(g);
     }
     // guards against crazy data causing problems
     catch (ArithmeticException ex) {
@@ -318,26 +329,99 @@ public class GridRenderer {
         gridSize10View/2);
   }
   
-  private void drawGridSizeLabel(Graphics2D g, int gridMagModel)
+  static final int BAR_OFFSET_X = 5;
+  static final int BAR_OFFSET_Y = 3;
+  static final int LBL_OFFSET_X = BAR_OFFSET_X + 5;
+  static final int LBL_OFFSET_Y = 1; //BAR_OFFSET_Y + 5;
+  static final int EXP_OFFSET_X = 15;
+  static final int EXP_OFFSET_Y = 6;
+
+  private void drawScaleLabel(Graphics2D g)
   {
     /**
      * Draw grid size text
      */
-    g.setColor(Color.BLUE);
+    g.setColor(Color.BLACK);
+    g.setStroke(new BasicStroke(AppConstants.AXIS_WIDTH));
 
+    int gridMagModel = viewport.gridMagnitudeModel();
+    double gridSizeModel = Math.pow(10, gridMagModel);
+    double gridSizeView = viewport.toView(gridSizeModel);
+    
+    // scale bar is 10 units long
+    int scaleMag = gridMagModel + 1;
+    double scaleSize = Math.pow(10, scaleMag);;
+    
   	int viewHeight = (int) viewport.getHeightInView();
-  	int viewWidth = (int) viewport.getWidthInView();
+  	//int viewWidth = (int) viewport.getWidthInView();
+  	 
+    ///---- draw label
+  	float x = (float) (10 * gridSizeView + LBL_OFFSET_X);
+  	float y = LBL_OFFSET_Y;
   	
-  	if (Math.abs(gridMagModel) <= 3) {
+  	if (Math.abs(scaleMag) <= 3) {
   		// display as number
-  		double gridSize = Math.pow(10, gridMagModel);
-  		g.drawString(gridSizeFormat.format(gridSize), 2, viewHeight - 1);
+  		g.drawString(gridSizeFormat.format(scaleSize), x, viewHeight - y);
   	}
   	else {
   		// display as exponent
-  		g.drawString("10", 2, viewHeight - 1);
-  		g.drawString(gridMagModel + "", 20, viewHeight - 8);
+  		g.drawString("10", x, viewHeight - LBL_OFFSET_Y);
+  		g.drawString(scaleMag + "", x + EXP_OFFSET_X, viewHeight - (y + EXP_OFFSET_Y));
   	}
+  }
+  private void drawScaleBar(Graphics2D g)
+  {
+  	//--- draw simple scale bar
+    // compute X for bar to line up with grid
+    int gridMagModel = viewport.gridMagnitudeModel();
+    double gridSizeModel = Math.pow(10, gridMagModel);
+    double gridSizeView = viewport.toView(gridSizeModel);
+    int viewHeight = (int) viewport.getHeightInView();
+    
+    PrecisionModel pmGrid = new PrecisionModel(1.0/gridSizeModel);
+    Envelope modelEnv = viewport.getModelEnv();
+    double basexModel = pmGrid.makePrecise(modelEnv.getMinX());
+    double baseyModel = pmGrid.makePrecise(modelEnv.getMinY());
+    Point2D basePtView = viewport.toView(new Coordinate(basexModel, baseyModel));
+
+    float x = BAR_OFFSET_X;
+    // (float) (basePtView.getX());
+    // ensure line is fully visible
+    //if (x < LBL_OFFSET_X) x += gridSizeView;
+    
+    float y = viewHeight - BAR_OFFSET_Y;
+    
+    int barWidth = 3;
+    int boxWidth = barWidth + 2;
+    
+    SwingUtil.setAntiAlias(g, false);
+    Stroke strokeBox = new BasicStroke(boxWidth, // Width of stroke
+        BasicStroke.CAP_BUTT,  // End cap style
+        BasicStroke.JOIN_MITER, // Join style
+        10,                  // Miter limit
+        null, // Dash pattern
+        0);                   // Dash phase 
+    g.setStroke(strokeBox);
+    g.setColor(Color.BLACK);
+    g.drawRect((int) x, (int) y, (int) (10 * gridSizeView), boxWidth + 2);
+    
+    Stroke strokeDash = new BasicStroke(barWidth, // Width of stroke
+        BasicStroke.CAP_BUTT,  // End cap style
+        BasicStroke.JOIN_MITER, // Join style
+        10,                  // Miter limit
+        null, // Dash pattern
+        0);                   // Dash phase 
+    g.setStroke(strokeDash);
+
+    g.setColor( Color.WHITE);
+    for (int i = 0; i < 10; i += 2) {
+    // X axis
+      g.draw(new Line2D.Double(x + i * gridSizeView, y, x + (i+1) * gridSizeView, y));
+    // Y axis
+      //g.draw(new Line2D.Double(x, y - i * gridSizeView, x, y - (i+1) * gridSizeView));
+    }
+    SwingUtil.setAntiAlias(g, true);
+    drawScaleLabel(g);
   }
 
   private void drawFixedGrid(Graphics2D g) {
