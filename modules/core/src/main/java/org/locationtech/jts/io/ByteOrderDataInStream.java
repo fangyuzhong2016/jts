@@ -14,6 +14,7 @@ package org.locationtech.jts.io;
 import java.io.IOException;
 
 /**
+ * 允许从下层插播读取Java原始数据类型的流，以在任一共同的字节排序的表示是。
  * Allows reading a stream of Java primitive datatypes from an underlying
  * {@link InStream},
  * with the representation being in either common byte ordering.

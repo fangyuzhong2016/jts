@@ -63,7 +63,7 @@ import org.locationtech.jts.geom.PrecisionModel;
 public class WKBReader
 {
   /**
-   * 十六进制字符串为一个字节数组转换。
+   * 十六进制字符串转换为一个字节数组。
    * 在十六进制数字符号是不区分大小写。
    *
    * @param hex 含有十六进制数字的串
@@ -87,6 +87,7 @@ public class WKBReader
     return bytes;
   }
 
+  // 十六进制的字符表示的数值
   private static int hexToInt(char hex)
   {
     int nib = Character.digit(hex, 16);
@@ -106,8 +107,9 @@ public class WKBReader
   private boolean hasSRID = false;
   private int SRID = 0;
   /**
-   * true if structurally invalid input should be reported rather than repaired.
-   * At some point this could be made client-controllable.
+   * 是否严格检查
+   * true，表示如果结构上无效，输入应报告，而不是修复。
+   *在某些时候，这可以由客户控制。
    */
   private boolean isStrict = false;
   private ByteOrderDataInStream dis = new ByteOrderDataInStream();
