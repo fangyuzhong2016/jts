@@ -56,6 +56,9 @@ public class JTSTestBuilder
   public static JTSTestBuilderController controller() {
     return CONTROLLER;
   }
+  public static JTSTestBuilderFrame frame() {
+    return JTSTestBuilderFrame.instance();
+  }
   
   public static TestBuilderModel model() { return instance().tbModel; }
 
@@ -75,6 +78,11 @@ public class JTSTestBuilder
   
   public static GeometryFactory getGeometryFactory() 
   { 
+    /**
+     * Allow this to work even if TestBuilder is not initialized
+     */
+    if (instance() == null) 
+      return new GeometryFactory();
     return model().getGeometryFactory();
   }
   

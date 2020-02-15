@@ -27,7 +27,8 @@ import org.locationtech.jts.util.Assert;
  * 需要注意的是工厂构造方法做的<b>not</b>更改以任何方式输入坐标。
  * 特别地，它们不四舍五入到供给的<tt>PrecisionModel</tt>。
  * 假设输入坐标满足给定精度。
- *
+ * <p>
+ * Instances of this class are thread-safe.
  *
  * @version 1.7
  */
@@ -250,6 +251,11 @@ public class GeometryFactory
     return precisionModel;
   }
 
+  /**
+   * Constructs an empty {@link Point} geometry.
+   * 
+   * @return an empty Point
+   */
   public Point createPoint() {
 	return createPoint(getCoordinateSequenceFactory().create(new Coordinate[]{}));
   }
@@ -276,6 +282,11 @@ public class GeometryFactory
   	return new Point(coordinates, this);
   }
   
+  /**
+   * Constructs an empty {@link MultiLineString} geometry.
+   * 
+   * @return an empty MultiLineString
+   */
   public MultiLineString createMultiLineString() {
     return new MultiLineString(null, this);
   }
@@ -291,6 +302,11 @@ public class GeometryFactory
   	return new MultiLineString(lineStrings, this);
   }
   
+  /**
+   * Constructs an empty {@link GeometryCollection} geometry.
+   * 
+   * @return an empty GeometryCollection
+   */
   public GeometryCollection createGeometryCollection() {
     return new GeometryCollection(null, this);
   }
@@ -306,6 +322,11 @@ public class GeometryFactory
   	return new GeometryCollection(geometries, this);
   }
   
+  /**
+   * Constructs an empty {@link MultiPolygon} geometry.
+   * 
+   * @return an empty MultiPolygon
+   */
   public MultiPolygon createMultiPolygon() {
     return new MultiPolygon(null, this);
   }
@@ -325,6 +346,11 @@ public class GeometryFactory
     return new MultiPolygon(polygons, this);
   }
   
+  /**
+   * Constructs an empty {@link LinearRing} geometry.
+   * 
+   * @return an empty LinearRing
+   */
   public LinearRing createLinearRing() {
     return createLinearRing(getCoordinateSequenceFactory().create(new Coordinate[]{}));
   }
@@ -354,6 +380,11 @@ public class GeometryFactory
     return new LinearRing(coordinates, this);
   }
   
+  /**
+   * Constructs an empty {@link MultiPoint} geometry.
+   * 
+   * @return an empty MultiPoint
+   */
   public MultiPoint createMultiPoint() {
     return new MultiPoint(null, this);
   }
@@ -475,6 +506,11 @@ public class GeometryFactory
     return createPolygon(shell, null);
   }
   
+  /**
+   * Constructs an empty {@link Polygon} geometry.
+   * 
+   * @return an empty polygon
+   */
   public Polygon createPolygon() {
     return createPolygon(null, null);
   }
@@ -557,6 +593,11 @@ public class GeometryFactory
     return geom0;
   }
   
+  /**
+   * Constructs an empty {@link LineString} geometry.
+   * 
+   * @return an empty LineString
+   */
   public LineString createLineString() {
     return createLineString(getCoordinateSequenceFactory().create(new Coordinate[]{}));
   }
@@ -580,6 +621,24 @@ public class GeometryFactory
 	return new LineString(coordinates, this);
   }
 
+  /**
+   * Creates an empty atomic geometry of the given dimension.
+   * If passed a dimension of -1 will create an empty {@link GeometryCollection}.
+   * 
+   * @param dimension the required dimension (-1, 0, 1 or 2)
+   * @return an empty atomic geometry of given dimension
+   */
+  public Geometry createEmpty(int dimension) {
+    switch (dimension) {
+    case -1: return createGeometryCollection();
+    case 0: return createPoint();
+    case 1: return createLineString();
+    case 2: return createPolygon();
+    default:
+      throw new IllegalArgumentException("Invalid dimension: " + dimension);
+    }
+  }
+  
   /**
    * Creates a deep copy of the input {@link Geometry}.
    * The {@link CoordinateSequenceFactory} defined for this factory

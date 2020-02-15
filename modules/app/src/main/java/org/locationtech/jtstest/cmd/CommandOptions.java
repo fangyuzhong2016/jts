@@ -18,10 +18,21 @@ public class CommandOptions {
   public static final String OP = "op";
   public static final String GEOMA = "a";
   public static final String GEOMB = "b";
-  public static final String ARG1 = "arg1";
+  public static final String GEOMAB = "ab";
   public static final String FORMAT = "f";
   public static final String HELP = "help";
   public static final String V = "v";
   public static final String REPEAT = "repeat";
+  public static final String EACH = "each";
+  public static final String ARGS = "args";
+  public static final String STDIN = "stdin";
+  public static final String FORMAT_GML = "gml";
+  public static final String FORMAT_WKB = "wkb";
+  public static final String FORMAT_TXT = "txt";
+  public static final String FORMAT_WKT = "wkt";
+  public static final String FORMAT_GEOJSON = "geojson";
+  public static final String FORMAT_SVG = "svg";
+  public static final String VALIDATE = "validate";
+  public static final String INDEX = "index";
 
 }

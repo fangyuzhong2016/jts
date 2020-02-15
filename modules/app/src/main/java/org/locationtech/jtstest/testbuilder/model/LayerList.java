@@ -21,6 +21,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jtstest.testbuilder.geom.ComponentLocater;
 import org.locationtech.jtstest.testbuilder.geom.GeometryLocation;
+import org.locationtech.jtstest.testbuilder.geom.SegmentExtracter;
 
 
 public class LayerList 
@@ -77,14 +78,19 @@ public class LayerList
     return null;
   }
   
-  public Geometry[] getComponents(Geometry aoi)
+  public Geometry[] getComponents(Geometry aoi, boolean isSegments)
   {
     Geometry comp[] = new Geometry[2];
     for (int i = 0; i < 2; i++) {
       Layer lyr = getLayer(i);
       Geometry geom = lyr.getGeometry();
       if (geom == null) continue;
-      comp[i] = extractComponents(geom, aoi);
+      if (isSegments) {
+        comp[i] = SegmentExtracter.extract(geom, aoi);
+      }
+      else {
+        comp[i] = extractComponents(geom, aoi);
+      }
     }
     return comp;
   }
@@ -129,6 +135,24 @@ public class LayerList
     return layer.contains(lyr);
   }
 
+  public boolean isTop(Layer lyr) {
+    if (layer.isEmpty()) return false;
+    return layer.get(0) == lyr;
+  }
+
+  public boolean isBottom(Layer lyr) {
+    if (layer.isEmpty()) return false;
+    return layer.get(layer.size() - 1) == lyr;
+  }
+
+  public void addTop(Layer lyr) {
+    layer.add(0, lyr);
+  }
+  
+  public void addBottom(Layer lyr) {
+    layer.add(lyr);
+  }
+  
   public void moveUp(Layer lyr) {
     int i = layer.indexOf(lyr);
     if (i <= 0) return;
